@@ -3,9 +3,9 @@ package com.example.eksamensprojekt.model;
 public class User {
     private int userid;
     private String userName;
-    private int password;
+    private String password;
 
-    public User(int userid, String userName, int password) {
+    public User(int userid, String userName, String password) {
         this.userid = userid;
         this.userName = userName;
         this.password = password;
@@ -27,11 +27,11 @@ public class User {
         this.userName = userName;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
