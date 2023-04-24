@@ -1,0 +1,6 @@
+{
+  "image": "lakruzz/lamj:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  }
+}
