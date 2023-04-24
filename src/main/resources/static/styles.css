@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Set body height to full viewport height */
+}
+
+.container {
+    height: 100%; /* Set container height to 100% of body height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1, p {
+    max-width: 800px; /* Set max width for content */
+    padding: 0 20px; /* Add padding to content */
+}
