@@ -1,4 +1,4 @@
-package com.example.eksamensprojekt.controller;
+package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.User;
 import com.example.eksamensprojekt.repository.UserRepository;
