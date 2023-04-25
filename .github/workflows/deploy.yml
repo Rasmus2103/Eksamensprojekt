@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Dependencies
-      run: mvn install 
+      run: apt-get update && apt-get install -y maven openjdk-11-jre
 
     - name: Deploy to Render
       uses: bounceapp/render-action@0.6.0
