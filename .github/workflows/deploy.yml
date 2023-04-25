@@ -19,8 +19,5 @@ jobs:
     - name: Deploy to Render
       uses: bounceapp/render-action@0.6.0
       with:
-        renderEmail: ${{ secrets.RENDER_EMAIL }}
-        renderPassword: ${{ secrets.RENDER_PASSWORD }}
-        renderAccount: Mastore84
-        renderService: smooth-examproject
-        branch: master
+         render-token: ${{ secrets.RENDER_TOKEN }}
+         service-id: smooth-examproject
