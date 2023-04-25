@@ -16,7 +16,7 @@ jobs:
       run: npm install 
 
     - name: Deploy to Render
-      uses: renderinc/github-action@1.8.0
+      uses: bounceapp/render-action@0.6.0
       with:
         renderEmail: ${{ secrets.RENDER_EMAIL }}
         renderPassword: ${{ secrets.RENDER_PASSWORD }}
