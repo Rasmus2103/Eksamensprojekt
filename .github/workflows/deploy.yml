@@ -3,7 +3,7 @@ name: Deploy to Render
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -22,4 +22,4 @@ jobs:
         renderPassword: ${{ secrets.RENDER_PASSWORD }}
         renderAccount: Mastore84
         renderService: smooth-examproject
-        branch: main
+        branch: master
