@@ -44,7 +44,7 @@ jobs:
 
     - name: Build and test
       env:
-        SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/eksamensprojekt
-        SPRING_DATASOURCE_USERNAME: root
-        SPRING_DATASOURCE_PASSWORD: root
+        SPRING_DATASOURCE_URL: ${{ secrets.DB_URL }}
+        SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USERNAME }}
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: mvn clean verify --batch-mode --no-transfer-progress --file pom.xml
