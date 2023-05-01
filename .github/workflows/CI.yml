@@ -1,4 +1,5 @@
-name: CI
+name: continuous integration
+run-name:  ${{ github.actor }} is trying to integrate 
 
 on:
   push:
