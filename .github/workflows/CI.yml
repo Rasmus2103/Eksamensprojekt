@@ -2,49 +2,29 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
-    branches:
+    branches-ignore:
       - master
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
-          MYSQL_DATABASE: eksamensprojekt
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: 11
-
-    - name: Cache Maven packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-
-    - name: Build and test
-      env:
-        SPRING_DATASOURCE_URL: ${{ secrets.DB_URL }}
-        SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USERNAME }}
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: mvn clean verify --batch-mode --no-transfer-progress --file pom.xml
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check if branch can be rebased against master
+        run: |
+          git fetch
+          if ! git rebase --onto master HEAD~1; then
+            echo "Branch cannot be rebased against master. Please merge main into your branch before pushing again." >&2
+            exit 1
+          fi
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Push changes to master branch
+        if: ${{ success() }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: master
+          github_token: ${{ secrets.TOKEN_GITHUB }}
