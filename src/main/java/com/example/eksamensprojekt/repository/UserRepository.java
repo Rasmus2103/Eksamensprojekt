@@ -38,9 +38,10 @@ public class UserRepository {
             ResultSet rs = stmt.executeQuery(SQL);
             while(rs.next()) {
                 int id = rs.getInt("userid");
+                String name = rs.getString("name");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                users.add(new User(id, username, password));
+                users.add(new User(id, name, username, password));
             }
             return users;
         } catch (SQLException e) {

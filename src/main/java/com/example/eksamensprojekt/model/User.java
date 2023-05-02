@@ -2,13 +2,19 @@ package com.example.eksamensprojekt.model;
 
 public class User {
     private int userid;
+    private String Name;
     private String userName;
     private String password;
 
-    public User(int userid, String userName, String password) {
+    public User(int userid, String name, String userName, String password) {
         this.userid = userid;
+        this.Name = Name;
         this.userName = userName;
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     public int getUserid() {
@@ -17,6 +23,14 @@ public class User {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public String getUserName() {
