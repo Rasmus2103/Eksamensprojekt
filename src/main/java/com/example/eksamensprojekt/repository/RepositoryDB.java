@@ -4,9 +4,7 @@ import com.example.eksamensprojekt.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 @Repository("eksamensprojekt_DB")
@@ -33,22 +31,77 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public User getUser(int userid) {
-        return null;
+        User user = null;
+        try {
+            String SQL = "SELECT * FROM user WHERE userid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, userid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("userid");
+                String name = rs.getString("name");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                user = new User(id, name, username, password);
+            }
+            return user;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getUserid(String username) {
-        return 0;
+        int userId = 0;
+        try {
+            String SQL = "select userid from user where username = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("userid");
+            }
+            return userId;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean usernameExists(String username) {
+        try {
+            String SQL = "SELECT COUNT(*) FROM user WHERE username = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, username);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
         return false;
     }
 
     @Override
     public void registerUser(User user) {
-
+        try {
+            if (usernameExists(user.getUsername())) {
+                throw new IllegalArgumentException("Username already exists");
+            }
+            String SQL = "INSERT INTO user (name, username, password) VALUES (?, ?, ?)";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getPassword());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -60,7 +113,6 @@ public class RepositoryDB implements IRepositoryDB {
     public void updateUser(User user) {
 
     }
-
 
 
     @Override
@@ -89,7 +141,6 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
 
-
     @Override
     public List<board> getBoards(int projectid) {
         return null;
@@ -116,7 +167,6 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
 
-
     @Override
     public List<Story> getStories(int boardid) {
         return null;
@@ -141,7 +191,6 @@ public class RepositoryDB implements IRepositoryDB {
     public void updateStory(Story story) {
 
     }
-
 
 
     @Override
