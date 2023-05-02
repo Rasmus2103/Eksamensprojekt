@@ -13,7 +13,7 @@ PRIMARY KEY (userid)
 CREATE TABLE project (
 projectid INT auto_increment,
 projectname VARCHAR(50),
-PRIMARY KEY (projectid),
+PRIMARY KEY (projectid)
 );
 
 CREATE TABLE board (
@@ -48,8 +48,8 @@ FOREIGN KEY (storyid) REFERENCES story (storyid)
 CREATE TABLE userproject (
 userid INT,
 projectid INT,
-PRIMARY KEY (userid, projectid)
-FOREIGN KEY (userid) REFERENCES user (userid)
+PRIMARY KEY (userid, projectid),
+FOREIGN KEY (userid) REFERENCES user (userid),
 FOREIGN KEY (projectid) REFERENCES project (projectid)
 );
 
