@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("eksamensprojekt_DB")
@@ -134,12 +135,42 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public List<Project> getProjects(int userid) {
-        return null;
+        List<Project> projects = new ArrayList<>();
+        try{
+            String SQL = "SELECT projectname, projectid FROM project WHERE userid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, userid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String projectname = rs.getString("projectname");
+                int projectid = rs.getInt("projectid");
+                projects.add(new Project(projectid, projectname));
+            }
+            return projects;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Project getSpecificProject(int projectid) {
-        return null;
+        Project project = null;
+        try{
+            String SQL = "SELECT projectname, projectid FROM project WHERE projectid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String projectname = rs.getString("projectname");
+                projectid = rs.getInt("projectid");
+                project = new Project(projectid, projectname);
+            }
+            return project;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
