@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/styles.css}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+  <title>Create Story</title>
+</head>
+<body>
+  <div id="container">
+
+    <h1>Create Story</h1>
+
+    <form th:action="@{'/wishlist/addwish/' + ${wishlistid} + '/' + ${wishes.getUserid()}}" method="post" th:object="${wishes}">
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Story name</label>
+        <input type="text" class="form-control" th:field="*{name}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Story Description</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{description}">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
+        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{url}">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Deadline</label>
+        <input type="text" class="form-control" id="exampleFormControlInput3" th:field="*{price}">
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

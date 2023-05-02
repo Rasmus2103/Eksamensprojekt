@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Story</title>
+</head>
+<body>
+<div id="container">
+    <a href="#">Create new task(s)</a>
+    <a href="#">Update task(s)</a>
+
+    <label>Task(s):</label>
+    <div th:each="power: ${listSuperPowers}">
+        <input type="checkbox" th:field="*{powerList}" th:value="${power}" th:text="${power}" th:checked="">
+    </div>
+
+    <a href="#">Mark as finished</a>
+
+</div>
+</body>
+</html>

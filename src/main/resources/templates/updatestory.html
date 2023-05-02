@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Story</title>
+</head>
+<body>
+ <div id="container">
+
+     <h1>Update Story</h1>
+     <form action="#" th:action="@{/update/{id}(id=${superhero.heroId})}" method="post" th:object="${superhero}">
+         <label>Story Name:</label>
+         <input type="text" th:field="*{heroName}"/><br/>
+
+         <label>Story Description:</label>
+         <input type="text" th:field="*{realName}" /><br/>
+
+         <label>Accepcriteria:</label>
+         <input type="text" th:field="*{creationYear}" /><br/>
+
+         <label>Deadline:</label>
+         <select th:field="*{city}">
+             <option th:each="cities : ${listCities}" th:value="${cities}" th:text="${cities}" />
+         </select>
+
+         <br/>
+
+         <button type="submit">Update</button>
+         <a href="/superheroes">Go back</a>
+     </form>
+
+ </div>
+</body>
+</html>

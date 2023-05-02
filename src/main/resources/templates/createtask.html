@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create task</title>
+</head>
+<body>
+  <div id="container">
+
+    <h1>Create Task</h1>
+
+    <form th:action="@{'/wishlist/addwish/' + ${wishlistid} + '/' + ${wishes.getUserid()}}" method="post" th:object="${wishes}">
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Task Name</label>
+        <input type="text" class="form-control" th:field="*{name}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Task Description</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{description}">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Story points</label>
+        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{url}">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div>
+</body>
+</html>
