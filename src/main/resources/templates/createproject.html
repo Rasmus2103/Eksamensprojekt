@@ -18,11 +18,11 @@
     <h1>Add name to your Project</h1>
     <!--<a href="/wishlist/wishes/">back</a>-->
 
-    <form action="#" th:action="@{/wishlist/wishes/{userid}/createwishlist(userid=${userid})}" method="post" th:object="${wishlistDTO}">
+    <form action="#" th:action="@{/wishlist/wishes/{userid}/createwishlist(userid=${''})}" method="post" th:object="${''}">
 
         <div class="mb-3">
             <label  class="form-label">name</label>
-            <input type="text" class="form-control" placeholder="name" th:field="*{name}">
+            <input type="text" class="form-control" placeholder="name" th:field="*{''}">
 
         </div>
 

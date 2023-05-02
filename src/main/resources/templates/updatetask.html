@@ -10,13 +10,13 @@
    <h1>Update Task(s)</h1>
    <form action="#" th:action="@{/update/{id}(id=${superhero.heroId})}" method="post" th:object="${superhero}">
      <label>Task Name:</label>
-     <input type="text" th:field="*{heroName}"/><br/>
+     <input type="text" th:field="*{''}"/><br/>
 
      <label>Task Description:</label>
-     <input type="text" th:field="*{realName}" /><br/>
+     <input type="text" th:field="*{''}" /><br/>
 
      <label>Story Points:</label>
-     <input type="text" th:field="*{creationYear}" /><br/>
+     <input type="text" th:field="*{''}" /><br/>
 
      <button type="submit">Update</button>
      <a href="/superheroes">Go back</a>

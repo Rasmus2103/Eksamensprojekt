@@ -9,20 +9,20 @@
 
     <h1>Create Task</h1>
 
-    <form th:action="@{'/wishlist/addwish/' + ${wishlistid} + '/' + ${wishes.getUserid()}}" method="post" th:object="${wishes}">
+    <form th:action="@{'/wishlist/addwish/' + ${''} + '/' + ${''}}" method="post" th:object="${''}">
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Task Name</label>
-        <input type="text" class="form-control" th:field="*{name}">
+        <input type="text" class="form-control" th:field="*{''}">
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Task Description</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{description}">
+        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{''}">
       </div>
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Story points</label>
-        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{url}">
+        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{''}">
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
