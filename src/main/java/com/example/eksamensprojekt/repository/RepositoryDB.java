@@ -89,13 +89,13 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public void registerUser(User user) {
         try {
-            if (usernameExists(user.getUsername())) {
+            if (usernameExists(user.getUserName())) {
                 throw new IllegalArgumentException("Username already exists");
             }
             String SQL = "INSERT INTO user (name, username, password) VALUES (?, ?, ?)";
             PreparedStatement ps = connection().prepareStatement(SQL);
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getUsername());
+            ps.setString(1, user.getname());
+            ps.setString(2, user.getUserName());
             ps.setString(3, user.getPassword());
             ps.executeUpdate();
         } catch (SQLException e) {
