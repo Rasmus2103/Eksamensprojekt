@@ -10,7 +10,9 @@ public interface IRepositoryDB {
     boolean usernameExists(String username);
     void registerUser(User user);
     void deleteUser(int userid);
-    void updateUser(User user);
+    void updateName(int userid, String name);
+    void updateUsername(int userid, String username);
+    void updatePassword(int userid, String password);
 
     List<Project> getProjects(int userid);
     Project getSpecificProject(int projectid);
