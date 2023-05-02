@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("")
 public class UserController {
     private RepositoryDB repositoryDB;
 
@@ -18,10 +18,10 @@ public class UserController {
         this.repositoryDB = repositoryDB;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public String getUsers(Model model) {
-      List<User> users = repositoryDB.getUsers();
-      model.addAttribute("user", users);
+      //List<User> users = repositoryDB.getUsers();
+      //model.addAttribute("user", users);
       return "index";
     }
 }

@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository("wishlist_DB")
+@Repository("eksamensprojekt_DB")
 public class RepositoryDB implements IRepositoryDB {
 
     @Value("${spring.datasource.url}")
