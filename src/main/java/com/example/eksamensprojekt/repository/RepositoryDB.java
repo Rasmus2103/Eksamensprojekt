@@ -128,9 +128,49 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateUser(User user) {
-
+    public void updateName(int userid, String name) {
+    try {
+            String SQL = "UPDATE user SET name = ? WHERE userid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, name);
+            ps.setInt(2, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
+
+    @Override
+    public void updateUsername(int userid, String username) {
+        if (usernameExists(username) == false) {
+            try {
+                String SQL = "UPDATE user SET username = ? WHERE userid = ?";
+                PreparedStatement ps = connection().prepareStatement(SQL);
+                ps.setString(1, username);
+                ps.setInt(2, userid);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void updatePassword(int userid, String password) {
+        try {
+            String SQL = "UPDATE user SET userpassword = ? WHERE userid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, password);
+            ps.setInt(2, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
     @Override
