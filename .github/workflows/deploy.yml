@@ -21,4 +21,4 @@ jobs:
       with:
          render-token: ${{ secrets.RENDER_TOKEN }}
          github-token: ${{ secrets.TOKEN_GITHUB }}
-         service-id: smooth-examproject
+         service-id: srv-ch368ml269v61f8n14v0
