@@ -171,13 +171,13 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
-
-
     @Override
     public List<Project> getProjects(int userid) {
         List<Project> projects = new ArrayList<>();
         try{
-            String SQL = "SELECT projectname, projectid FROM project WHERE userid = ?";
+            String SQL = "SELECT p.projectname, p.projectid FROM project p" +
+                    "JOIN userproject up ON p.projectid = up.projectid" +
+                    "WHERE up.userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
@@ -195,12 +195,12 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public Project getSpecificProject(int projectid) {
-        Project project = null;
         try{
             String SQL = "SELECT projectname, projectid FROM project WHERE projectid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, projectid);
             ResultSet rs = ps.executeQuery();
+            Project project = null;
             while(rs.next()){
                 String projectname = rs.getString("projectname");
                 projectid = rs.getInt("projectid");
