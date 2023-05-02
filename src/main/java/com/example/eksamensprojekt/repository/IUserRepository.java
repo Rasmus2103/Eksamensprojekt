@@ -11,5 +11,12 @@ public interface IUserRepository {
     int getUserid(String username);
     boolean usernameExists(String username);
     void registerUser(User user);
-    List<Project> getProjects();
+
+    List<Project> getProjects(int userid);
+    Project getSpecificProject(int projectid);
+    void addProject(int userid, String projectname);
+    void deleteProject(int projectid);
+
+
+
 }
