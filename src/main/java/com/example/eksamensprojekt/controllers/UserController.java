@@ -1,7 +1,7 @@
 package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.User;
-import com.example.eksamensprojekt.repository.UserRepository;
+import com.example.eksamensprojekt.repository.RepositoryDB;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,15 @@ import java.util.List;
 @Controller
 @RequestMapping("user")
 public class UserController {
-    private UserRepository userRepository;
+    private RepositoryDB repositoryDB;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(RepositoryDB repositoryDB) {
+        this.repositoryDB = repositoryDB;
     }
 
     @GetMapping("")
     public String getUsers(Model model) {
-      List<User> users = userRepository.getUsers();
+      List<User> users = repositoryDB.getUsers();
       model.addAttribute("user", users);
       return "index";
     }
