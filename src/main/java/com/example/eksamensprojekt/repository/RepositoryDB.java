@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository("eksamensprojekt_DB")
@@ -107,12 +108,12 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteUser(int userid) {
-        try{
+        try {
             String SQL = "SELECT userid FROM user WHERE userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 userid = rs.getInt("userid");
             }
 
@@ -121,7 +122,7 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setInt(1, userid);
             ps.executeQuery();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -129,7 +130,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void updateName(int userid, String name) {
-    try {
+        try {
             String SQL = "UPDATE user SET name = ? WHERE userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setString(1, name);
@@ -174,20 +175,20 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public List<Project> getProjects(int userid) {
         List<Project> projects = new ArrayList<>();
-        try{
+        try {
             String SQL = "SELECT p.projectname, p.projectid FROM project p " +
                     "JOIN userproject up ON p.projectid = up.projectid " +
                     "WHERE up.userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String projectname = rs.getString("projectname");
                 int projectid = rs.getInt("projectid");
                 projects.add(new Project(projectid, projectname));
             }
             return projects;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -195,19 +196,19 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public Project getSpecificProject(int projectid) {
-        try{
+        try {
             String SQL = "SELECT projectname, projectid FROM project WHERE projectid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, projectid);
             ResultSet rs = ps.executeQuery();
             Project project = null;
-            while(rs.next()){
+            while (rs.next()) {
                 String projectname = rs.getString("projectname");
                 projectid = rs.getInt("projectid");
                 project = new Project(projectid, projectname);
             }
             return project;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -215,7 +216,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addProject(int userid, String projectname) {
-        try{
+        try {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
@@ -224,30 +225,30 @@ public class RepositoryDB implements IRepositoryDB {
             int projectid = getProjectId(projectname);
             addUserToProject(userid, projectid);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void addUserToProject(int userid, int projectid){
-        try{
+    public void addUserToProject(int userid, int projectid) {
+        try {
             String SQL = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ps.setInt(2, projectid);
             ps.executeQuery();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public int getProjectId(String projectname){
-        try{
+    public int getProjectId(String projectname) {
+        try {
             int projectid = 0;
             String SQL = "SELECT projectid FROM project WHERE projectname = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
@@ -256,7 +257,7 @@ public class RepositoryDB implements IRepositoryDB {
             projectid = rs.getInt("projectid");
             return projectid;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -265,7 +266,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteProject(int projectid) {
-    //TODO
+        //TODO
     }
 
     @Override
@@ -353,17 +354,45 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateStoryDescription(int storyid, String storydescription){
-
+    public void updateStoryDescription(int storyid, String storydescription) {
+        try {
+            String SQL = "update story set storydescription = ? where storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, storydescription);
+            ps.setInt(2, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
-    @Override
-    public void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria){
 
+    @Override
+    public void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria) {
+        try {
+            String SQL = "update story set acceptcriteria = ? where storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, storyacceptcriteria);
+            ps.setInt(2, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void updateStoryDate(int storyid, String storydate){
-
+    public void updateStoryDeadline(int storyid, Date storydeadline) {
+        try {
+            String SQL = "update story set deadline = ? where storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setDate(1, (java.sql.Date) storydeadline);
+            ps.setInt(2, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -402,12 +431,31 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateTaskDescription(int storyid, String taskdescription){
-
+    public void updateTaskDescription(int taskid, String taskdescription) {
+        try {
+            String SQL = "update task set taskdescription = ? where taskid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, taskdescription);
+            ps.setInt(2, taskid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
-    @Override
-    public void updateTaskStorypoints(int storyid, String storypoints){
 
+    @Override
+    public void updateTaskStorypoints(int taskid, int storypoints) {
+        try {
+            String SQL = "update task set storypoints = ? where taskid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storypoints);
+            ps.setInt(2, taskid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
 
