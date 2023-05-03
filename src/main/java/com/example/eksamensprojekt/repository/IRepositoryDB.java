@@ -19,7 +19,7 @@ public interface IRepositoryDB {
     void addProject(int userid, String projectname);
     int getProjectId(String projectname);
     void deleteProject(int projectid);
-    void updateProject(Project project);
+    void updateProjectName(int projectid, String projectname);
 
      List<board> getBoards(int projectid);
     board getSpecificBoard(int boardid);

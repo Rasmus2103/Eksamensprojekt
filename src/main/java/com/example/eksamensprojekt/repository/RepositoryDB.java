@@ -256,8 +256,17 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateProject(Project project) {
-
+    public void updateProjectName(int projectid, String projectname) {
+        try {
+            String SQL = "update project set projectname = ? where projectid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, projectname);
+            ps.setInt(2, projectid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
 
