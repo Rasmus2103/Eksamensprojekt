@@ -13,14 +13,21 @@
     <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <ul class="nav nav-pills">
-                <li class="nav-item">  <a th:href="@{/logout}" class="nav-link">Logout</a></li>
+                <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
             </ul>
         </header>
     </div>
 </div>
 
 <div id="container">
+    <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
 
+    <tr th:each="projects: ${projects}">
+        <td>
+            <h3 th:text="${projects.projectname}"></h3>
+            <a th:href="@{/project/{projectid}(projectid=${projects.projectid})}">Go to Project</a>
+        </td>
+    </tr>
 </div>
 </body>
 </html>

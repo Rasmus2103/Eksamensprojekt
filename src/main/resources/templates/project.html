@@ -9,7 +9,14 @@
 <body>
 <div id="container">
 
-  <h1>Project</h1>
+  <h1 th:text="${project.projectname}"></h1>
+  <tr th:each="stories ${stories}">
+      <td th:text="${stories.storyname}"></td>
+      <td th:text="${stories.description}"></td>
+      <td th:text="${stories.accepcriteria}"></td>
+      <td th:text="${stories.deadline}"></td>
+  </tr>
+
   <a href="#">Create a new Story</a>
   <a href="#">Update Story</a>
 

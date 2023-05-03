@@ -10,8 +10,8 @@
     <a href="#">Update task(s)</a>
 
     <label>Task(s):</label>
-    <div th:each="power: ${listSuperPowers}">
-        <input type="checkbox" th:field="*{''}" th:value="${power}" th:text="${power}" th:checked="">
+    <div th:each="power: ${''}">
+        <input type="checkbox" th:field="*{''}" th:value="${''}" th:text="${''}" th:checked="">
     </div>
 
     <a href="#">Mark as finished</a>

@@ -1,6 +1,8 @@
 package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.Project;
+import com.example.eksamensprojekt.model.Story;
+import com.example.eksamensprojekt.model.Task;
 import com.example.eksamensprojekt.model.User;
 import com.example.eksamensprojekt.repository.RepositoryDB;
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +46,7 @@ public class PMController {
     public String logout(HttpSession session) {
         // invalidate session and return landing page
         session.invalidate();
-        return "redirect:/projectManagement";
+        return "index";
     }
 
     @GetMapping("userProjects/{id}")
@@ -58,22 +60,41 @@ public class PMController {
                 model.addAttribute("projects", projects);
                 return "userProjects";
             } else {
-                return "redirect:/projectManagement";
+                return "redirect:/index";
             }
         } else {
             return "index";
         }
     }
 
-    @GetMapping("project/{userid}/{projectid}")
-    public String getProject(@PathVariable("userid") int userid, @PathVariable("projectid") int projectid, Model model, HttpSession session) {
-        User user = repositoryDB.getUser(userid);
-        model.addAttribute("user", user);
-
+    @GetMapping("project/{projectid}")
+    public String getProject(@PathVariable("projectid") int projectid, int boardid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
 
+        List<Story> stories = repositoryDB.getStories(boardid);
+        model.addAttribute("stories", stories);
+
         return isLogged(session) ? "project" : "index";
+    }
+
+    @GetMapping("story/{storyid}")
+    public String getStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
+        Story story = repositoryDB.getSpecificStory(storyid);
+        model.addAttribute("story", story);
+
+        List<Task> tasks = repositoryDB.getTasks(storyid);
+        model.addAttribute("tasks", tasks);
+
+        return isLogged(session) ? "story" : "index";
+    }
+
+    @GetMapping("task/{taskid}")
+    public String getTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
+        Task task = repositoryDB.getSpecificTask(taskid);
+        model.addAttribute("task", task);
+
+        return isLogged(session) ? "task" : "index";
     }
 
 }
