@@ -285,19 +285,66 @@ public class RepositoryDB implements IRepositoryDB {
 
 
     @Override
-    public List<board> getBoards(int projectid) {
-        return null;
+    public List<Board> getBoards(int projectid) {
+        List<Board> boards = new ArrayList<>();
+        try{
+            String SQL = "SELECT * FROM board WHERE projectid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String boardname = rs.getString("boardname");
+                int boardid = rs.getInt("boardid");
+                boards.add(new Board(boardid, boardname, projectid));
+            }
+            return boards;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
+
     @Override
-    public board getSpecificBoard(int boardid) {
-        return null;
+    public Board getSpecificBoard(int boardid) {
+        try{
+            String SQL = "SELECT boardname, boardid, projectid FROM board WHERE boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ResultSet rs = ps.executeQuery();
+            Board board = null;
+            while(rs.next()){
+                String boardname = rs.getString("boardname");
+                int projectid = rs.getInt("projectid");
+                boardid = rs.getInt("boardid");
+                board = new Board(boardid, boardname, projectid);
+            }
+            return board;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
+
 
     @Override
     public void addBoard(int projectid, String boardname) {
+        try{
+            String SQL = "INSERT INTO board (boardname, projectid) VALUES (?,?)";
+            PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, boardname);
+            ps.setInt(2, projectid);
+            ps.executeQuery();
 
+
+
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
+
 
     @Override
     public void deleteBoard(int boardid) {

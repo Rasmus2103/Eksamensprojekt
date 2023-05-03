@@ -1,18 +1,18 @@
 package com.example.eksamensprojekt.model;
 
-public class board {
+public class Board {
 
     private int boardid;
     private String boardname;
     private int projectid;
 
-    public board(int boardid, String boardname, int projectid){
+    public Board(int boardid, String boardname, int projectid){
         this.boardid = boardid;
         this.boardname = boardname;
         this.projectid = projectid;
     }
 
-    public board(){
+    public Board(){
 
     }
 
