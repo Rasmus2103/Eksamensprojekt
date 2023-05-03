@@ -265,7 +265,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteProject(int projectid) {
-    
+    //TODO
     }
 
     @Override
@@ -304,8 +304,17 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateBoard(board board) {
-
+    public void updateBoardName(int boardid, String boardname) {
+        try {
+            String SQL = "update board set boardname = ? where boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, boardname);
+            ps.setInt(2, boardid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -330,7 +339,30 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateStory(Story story) {
+    public void updateStoryName(int storyid, String storyname) {
+        try {
+            String SQL = "update story set storyname = ? where storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, storyname);
+            ps.setInt(2, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateStoryDescription(int storyid, String storydescription){
+
+    }
+    @Override
+    public void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria){
+
+    }
+
+    @Override
+    public void updateStoryDate(int storyid, String storydate){
 
     }
 
@@ -356,7 +388,25 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTaskName(int taskid, String taskname) {
+        try {
+            String SQL = "update task set taskname = ? where taskid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setString(1, taskname);
+            ps.setInt(2, taskid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateTaskDescription(int storyid, String taskdescription){
+
+    }
+    @Override
+    public void updateTaskStorypoints(int storyid, String storypoints){
 
     }
 

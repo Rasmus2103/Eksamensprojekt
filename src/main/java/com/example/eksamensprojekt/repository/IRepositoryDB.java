@@ -26,18 +26,23 @@ public interface IRepositoryDB {
     board getSpecificBoard(int boardid);
     void addBoard(int projectid, String boardname);
     void deleteBoard(int boardid);
-    void updateBoard(board board);
+    void updateBoardName(int boardid, String boardname);
 
     List<Story> getStories(int boardid);
     Story getSpecificStory(int storyid);
     void addStory(int boardid, String storyname);
     void deleteStory(int storyid);
-    void updateStory(Story story);
+    void updateStoryName(int storyid, String storyname);
+    void updateStoryDescription(int storyid, String storydescription);
+    void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
+    void updateStoryDate(int storyid, String storydate);
 
     List<Task> getTasks(int storyid);
     Task getSpecificTask(int taskid);
     void addTask(int storyid, String taskname);
     void deleteTask(int taskid);
-    void updateTask(Task task);
+    void updateTaskName(int taskid, String taskname);
+    void updateTaskDescription(int storyid, String taskdescription);
+    void updateTaskStorypoints(int storyid, String storypoints);
 
 }
