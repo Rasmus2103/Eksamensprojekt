@@ -219,9 +219,34 @@ public class RepositoryDB implements IRepositoryDB {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
+            ps.executeQuery();
+
+            int projectid = getProjectId(projectname);
+            String SQL2 = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
+            PreparedStatement ps2 = connection().prepareStatement(SQL2);
+            ps2.setInt(1, userid);
+            ps2.setInt(2, projectid);
+            ps2.executeQuery();
+
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
+        }
+    }
+
+    public int getProjectId(String projectname){
+        try{
+            int projectid = 0;
+            String SQL = "SELECT projectid FROM project WHERE projectname = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            projectid = rs.getInt("projectid");
+            return projectid;
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
     }
 
