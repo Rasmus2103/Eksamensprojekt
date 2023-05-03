@@ -160,7 +160,7 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public void updatePassword(int userid, String password) {
         try {
-            String SQL = "UPDATE user SET userpassword = ? WHERE userid = ?";
+            String SQL = "UPDATE user SET password = ? WHERE userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setString(1, password);
             ps.setInt(2, userid);
@@ -175,8 +175,8 @@ public class RepositoryDB implements IRepositoryDB {
     public List<Project> getProjects(int userid) {
         List<Project> projects = new ArrayList<>();
         try{
-            String SQL = "SELECT p.projectname, p.projectid FROM project p" +
-                    "JOIN userproject up ON p.projectid = up.projectid" +
+            String SQL = "SELECT p.projectname, p.projectid FROM project p " +
+                    "JOIN userproject up ON p.projectid = up.projectid " +
                     "WHERE up.userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
@@ -219,15 +219,40 @@ public class RepositoryDB implements IRepositoryDB {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
+            ps.executeQuery();
+
+            int projectid = getProjectId(projectname);
+            String SQL2 = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
+            PreparedStatement ps2 = connection().prepareStatement(SQL2);
+            ps2.setInt(1, userid);
+            ps2.setInt(2, projectid);
+            ps2.executeQuery();
+
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
+    public int getProjectId(String projectname){
+        try{
+            int projectid = 0;
+            String SQL = "SELECT projectid FROM project WHERE projectname = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            projectid = rs.getInt("projectid");
+            return projectid;
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
     @Override
     public void deleteProject(int projectid) {
-
+    
     }
 
     @Override
