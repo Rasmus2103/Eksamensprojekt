@@ -15,8 +15,7 @@
     <div class="login-form-div">
         <form action="#" th:action="@{/login}" method="post">
 
-
-            <h4 th:if="${wrongCredentials}" class="error">Wrong username or password</h4>
+            <h4 th:if="${wrongCredentials}" class="error" style="color:red">Wrong username or password</h4>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" th:name="username"><br>
             <label for="password">Password:</label>
