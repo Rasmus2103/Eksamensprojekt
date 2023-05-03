@@ -222,11 +222,7 @@ public class RepositoryDB implements IRepositoryDB {
             ps.executeQuery();
 
             int projectid = getProjectId(projectname);
-            String SQL2 = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
-            PreparedStatement ps2 = connection().prepareStatement(SQL2);
-            ps2.setInt(1, userid);
-            ps2.setInt(2, projectid);
-            ps2.executeQuery();
+            addUserToProject(userid, projectid);
 
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -234,6 +230,22 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
+    @Override
+    public void addUserToProject(int userid, int projectid){
+        try{
+            String SQL = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, userid);
+            ps.setInt(2, projectid);
+            ps.executeQuery();
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public int getProjectId(String projectname){
         try{
             int projectid = 0;
@@ -246,9 +258,10 @@ public class RepositoryDB implements IRepositoryDB {
 
         } catch (SQLException e){
             System.out.println(e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void deleteProject(int projectid) {

@@ -18,6 +18,7 @@ public interface IRepositoryDB {
     Project getSpecificProject(int projectid);
     void addProject(int userid, String projectname);
     int getProjectId(String projectname);
+    void addUserToProject(int userid, int projectid);
     void deleteProject(int projectid);
     void updateProjectName(int projectid, String projectname);
 
