@@ -160,7 +160,7 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public void updatePassword(int userid, String password) {
         try {
-            String SQL = "UPDATE user SET userpassword = ? WHERE userid = ?";
+            String SQL = "UPDATE user SET password = ? WHERE userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setString(1, password);
             ps.setInt(2, userid);
@@ -252,7 +252,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteProject(int projectid) {
-
+    
     }
 
     @Override

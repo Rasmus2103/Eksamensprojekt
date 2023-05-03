@@ -6,7 +6,7 @@ CREATE TABLE user (
 userid INT auto_increment,
 name VARCHAR(30),
 username VARCHAR(50) UNIQUE,
-userpassword VARCHAR(50),
+password VARCHAR(50),
 PRIMARY KEY (userid)
 );
 
