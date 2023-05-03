@@ -2,6 +2,7 @@ package com.example.eksamensprojekt.repository;
 
 import com.example.eksamensprojekt.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IRepositoryDB {
@@ -18,25 +19,31 @@ public interface IRepositoryDB {
     Project getSpecificProject(int projectid);
     void addProject(int userid, String projectname);
     int getProjectId(String projectname);
+    void addUserToProject(int userid, int projectid);
     void deleteProject(int projectid);
-    void updateProject(Project project);
+    void updateProjectName(int projectid, String projectname);
 
      List<board> getBoards(int projectid);
     board getSpecificBoard(int boardid);
     void addBoard(int projectid, String boardname);
     void deleteBoard(int boardid);
-    void updateBoard(board board);
+    void updateBoardName(int boardid, String boardname);
 
     List<Story> getStories(int boardid);
     Story getSpecificStory(int storyid);
     void addStory(int boardid, String storyname);
     void deleteStory(int storyid);
-    void updateStory(Story story);
+    void updateStoryName(int storyid, String storyname);
+    void updateStoryDescription(int storyid, String storydescription);
+    void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
+    void updateStoryDeadline(int storyid, Date storydeadline);
 
     List<Task> getTasks(int storyid);
     Task getSpecificTask(int taskid);
     void addTask(int storyid, String taskname);
     void deleteTask(int taskid);
-    void updateTask(Task task);
+    void updateTaskName(int taskid, String taskname);
+    void updateTaskDescription(int taskid, String taskdescription);
+    void updateTaskStorypoints(int taskid, int storypoints);
 
 }
