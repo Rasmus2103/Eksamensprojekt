@@ -175,8 +175,8 @@ public class RepositoryDB implements IRepositoryDB {
     public List<Project> getProjects(int userid) {
         List<Project> projects = new ArrayList<>();
         try{
-            String SQL = "SELECT p.projectname, p.projectid FROM project p" +
-                    "JOIN userproject up ON p.projectid = up.projectid" +
+            String SQL = "SELECT p.projectname, p.projectid FROM project p " +
+                    "JOIN userproject up ON p.projectid = up.projectid " +
                     "WHERE up.userid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
