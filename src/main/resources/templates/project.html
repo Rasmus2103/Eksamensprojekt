@@ -22,12 +22,12 @@
 
   <h1 th:text="${project.projectname}"></h1>
 
-  <!-- <tr th:each="stories ${stories}">
+  <tr th:each="stories: ${stories}">
       <td th:text="${stories.storyname}"></td>
-      <td th:text="${stories.description}"></td>
-      <td th:text="${stories.accepcriteria}"></td>
+      <td th:text="${stories.storydescription}"></td>
+      <td th:text="${stories.acceptcriteria}"></td>
       <td th:text="${stories.deadline}"></td>
-  </tr> -->
+  </tr>
 
     <tr th:each="boards: ${boards}">
         <td th:text="${boards.boardname}"></td>
