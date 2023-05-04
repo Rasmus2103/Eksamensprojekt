@@ -214,6 +214,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addProject(int userid, String projectname) {
+        //TODO når man laver et nyt projekt skal der automatisk oprettes 3 boards med navnene: backlog, sprint board, history board
         try {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -341,6 +342,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addBoard(int projectid, String boardname) {
+        //TODO metode skal gøres private så den udelukkende hjælper deleteproject metoden, brugeren skal ikke selv kunne oprette nogle boards
         try{
             String SQL = "INSERT INTO board (boardname, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -356,6 +358,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteBoard(int boardid) {
+        //TODO metode skal gøres private så den udelukkende hjælper deleteproject metoden, brugeren skal ikke selv kunne slette nogle boards
         try {
             String SQL = "SELECT boardid FROM board WHERE boardid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
