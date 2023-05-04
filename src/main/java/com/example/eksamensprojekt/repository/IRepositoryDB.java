@@ -2,7 +2,7 @@ package com.example.eksamensprojekt.repository;
 
 import com.example.eksamensprojekt.model.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface IRepositoryDB {
@@ -31,7 +31,7 @@ public interface IRepositoryDB {
 
     List<Story> getStories(int boardid);
     Story getSpecificStory(int storyid);
-    void addStory(int boardid, String storyname);
+    void addStory(int boardid, Story story);
     void deleteStory(int storyid);
     void updateStoryName(int storyid, String storyname);
     void updateStoryDescription(int storyid, String storydescription);

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Repository("eksamensprojekt_DB")
@@ -256,7 +256,6 @@ public class RepositoryDB implements IRepositoryDB {
             ResultSet rs = ps.executeQuery();
             projectid = rs.getInt("projectid");
             return projectid;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -335,10 +334,6 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setString(1, boardname);
             ps.setInt(2, projectid);
             ps.executeQuery();
-
-
-
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -348,7 +343,29 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteBoard(int boardid) {
+        //TODO metode ikke færdig
+        try {
+            String SQL = "SELECT boardid FROM board WHERE boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                boardid = rs.getInt("boardid");
+            }
 
+            SQL = "DELETE FROM story WHERE boardid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.executeUpdate();
+
+            SQL = "DELETE FROM board WHERE boardid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -368,22 +385,94 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public List<Story> getStories(int boardid) {
-        return null;
+        List<Story> stories = new ArrayList<>();
+        try{
+            String SQL = "SELECT * FROM story WHERE boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date deadline = rs.getDate("deadline");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid));
+            }
+            return stories;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Story getSpecificStory(int storyid) {
-        return null;
+        try{
+            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, deadline, boardid FROM story WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            Story story = null;
+            while(rs.next()){
+                storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date deadline = rs.getDate("deadline");
+                int boardid = rs.getInt("boardid");
+
+                story = new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid);
+            }
+            return story;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void addStory(int boardid, String storyname) {
+    public void addStory(int boardid, Story story) {
+        try{
+            String SQL = "INSERT INTO story (storyname, storydescription, acceptcriteria, deadline, boardid) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, story.getStoryname());
+            ps.setString(2, story.getStorydescription());
+            ps.setString(3, story.getAcceptcriteria());
+            ps.setDate(4, story.getDeadline());
+            ps.setInt(5, boardid);
+            ps.executeQuery();
 
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void deleteStory(int storyid) {
+        try {
+            String SQL = "SELECT storyid FROM story WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                storyid = rs.getInt("storyid");
+            }
 
+            SQL = "DELETE FROM task WHERE storyid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+
+            SQL = "DELETE FROM story WHERE storyid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -460,7 +549,23 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteTask(int taskid) {
+        try {
+            String SQL = "SELECT taskid FROM task where taskid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, taskid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                taskid = rs.getInt("taskid");
+            }
+            SQL = "DELETE FROM task WHERE taskid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, taskid);
+            ps.executeQuery();
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
