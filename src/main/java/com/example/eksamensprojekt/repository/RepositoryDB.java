@@ -353,6 +353,7 @@ public class RepositoryDB implements IRepositoryDB {
                 boardid = rs.getInt("boardid");
             }
 
+
             SQL = "DELETE FROM story WHERE boardid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, boardid);
