@@ -7,6 +7,7 @@ public class Task {
     private String taskdescription;
     private int storypoints;
     private int storyid;
+    private boolean finished;
 
     public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid){
         this.taskid = taskid;
@@ -14,6 +15,15 @@ public class Task {
         this.taskdescription = taskdescription;
         this.storypoints = storypoints;
         this.storyid = storyid;
+    }
+
+    public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid, boolean finished){
+        this.taskid = taskid;
+        this.taskname = taskname;
+        this.taskdescription = taskdescription;
+        this.storypoints = storypoints;
+        this.storyid = storyid;
+        this.finished = finished;
     }
 
     public Task(){
@@ -60,5 +70,11 @@ public class Task {
         this.storyid = storyid;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }

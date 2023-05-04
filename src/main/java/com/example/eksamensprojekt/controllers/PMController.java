@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -98,6 +99,19 @@ public class PMController {
 
         return isLogged(session) ? "story" : "index";
     }
+
+    @PostMapping("story/{storyid}")
+    public String processForm(@PathVariable("storyid") int storyid, @RequestParam Map<String, Boolean> tasks, Model model) {
+        Story story = repositoryDB.getSpecificStory(storyid);
+        model.addAttribute("story", story);
+
+        List<Task> taskslist = repositoryDB.getTasks(storyid);
+        model.addAttribute("tasks", taskslist);
+
+        model.addAttribute("tasks", tasks);
+        return "story";
+    }
+
 
     @GetMapping("board/{boardid}")
     public String getBoard(@PathVariable("boardid") int boardid, Model model, HttpSession session) {

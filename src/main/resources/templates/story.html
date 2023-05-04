@@ -21,13 +21,19 @@
 <div id="container">
     <h1 th:text="${story.storyname}"></h1>
 
-    <table>
-        <tr th:each="tasks: ${tasks}">
-            <td th:text="${tasks.taskname}"></td>
-            <td th:text="${tasks.taskdescription}"></td>
-            <td th:number="${tasks.storypoints}"></td>
-        </tr>
-    </table>
+    <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
+        <table>
+            <tr th:each="tasks: ${tasks}">
+                <td>
+                    <input type="checkbox" th:name="|task_${tasks.taskid}|" th:checked="${tasks.finished}"/>
+                </td>
+                <td th:text="${tasks.taskname}"></td>
+                <td th:text="${tasks.taskdescription}"></td>
+                <td th:number="${tasks.storypoints}"></td>
+            </tr>
+        </table>
+        <button type="submit">Marked as finished</button>
+    </form>
 </div>
 
 </body>
