@@ -79,6 +79,15 @@ public class PMController {
         return isLogged(session) ? "project" : "index";
     }
 
+    @GetMapping("storylist/{boardid}")
+    public String getStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
+        List<Story> stories = repositoryDB.getStories(boardid);
+        model.addAttribute("stories", stories);
+
+        return isLogged(session) ? "storylist" : "index";
+    }
+
+
     @GetMapping("story/{storyid}")
     public String getStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Story story = repositoryDB.getSpecificStory(storyid);

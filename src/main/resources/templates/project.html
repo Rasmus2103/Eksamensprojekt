@@ -22,20 +22,11 @@
 
   <h1 th:text="${project.projectname}"></h1>
 
-  <tr th:each="stories: ${stories}">
-      <td th:text="${stories.storyname}"></td>
-      <td th:text="${stories.storydescription}"></td>
-      <td th:text="${stories.acceptcriteria}"></td>
-      <td th:text="${stories.deadline}"></td>
-  </tr>
-
     <tr th:each="boards: ${boards}">
-        <td th:text="${boards.boardname}"></td>
+      <a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
+      <td th:text="${boards.boardname}"></td>
+      </a>
     </tr>
-
-
-  <a href="#">Create a new Story</a>
-  <a href="#">Update Story</a>
 
 
 </div>
