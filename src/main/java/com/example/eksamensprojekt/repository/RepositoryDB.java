@@ -534,7 +534,24 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public List<Task> getTasks(int storyid) {
-        return null;
+        List<Task> tasks = new ArrayList<>();
+        try{
+            String SQL = "SELECT * FROM task WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int taskid = rs.getInt("taskid");
+                String taskname = rs.getString("taskname");
+                String taskdescription = rs.getString("taskdescription");
+                int storypoints = rs.getInt("storypoints");
+                tasks.add(new Task(taskid, taskname, taskdescription, storypoints, storyid));
+            }
+            return tasks;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
