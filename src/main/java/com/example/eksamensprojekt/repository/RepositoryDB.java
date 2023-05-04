@@ -415,8 +415,21 @@ public class RepositoryDB implements IRepositoryDB {
     }
 
     @Override
-    public void addStory(int boardid, String storyname) {
+    public void addStory(int boardid, Story story) {
+        try{
+            String SQL = "INSERT INTO story (storyname, storydescription, acceptcriteria, deadline, boardid) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, story.getStoryname());
+            ps.setString(2, story.getStorydescription());
+            ps.setString(3, story.getAcceptcriteria());
+            ps.setDate(4, story.getDeadline());
+            ps.setInt(5, boardid);
+            ps.executeQuery();
 
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

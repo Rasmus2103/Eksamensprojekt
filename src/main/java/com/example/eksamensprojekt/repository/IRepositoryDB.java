@@ -31,7 +31,7 @@ public interface IRepositoryDB {
 
     List<Story> getStories(int boardid);
     Story getSpecificStory(int storyid);
-    void addStory(int boardid, String storyname);
+    void addStory(int boardid, Story story);
     void deleteStory(int storyid);
     void updateStoryName(int storyid, String storyname);
     void updateStoryDescription(int storyid, String storydescription);
