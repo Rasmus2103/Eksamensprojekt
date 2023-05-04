@@ -391,7 +391,27 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public Story getSpecificStory(int storyid) {
-        return null;
+        try{
+            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, deadline, boardid FROM story WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            Story story = null;
+            while(rs.next()){
+                storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date deadline = rs.getDate("deadline");
+                int boardid = rs.getInt("boardid");
+
+                story = new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid);
+            }
+            return story;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
