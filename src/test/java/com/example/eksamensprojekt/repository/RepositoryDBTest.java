@@ -1,36 +1,29 @@
 package com.example.eksamensprojekt.repository;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class RepositoryDBTest {
 
-    RepositoryDB testRepo = new RepositoryDB();
+    IRepositoryDB repositoryDBTest = new RepositoryDBStub();
 
     @BeforeEach
     void setUp() {
     }
 
     @Test
-    void usernameExists(){
+    void usernameExistsTrue() {
+        boolean result = repositoryDBTest.usernameExists("Test");
+        assertEquals(true, result);
     }
 
+    @Test
+    void usernameExistsFalse() {
+        boolean result = repositoryDBTest.usernameExists("John Doe");
+        assertEquals(false, result);
+    }
 
     @Test
     void deleteUser() {
