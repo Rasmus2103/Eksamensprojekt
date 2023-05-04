@@ -7,15 +7,32 @@
   <title>Project</title>
 </head>
 <body>
+<div class="main">
+
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <ul class="nav nav-pills">
+        <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
+      </ul>
+    </header>
+  </div>
+</div>
+
 <div id="container">
 
   <h1 th:text="${project.projectname}"></h1>
-  <tr th:each="stories ${stories}">
+
+  <!-- <tr th:each="stories ${stories}">
       <td th:text="${stories.storyname}"></td>
       <td th:text="${stories.description}"></td>
       <td th:text="${stories.accepcriteria}"></td>
       <td th:text="${stories.deadline}"></td>
-  </tr>
+  </tr> -->
+
+    <tr th:each="boards: ${boards}">
+        <td th:text="${boards.boardname}"></td>
+    </tr>
+
 
   <a href="#">Create a new Story</a>
   <a href="#">Update Story</a>
