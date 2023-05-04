@@ -343,7 +343,6 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteBoard(int boardid) {
-        //TODO metode ikke færdig
         try {
             String SQL = "SELECT boardid FROM board WHERE boardid = ?";
             PreparedStatement ps = connection().prepareStatement(SQL);
@@ -353,6 +352,18 @@ public class RepositoryDB implements IRepositoryDB {
                 boardid = rs.getInt("boardid");
             }
 
+            int storyid;
+            String SQL2 = "SELECT storyid from story WHERE boardid = ?";
+            PreparedStatement ps2 = connection().prepareStatement(SQL2);
+            ps2.setInt(1, boardid);
+            ResultSet rs2 = ps2.executeQuery();
+            while (rs2.next()) {
+                 storyid = rs2.getInt("storyid");
+                 SQL2 = "DELETE FROM task WHERE storyid = ?";
+                ps2 = connection().prepareStatement(SQL2);
+                ps2.setInt(1, storyid);
+                ps2.executeUpdate();
+            }
 
             SQL = "DELETE FROM story WHERE boardid = ?";
             ps = connection().prepareStatement(SQL);
