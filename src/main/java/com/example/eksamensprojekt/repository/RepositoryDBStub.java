@@ -78,9 +78,12 @@ public class RepositoryDBStub implements IRepositoryDB {
 
     }
 
+    //Write a method that deletes a user from the userStub list by userid
     @Override
     public void deleteUser(int userid) {
-
+       if (usersStub.contains(userid)){
+           usersStub.remove(userid);
+       }
     }
 
     @Override
