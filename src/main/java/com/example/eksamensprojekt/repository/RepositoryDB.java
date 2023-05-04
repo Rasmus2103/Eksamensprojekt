@@ -116,12 +116,10 @@ public class RepositoryDB implements IRepositoryDB {
             if (rs.next()) {
                 userid = rs.getInt("userid");
             }
-
             SQL = "DELETE FROM user WHERE userid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ps.executeQuery();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -221,10 +219,8 @@ public class RepositoryDB implements IRepositoryDB {
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
             ps.executeQuery();
-
             int projectid = getProjectId(projectname);
             addUserToProject(userid, projectid);
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -239,7 +235,6 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setInt(1, userid);
             ps.setInt(2, projectid);
             ps.executeQuery();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -265,7 +260,25 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteProject(int projectid) {
-        //TODO
+        try {
+            int boardid;
+            String SQL = "SELECT boardid FROM board WHERE projectid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                boardid = rs.getInt("boardid");
+                deleteBoard(boardid);
+                ps.executeUpdate();
+            }
+            SQL = "DELETE FROM project WHERE projectid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -351,7 +364,6 @@ public class RepositoryDB implements IRepositoryDB {
             if (rs.next()) {
                 boardid = rs.getInt("boardid");
             }
-
             int storyid;
             String SQL2 = "SELECT storyid from story WHERE boardid = ?";
             PreparedStatement ps2 = connection().prepareStatement(SQL2);
@@ -364,7 +376,6 @@ public class RepositoryDB implements IRepositoryDB {
                 ps2.setInt(1, storyid);
                 ps2.executeUpdate();
             }
-
             SQL = "DELETE FROM story WHERE boardid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, boardid);
@@ -433,7 +444,6 @@ public class RepositoryDB implements IRepositoryDB {
                 String acceptcriteria = rs.getString("acceptcriteria");
                 Date deadline = rs.getDate("deadline");
                 int boardid = rs.getInt("boardid");
-
                 story = new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid);
             }
             return story;
@@ -454,7 +464,6 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setDate(4, story.getDeadline());
             ps.setInt(5, boardid);
             ps.executeQuery();
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -471,7 +480,6 @@ public class RepositoryDB implements IRepositoryDB {
             if (rs.next()) {
                 storyid = rs.getInt("storyid");
             }
-
             SQL = "DELETE FROM task WHERE storyid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, storyid);
@@ -583,7 +591,6 @@ public class RepositoryDB implements IRepositoryDB {
                 task = new Task(taskid, taskname, taskdescription, storypoints, storydid);
             }
             return task;
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -600,7 +607,6 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setInt(3, task.getStorypoints());
             ps.setInt(4, storyid);
             ps.executeQuery();
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -620,7 +626,7 @@ public class RepositoryDB implements IRepositoryDB {
             SQL = "DELETE FROM task WHERE taskid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, taskid);
-            ps.executeQuery();
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -669,6 +675,5 @@ public class RepositoryDB implements IRepositoryDB {
             throw new RuntimeException(e);
         }
     }
-
 
 }
