@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Repository("eksamensprojekt_DB")
@@ -368,7 +368,25 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public List<Story> getStories(int boardid) {
-        return null;
+        List<Story> stories = new ArrayList<>();
+        try{
+            String SQL = "SELECT * FROM story WHERE boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date deadline = rs.getDate("deadline");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid));
+            }
+            return stories;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

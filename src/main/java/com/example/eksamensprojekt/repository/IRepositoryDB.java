@@ -2,7 +2,7 @@ package com.example.eksamensprojekt.repository;
 
 import com.example.eksamensprojekt.model.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface IRepositoryDB {
