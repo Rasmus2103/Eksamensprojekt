@@ -1,9 +1,6 @@
 package com.example.eksamensprojekt.controllers;
 
-import com.example.eksamensprojekt.model.Project;
-import com.example.eksamensprojekt.model.Story;
-import com.example.eksamensprojekt.model.Task;
-import com.example.eksamensprojekt.model.User;
+import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.RepositoryDB;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -68,12 +65,15 @@ public class PMController {
     }
 
     @GetMapping("project/{projectid}")
-    public String getProject(@PathVariable("projectid") int projectid, int boardid, Model model, HttpSession session) {
+    public String getProject(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
 
-        List<Story> stories = repositoryDB.getStories(boardid);
-        model.addAttribute("stories", stories);
+        /*List<Story> stories = repositoryDB.getStories(boardid);
+        model.addAttribute("stories", stories);*/
+
+        List<Board> boards = repositoryDB.getBoards(projectid);
+        model.addAttribute("boards", boards);
 
         return isLogged(session) ? "project" : "index";
     }
@@ -87,6 +87,14 @@ public class PMController {
         model.addAttribute("tasks", tasks);
 
         return isLogged(session) ? "story" : "index";
+    }
+
+    @GetMapping("board/{boardid}")
+    public String getBoard(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
+        Board board = repositoryDB.getSpecificBoard(boardid);
+        model.addAttribute("board", board);
+
+        return isLogged(session) ? "board" : "index";
     }
 
     @GetMapping("task/{taskid}")
