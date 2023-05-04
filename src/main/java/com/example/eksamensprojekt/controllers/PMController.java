@@ -69,8 +69,9 @@ public class PMController {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
 
-        /*List<Story> stories = repositoryDB.getStories(boardid);
-        model.addAttribute("stories", stories);*/
+        int boardid = 0;
+        List<Story> stories = repositoryDB.getStories(boardid);
+        model.addAttribute("stories", stories);
 
         List<Board> boards = repositoryDB.getBoards(projectid);
         model.addAttribute("boards", boards);
