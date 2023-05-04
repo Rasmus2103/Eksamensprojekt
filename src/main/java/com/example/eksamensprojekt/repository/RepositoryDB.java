@@ -256,7 +256,6 @@ public class RepositoryDB implements IRepositoryDB {
             ResultSet rs = ps.executeQuery();
             projectid = rs.getInt("projectid");
             return projectid;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -335,10 +334,6 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setString(1, boardname);
             ps.setInt(2, projectid);
             ps.executeQuery();
-
-
-
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -348,7 +343,29 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteBoard(int boardid) {
+        //TODO metode ikke færdig
+        try {
+            String SQL = "SELECT boardid FROM board WHERE boardid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                boardid = rs.getInt("boardid");
+            }
 
+            SQL = "DELETE FROM story WHERE boardid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.executeUpdate();
+
+            SQL = "DELETE FROM board WHERE boardid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -434,7 +451,28 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteStory(int storyid) {
+        try {
+            String SQL = "SELECT storyid FROM story WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                storyid = rs.getInt("storyid");
+            }
 
+            SQL = "DELETE FROM task WHERE storyid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+
+            SQL = "DELETE FROM story WHERE storyid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -511,7 +549,23 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void deleteTask(int taskid) {
+        try {
+            String SQL = "SELECT taskid FROM task where taskid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, taskid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                taskid = rs.getInt("taskid");
+            }
+            SQL = "DELETE FROM task WHERE taskid = ?";
+            ps = connection().prepareStatement(SQL);
+            ps.setInt(1, taskid);
+            ps.executeQuery();
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
