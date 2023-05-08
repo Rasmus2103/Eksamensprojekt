@@ -20,7 +20,7 @@
 
 <div id="container">
 
-    <a href="#">Create a new Story</a>
+    <a th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
     <a href="#">Update Story</a>
 
     <table class="stories">
@@ -31,6 +31,9 @@
             <td th:text="${stories.deadline}"></td>
             <td>
                 <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
+            </td>
+            <td>
+                <!--<a th:href="@{}" onclick="return confirm('Are you sure?')">Delete story</a> -->
             </td>
             <td>
 

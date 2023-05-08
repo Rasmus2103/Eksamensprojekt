@@ -19,7 +19,8 @@
 </div>
 
 <div id="container">
-    <a href="#">Create a new Story</a>
+    <a th:href="@{/story/createtask/{storyid}(storyid=${storyid})}">Create a new Task</a>
+
 
     <h1 th:text="${story.storyname}"></h1>
 

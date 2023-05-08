@@ -466,7 +466,7 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setString(3, story.getAcceptcriteria());
             ps.setDate(4, story.getDeadline());
             ps.setInt(5, boardid);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -609,7 +609,7 @@ public class RepositoryDB implements IRepositoryDB {
             ps.setString(2, task.getTaskdescription());
             ps.setInt(3, task.getStorypoints());
             ps.setInt(4, storyid);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

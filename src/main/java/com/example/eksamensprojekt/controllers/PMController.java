@@ -104,6 +104,23 @@ public class PMController {
         return isLogged(session) ? "storylist" : "index";
     }
 
+    @GetMapping("story/createstory/{boardid}")
+    public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
+        Story story = new Story();
+        model.addAttribute("story", story);
+
+        Board board = repositoryDB.getSpecificBoard(boardid);
+        model.addAttribute("board", board);
+
+        return isLogged(session) ? "createstory" : "index";
+    }
+
+    @PostMapping("story/createstory/{boardid}")
+    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid) {
+        repositoryDB.addStory(boardid, story);
+        return "redirect:/storylist/{boardid}";
+    }
+
 
     @GetMapping("story/{storyid}")
     public String getStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
@@ -126,6 +143,23 @@ public class PMController {
 
         model.addAttribute("tasks", tasks);
         return "story";
+    }
+
+    @GetMapping("story/createtask/{storyid}")
+    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
+        Task task = new Task();
+        model.addAttribute("task", task);
+
+        Task task1 = repositoryDB.getSpecificTask(storyid);
+        model.addAttribute("task1", task1);
+
+        return isLogged(session) ? "createtask" : "index";
+    }
+
+    @PostMapping("story/createtask/{storyid}")
+    public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
+        repositoryDB.addTask(storyid, task);
+        return "redirect:/story/{storyid}";
     }
 
 
