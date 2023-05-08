@@ -19,6 +19,8 @@
 </div>
 
 <div id="container">
+    <a href="#">Create a new Story</a>
+
     <h1 th:text="${story.storyname}"></h1>
 
     <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">

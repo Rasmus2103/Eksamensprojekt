@@ -65,6 +65,22 @@ public class PMController {
         }
     }
 
+    @GetMapping("createproject/{id}")
+    public String createProject(@PathVariable("id") int userid, Model model, HttpSession session) {
+        Project project = new Project();
+        model.addAttribute("project", project);
+
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
+        return isLogged(session) ? "createproject" : "index";
+    }
+
+    @PostMapping("createproject/{id}")
+    public String createproject(@ModelAttribute("project") Project project, int userid, String name) {
+        repositoryDB.addProject(userid, name);
+        return "redirect:/userProjects/{id}";
+    }
+
     @GetMapping("project/{projectid}")
     public String getProject(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
