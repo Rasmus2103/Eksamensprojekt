@@ -31,6 +31,23 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
+    public List<String> getAllUsers() {
+        List<String> users = new ArrayList<>();
+        try {
+            String SQL = "SELECT name FROM user";
+            Statement stmt = connection().createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while(rs.next()) {
+                String name = rs.getString("name");;
+                users.add(name);
+            }
+            return users;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public User getUser(int userid) {
         User user = null;

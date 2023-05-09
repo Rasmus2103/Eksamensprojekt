@@ -1,5 +1,6 @@
 package com.example.eksamensprojekt.controllers;
 
+import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.IRepositoryDB;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -87,8 +89,11 @@ public class PMController {
 
     @GetMapping("createproject/{id}")
     public String createProject(@PathVariable("id") int id, Model model, HttpSession session) {
-        Project project = new Project();
-        model.addAttribute("project", project);
+        ProjectDTOForm projectDTOForm = new ProjectDTOForm();
+        model.addAttribute("projectDTO", projectDTOForm);
+
+        List<String> users = repositoryDB.getAllUsers();
+        model.addAttribute("users", users);
 
         User user = repositoryDB.getUser(id);
         model.addAttribute("user", user);
@@ -126,6 +131,21 @@ public class PMController {
         return isLogged(session) ? "project" : "index";
     }
 
+    @GetMapping("project/update/{projectid}")
+    public String updateProjectName(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
+        Project project = repositoryDB.getSpecificProject(projectid);
+        model.addAttribute("project", project);
+        return isLogged(session) ? "updateproject" : "index";
+    }
+
+    @PostMapping("project/update/{projectid}/{userid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
+        repositoryDB.updateProjectName(projectid, project.getProjectname());
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
+        return "redirect:/userprojects" + userid;
+    }
+
     @GetMapping("storylist/{boardid}")
     public String getStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
         List<Story> stories = repositoryDB.getStories(boardid);
@@ -160,8 +180,6 @@ public class PMController {
         return "redirect:/storylist/" + boardid;
     }
 
-
-
     @GetMapping("story/{storyid}")
     public String getStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Story story = repositoryDB.getSpecificStory(storyid);
@@ -173,6 +191,23 @@ public class PMController {
         return isLogged(session) ? "story" : "index";
     }
 
+    @GetMapping("story/update/{storyid}")
+    public String updateStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
+        Story story = repositoryDB.getSpecificStory(storyid);
+        model.addAttribute("story", story);
+        return isLogged(session) ? "updatestory" : "index";
+    }
+
+    @PostMapping("story/update/{storyid}/{boardid}")
+    public String updateStory(@ModelAttribute("story") Story story, @PathVariable("storyid") int storyid, @PathVariable("boardid") int boardid) {
+        repositoryDB.updateStoryName(storyid, story.getStoryname());
+        repositoryDB.updateStoryDescription(storyid, story.getStorydescription());
+        repositoryDB.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
+        repositoryDB.updateStoryDeadline(storyid, story.getDeadline());
+        return "redirect:/storylist/" + boardid;
+    }
+
+
     @PostMapping("story/{storyid}")
     public String processForm(@PathVariable("storyid") int storyid, @RequestParam Map<String, Boolean> tasks, Model model) {
         Story story = repositoryDB.getSpecificStory(storyid);
@@ -183,17 +218,6 @@ public class PMController {
 
         model.addAttribute("tasks", tasks);
         return "story";
-    }
-
-    @GetMapping("story/createtask/{storyid}")
-    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Task task = new Task();
-        model.addAttribute("task", task);
-
-        Task task1 = repositoryDB.getSpecificTask(storyid);
-        model.addAttribute("task1", task1);
-
-        return isLogged(session) ? "createtask" : "index";
     }
 
     @GetMapping("storyid/slet/{storyid}/{taskid}")
@@ -221,10 +245,36 @@ public class PMController {
         return isLogged(session) ? "task" : "index";
     }
 
+    @GetMapping("story/createtask/{storyid}")
+    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
+        Task task = new Task();
+        model.addAttribute("task", task);
+
+        Task task1 = repositoryDB.getSpecificTask(storyid);
+        model.addAttribute("task1", task1);
+
+        return isLogged(session) ? "createtask" : "index";
+    }
+
     @PostMapping("story/createtask/{storyid}")
     public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
         repositoryDB.addTask(storyid, task);
         return "redirect:/story/{storyid}";
     }
 
+    @GetMapping("task/update/{taskid}")
+    public String updateTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
+        Task task = repositoryDB.getSpecificTask(taskid);
+        model.addAttribute("task", task);
+        return isLogged(session) ? "updatetask" : "index";
+    }
+
+    @PostMapping("task/update/{taskid}/{storyid}")
+    public String updateTask(@ModelAttribute("task") Task task, @PathVariable("taskid") int taskid, @PathVariable("storyid") int storyid) {
+        repositoryDB.updateTaskName(taskid, task.getTaskname());
+        repositoryDB.updateTaskDescription(taskid, task.getTaskdescription());
+        repositoryDB.updateTaskStorypoints(taskid, task.getStorypoints());
+
+        return "redirect:/story/" + storyid;
+    }
 }

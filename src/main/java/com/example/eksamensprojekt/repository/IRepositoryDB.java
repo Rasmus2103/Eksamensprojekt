@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface IRepositoryDB {
+    List<String> getAllUsers();
     User getUser(int userid);
     int getUserid(String username);
     boolean usernameExists(String username);

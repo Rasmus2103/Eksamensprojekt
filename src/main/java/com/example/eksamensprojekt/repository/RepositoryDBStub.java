@@ -53,7 +53,12 @@ public class RepositoryDBStub implements IRepositoryDB {
     public RepositoryDBStub() {
     }
 
-    @Override
+   @Override
+   public List<String> getAllUsers() {
+      return null;
+   }
+
+   @Override
     public User getUser(int userid) {
        User userToReturn = new User();
       for (User user : usersStub) {

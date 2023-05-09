@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/styles.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <title>Update Story</title>
 </head>
 <body>
  <div id="container">
 
      <h1>Update Story</h1>
-     <form action="#" th:action="@{/update/{id}(id=${superhero.heroId})}" method="post" th:object="${superhero}">
+     <form action="#" th:action="@{/story/update/{storyid}/{boardid}(storyid=${story.storyid}, boardid=${story.boardid})}" method="post" th:object="${story}">
          <label>Story Name:</label>
-         <input type="text" th:field="*{heroName}"/><br/>
+         <input type="text" th:field="*{storyname}"/><br/>
 
          <label>Story Description:</label>
-         <input type="text" th:field="*{realName}" /><br/>
+         <input type="text" th:field="*{storydescription}" /><br/>
 
          <label>Accepcriteria:</label>
-         <input type="text" th:field="*{creationYear}" /><br/>
+         <input type="text" th:field="*{acceptcriteria}" /><br/>
 
-         <label>Deadline:</label>
-         <select th:field="*{city}">
-             <option th:each="cities : ${listCities}" th:value="${cities}" th:text="${cities}" />
-         </select>
-
+         <label>Deadline</label>
+         <input type="date" th:field="*{deadline}">
          <br/>
 
          <button type="submit">Update</button>
-         <a href="/superheroes">Go back</a>
+
      </form>
 
  </div>
