@@ -23,6 +23,9 @@
 
 <div id="container">
     <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
+    <div th:if="${projects.isEmpty()}">
+        <h6>No projects yet... feel free to add one</h6>
+    </div>
 
     <tr th:each="projects: ${projects}">
         <td>

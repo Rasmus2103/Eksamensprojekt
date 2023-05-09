@@ -21,6 +21,9 @@
 <div id="container">
 
     <a th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
+    <div th:if="${stories.isEmpty()}">
+        <h6>No stories yet... feel free to add one</h6>
+    </div>
 
     <table class="stories">
         <tr th:each="stories: ${stories}">

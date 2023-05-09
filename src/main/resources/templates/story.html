@@ -23,6 +23,9 @@
 
 
     <h1 th:text="${story.storyname}"></h1>
+    <div th:if="${tasks.isEmpty()}">
+        <h6>No tasks yet... feel free to add one</h6>
+    </div>
 
     <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
         <table>

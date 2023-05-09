@@ -9,16 +9,16 @@
 <body>
 
 <div id="container">
-    <h1>Add name to your Project</h1>
+    <h1>Add a new Project</h1>
 
     <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
 
         <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">Give the project a name</label>
             <input type="text" class="form-control" th:field="*{projectname}"/>
         </div>
         <div class="mb-3">
-            <label class="form-label">Users</label>
+            <label class="form-label">Choose project collaborators</label>
             <div th:each="users: ${users}">
                 <input type="checkbox" th:field="*{userList}" th:value="${users}" th:text="${users}">
             </div>
