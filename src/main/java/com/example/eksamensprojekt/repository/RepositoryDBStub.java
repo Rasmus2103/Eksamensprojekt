@@ -55,7 +55,13 @@ public class RepositoryDBStub implements IRepositoryDB {
 
     @Override
     public User getUser(int userid) {
-      return null;
+       User userToReturn = new User();
+      for (User user : usersStub) {
+         if (user.getUserid() == userid) {
+            userToReturn = user;
+         }
+      }
+      return userToReturn;
     }
 
     @Override
@@ -75,15 +81,14 @@ public class RepositoryDBStub implements IRepositoryDB {
 
     @Override
     public void registerUser(User user) {
-
+          if (!usernameExists(user.getUserName())) {
+             usersStub.add(user);
+          }
     }
 
-    //Write a method that deletes a user from the userStub list by userid
     @Override
     public void deleteUser(int userid) {
-       if (usersStub.contains(userid)){
-           usersStub.remove(userid);
-       }
+       usersStub.removeIf(user -> user.getUserid() == userid);
     }
 
     @Override
