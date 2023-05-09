@@ -2,9 +2,7 @@ package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.IRepositoryDB;
-import com.example.eksamensprojekt.repository.RepositoryDB;
 import jakarta.servlet.http.HttpSession;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
