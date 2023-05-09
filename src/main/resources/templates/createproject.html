@@ -8,17 +8,8 @@
 </head>
 <body>
 
-<div class="container">
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <ul class="nav nav-pills">
-            <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
-        </ul>
-    </header>
-</div>
-
 <div id="container">
     <h1>Add name to your Project</h1>
-    <!--<a href="/wishlist/wishes/">back</a>-->
 
     <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${project}">
 

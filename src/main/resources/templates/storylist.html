@@ -33,7 +33,7 @@
                 <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
             </td>
             <td>
-                <!--<a th:href="@{}" onclick="return confirm('Are you sure?')">Delete story</a> -->
+                <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
             </td>
             <td>
 

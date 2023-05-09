@@ -219,9 +219,9 @@ public class RepositoryDB implements IRepositoryDB {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
-            ps.executeQuery();
             int projectid = getProjectId(projectname);
             addUserToProject(userid, projectid);
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -235,7 +235,7 @@ public class RepositoryDB implements IRepositoryDB {
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
             ps.setInt(2, projectid);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
