@@ -68,13 +68,13 @@ public class PMController {
     }
 
     @GetMapping("userProjects/{id}")
-    public String getUserProjects(@PathVariable("id") int userid, Model model, HttpSession session) {
+    public String getUserProjects(@PathVariable("id") int id, Model model, HttpSession session) {
         if(isLogged(session)) {
             User user = (User) session.getAttribute("user");
-            if (user.getUserid() == userid) {
+            if (user.getUserid() == id) {
                 model.addAttribute("user", user);
 
-                List<Project> projects = repositoryDB.getProjects(userid);
+                List<Project> projects = repositoryDB.getProjects(id);
                 model.addAttribute("projects", projects);
                 return "userProjects";
             } else {
@@ -96,9 +96,19 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("project") Project project, @PathVariable("id") int id, String name) {
-        repositoryDB.addProject(id, name);
+    public String createproject(@ModelAttribute("project") Project project, @PathVariable("id") int id) {
+        repositoryDB.addProject(id, project.getProjectname());
         return "redirect:/userProjects/" + id;
+    }
+
+    @GetMapping("userProjects/slet/{projectid}/{userid}")
+    public String deleteProject(@PathVariable("projectid") int id, @PathVariable("userid") int userid, Model model) {
+        repositoryDB.deleteProject(id);
+
+        List<Project> projects = repositoryDB.getProjects(id);
+        model.addAttribute("projects", projects);
+
+        return "redirect:/userProjects/" + userid;
     }
 
     @GetMapping("project/{projectid}")

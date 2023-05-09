@@ -214,19 +214,29 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addProject(int userid, String projectname) {
-        //TODO når man laver et nyt projekt skal der automatisk oprettes 3 boards med navnene: backlog, sprint board, history board
         try {
             String SQL = "INSERT INTO project (projectname) VALUES (?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, projectname);
-            int projectid = getProjectId(projectname);
-            addUserToProject(userid, projectid);
             ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int projectid = rs.getInt(1);
+                addBoard(projectid, "backlog");
+                addBoard(projectid, "sprintboard");
+                addBoard(projectid, "history board");
+                addUserToProject(userid, projectid);
+            } else {
+                throw new SQLException("Creating project failed, no ID obtained.");
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void addUserToProject(int userid, int projectid) {
@@ -270,8 +280,13 @@ public class RepositoryDB implements IRepositoryDB {
             while (rs.next()) {
                 boardid = rs.getInt("boardid");
                 deleteBoard(boardid);
-                ps.executeUpdate();
             }
+
+            String deleteUserProjectSQL = "DELETE FROM userproject WHERE projectid = ?";
+            PreparedStatement psDeleteUserProject = connection().prepareStatement(deleteUserProjectSQL);
+            psDeleteUserProject.setInt(1, projectid);
+            psDeleteUserProject.executeUpdate();
+
             SQL = "DELETE FROM project WHERE projectid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, projectid);
@@ -348,7 +363,7 @@ public class RepositoryDB implements IRepositoryDB {
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, boardname);
             ps.setInt(2, projectid);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -373,8 +388,8 @@ public class RepositoryDB implements IRepositoryDB {
             ps2.setInt(1, boardid);
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
-                 storyid = rs2.getInt("storyid");
-                 SQL2 = "DELETE FROM task WHERE storyid = ?";
+                storyid = rs2.getInt("storyid");
+                SQL2 = "DELETE FROM task WHERE storyid = ?";
                 ps2 = connection().prepareStatement(SQL2);
                 ps2.setInt(1, storyid);
                 ps2.executeUpdate();

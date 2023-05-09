@@ -32,7 +32,7 @@
                 </td>
                 <td th:text="${tasks.taskname}"></td>
                 <td th:text="${tasks.taskdescription}"></td>
-                <td th:number="${tasks.storypoints}"></td>
+                <td th:text="${tasks.storypoints}"></td>
                 <td>
                     <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
                 </td>
