@@ -1,8 +1,12 @@
 package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.*;
+import com.example.eksamensprojekt.repository.IRepositoryDB;
 import com.example.eksamensprojekt.repository.RepositoryDB;
 import jakarta.servlet.http.HttpSession;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +17,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class PMController {
-    private RepositoryDB repositoryDB;
+    private IRepositoryDB repositoryDB;
 
-    public PMController(RepositoryDB repositoryDB) {
-        this.repositoryDB = repositoryDB;
+    public PMController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+        this.repositoryDB =(IRepositoryDB) context.getBean(impl);
     }
 
     private boolean isLogged(HttpSession session) {
@@ -45,6 +49,24 @@ public class PMController {
         // invalidate session and return landing page
         session.invalidate();
         return "index";
+    }
+
+    @GetMapping("register")
+    public String register(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    @PostMapping("register")
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
+        try {
+            repositoryDB.registerUser(user);
+            return "redirect:/login";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("usernameExists", true);
+            return "register";
+        }
     }
 
     @GetMapping("userProjects/{id}")
