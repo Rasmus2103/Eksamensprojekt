@@ -227,4 +227,33 @@ public class PMController {
         return "redirect:/story/{storyid}";
     }
 
+    @GetMapping("account/{userid}")
+    public String getAccount(@PathVariable("userid") int userid, Model model, HttpSession session) {
+        if (isLogged(session)) {
+            User user = (User) session.getAttribute("user");
+            if (user.getUserid() == userid) {
+                model.addAttribute("user", user);
+                return "account";
+            } else {
+                return "redirect:/userProjects";
+            }
+        } else {
+            return "index";
+        }
+    }
+
+    @GetMapping("account/delete/{userid}")
+    public String deleteAccount(@PathVariable("userid") int userid, HttpSession session) {
+        repositoryDB.deleteUser(userid);
+        session.invalidate();
+        return "redirect:/index";
+    }
+
+    /*@PostMapping("account/{userid}")
+    public String updateAccount(@ModelAttribute("user") User user, @PathVariable("userid") int userid, HttpSession session) {
+        repositoryDB.;
+        session.setAttribute("user", user);
+        return "redirect:/account/{userid}";
+    }*/
+
 }
