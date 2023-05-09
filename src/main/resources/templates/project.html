@@ -22,6 +22,8 @@
 
   <h1 th:text="${project.projectname}"></h1>
 
+
+
     <tr th:each="boards: ${boards}">
       <a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
       <td th:text="${boards.boardname}"></td>

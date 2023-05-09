@@ -29,14 +29,12 @@
 
     <tr th:each="projects: ${projects}">
         <td>
-            <h3 th:text="${projects.projectname}"></h3>
-        </td>
-        <td>
-            <a th:href="@{/project/{projectid}(projectid=${projects.projectid})}">Go to Project</a>
+            <a th:href="@{/project/{projectid}(projectid=${projects.projectid})}"> <h3 th:text="${projects.projectname}"></h3></a>
         </td>
         <td>
             <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a>
         </td>
+        <br>
     </tr>
 </div>
 </body>
