@@ -139,9 +139,13 @@ public class PMController {
     }
 
     @PostMapping("project/update/{projectid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid) {
-        repositoryDB.updateProjectName(projectid, project.getProjectname());
-        return "redirect:/project/" + projectid;
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, Model model) {
+        if (project.getProjectname() != null){
+            repositoryDB.updateProjectName(projectid, project.getProjectname());
+            return "redirect:/project/" + projectid;
+        }
+        model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
+        return "project/update/" + projectid;
     }
 
     @GetMapping("storylist/{boardid}")
