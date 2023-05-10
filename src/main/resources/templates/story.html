@@ -23,9 +23,14 @@
 
 
     <h1 th:text="${story.storyname}"></h1>
+    <p th:text="${story.storydescription}"></p>
+    <p th:text="${story.acceptcriteria}"></p>
+
     <div th:if="${tasks.isEmpty()}">
         <h6>No tasks yet... feel free to add one</h6>
     </div>
+
+
 
     <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
         <table>
@@ -46,6 +51,9 @@
         </table>
         <button type="submit">Marked as finished</button>
     </form>
+
+    <h2>Total Storypoints:</h2>
+    <h4 th:text="${totalStoryPoints}"></h4>
 </div>
 
 </body>

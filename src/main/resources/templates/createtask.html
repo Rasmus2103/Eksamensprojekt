@@ -12,7 +12,7 @@
     <h1>Create Task</h1>
 
     <form th:action="@{''}" method="post" th:object="${task}">
-
+      <input type="hidden" th:field="*{storyid}"/>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Task Name</label>
         <input type="text" class="form-control" th:field="*{taskname}">
@@ -28,6 +28,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
+      <a th:href="@{/story/{storyid}(storyid=${task.storyid})}">Go back</a>
     </form>
 
   </div>

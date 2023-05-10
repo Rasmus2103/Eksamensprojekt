@@ -101,8 +101,8 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("project") Project project, @PathVariable("id") int id) {
-        repositoryDB.addProject(id, project.getProjectname());
+    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
+        repositoryDB.addProject(id, projectDto.getProjectname());
         return "redirect:/userProjects/" + id;
     }
 
@@ -138,12 +138,14 @@ public class PMController {
         return isLogged(session) ? "updateproject" : "index";
     }
 
-    @PostMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
-        repositoryDB.updateProjectName(projectid, project.getProjectname());
-        User user = repositoryDB.getUser(userid);
-        model.addAttribute("user", user);
-        return "redirect:/userprojects" + userid;
+    @PostMapping("project/update/{projectid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, Model model) {
+        if (project.getProjectname() != null){
+            repositoryDB.updateProjectName(projectid, project.getProjectname());
+            return "redirect:/project/" + projectid;
+        }
+        model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
+        return "project/update/" + projectid;
     }
 
     @GetMapping("storylist/{boardid}")
