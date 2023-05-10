@@ -293,7 +293,7 @@ public class PMController {
         }
     }
 
-    @GetMapping("account/delete/{userid}")
+    @DeleteMapping("account/delete/{userid}")
     public String deleteAccount(@PathVariable("userid") int userid, HttpSession session) {
         repositoryDB.deleteUser(userid);
         session.invalidate();
