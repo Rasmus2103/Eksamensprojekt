@@ -54,7 +54,7 @@ public class RepositoryDBStub implements IRepositoryDB {
     }
 
    @Override
-   public List<String> getAllUsers() {
+   public List<User> getAllUsers() {
       return null;
    }
 
