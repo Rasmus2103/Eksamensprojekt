@@ -13,11 +13,10 @@
     <h1>Update Project Name</h1>
     <form action="#" th:action="@{/project/update/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
         <label>Add a new project Name:</label>
-        <input type="text" th:field="*{projectname}"/><br/>
-
+        <input type="text" th:field="*{projectname}"/>
         <button type="submit">Update</button>
-
     </form>
+
 
 </div>
 
