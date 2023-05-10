@@ -101,8 +101,8 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("projectDTOForm") Project project, @PathVariable("id") int id) {
-        repositoryDB.addProject(id, project.getProjectname());
+    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
+        repositoryDB.addProject(id, projectDto.getProjectname());
         return "redirect:/userProjects/" + id;
     }
 
@@ -138,12 +138,14 @@ public class PMController {
         return isLogged(session) ? "updateproject" : "index";
     }
 
-    @PostMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
-        repositoryDB.updateProjectName(projectid, project.getProjectname());
-        User user = repositoryDB.getUser(userid);
-        model.addAttribute("user", user);
-        return "redirect:/userprojects" + userid;
+    @PostMapping("project/update/{projectid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, Model model) {
+        if (project.getProjectname() != null){
+            repositoryDB.updateProjectName(projectid, project.getProjectname());
+            return "redirect:/project/" + projectid;
+        }
+        model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
+        return "project/update/" + projectid;
     }
 
     @GetMapping("storylist/{boardid}")
@@ -157,7 +159,6 @@ public class PMController {
     @GetMapping("story/createstory/{boardid}")
     public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
         Story story = new Story();
-        story.setBoardid(boardid);
         model.addAttribute("story", story);
 
         Board board = repositoryDB.getSpecificBoard(boardid);
@@ -188,9 +189,6 @@ public class PMController {
 
         List<Task> tasks = repositoryDB.getTasks(storyid);
         model.addAttribute("tasks", tasks);
-
-        int totalStorypoints = repositoryDB.getSumOfStoryPointsForBoard(storyid);
-        model.addAttribute("totalStoryPoints", totalStorypoints);
 
         return isLogged(session) ? "story" : "index";
     }
@@ -252,7 +250,6 @@ public class PMController {
     @GetMapping("story/createtask/{storyid}")
     public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Task task = new Task();
-        task.setStoryid(storyid);
         model.addAttribute("task", task);
 
         Task task1 = repositoryDB.getSpecificTask(storyid);
@@ -298,11 +295,11 @@ public class PMController {
         }
     }
 
-    @DeleteMapping("account/delete/{userid}")
+    @GetMapping("account/delete/{userid}")
     public String deleteAccount(@PathVariable("userid") int userid, HttpSession session) {
         repositoryDB.deleteUser(userid);
         session.invalidate();
-        return "redirect:/index";
+        return "redirect:/login";
     }
 
 }

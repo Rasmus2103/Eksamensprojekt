@@ -136,7 +136,7 @@ public class RepositoryDB implements IRepositoryDB {
             SQL = "DELETE FROM user WHERE userid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

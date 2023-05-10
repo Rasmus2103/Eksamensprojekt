@@ -20,7 +20,7 @@
         <div class="mb-3">
             <label class="form-label">Choose project collaborators</label>
             <div th:each="users: ${users}">
-                <input type="checkbox" th:field="*{userList}" th:value="${users}" th:text="${users}">
+                <input type="checkbox" th:field="*{userList}" th:value="${user.getUserid()}" th:text="${users}">
             </div>
         </div>
 

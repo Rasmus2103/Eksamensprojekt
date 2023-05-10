@@ -43,10 +43,8 @@
   </tbody>
 </table>
 
-<form id="delete-form" action="/register/delete/{userid}" method="post" th:object="${user}">
   <h2>Delete Account</h2>
-  <a th:href="@{delete/{userid} (userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete</a>
-</form>
+  <a th:href="@{/account/delete/{userid}(userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete</a>
 
 </body>
 </html>
