@@ -92,9 +92,6 @@ public class PMController {
         ProjectDTOForm projectDTOForm = new ProjectDTOForm();
         model.addAttribute("projectDTO", projectDTOForm);
 
-        List<String> users = repositoryDB.getAllUsers();
-        model.addAttribute("users", users);
-
         User user = repositoryDB.getUser(id);
         model.addAttribute("user", user);
         return isLogged(session) ? "createproject" : "index";
@@ -134,7 +131,7 @@ public class PMController {
     @GetMapping("/project/{projectId}/addusers")
     public String showAddUserForm(@PathVariable("projectId") int projectId, Model model) {
         Project project = repositoryDB.getSpecificProject(projectId);
-        List<String> users = repositoryDB.getAllUsers();
+        List<User> users = repositoryDB.getAllUsers();
 
         model.addAttribute("project", project);
         model.addAttribute("users", users);
@@ -142,9 +139,10 @@ public class PMController {
         return "addusers";
     }
 
-    @PostMapping("/project/{projectId}/addusers")
-    public String addUserToProject(@PathVariable("projectId") int projectId, @RequestParam("userId") int userId) {
-        repositoryDB.addUserToProject(userId, projectId);
+    @PostMapping("/project/{projectId}/adduser")
+    public String addUserToProject(@PathVariable("projectId") int projectId, @ModelAttribute("users") List<User> users) {
+        // TODO metoden virker ikke
+        repositoryDB.addUserToProject(users.indexOf(0), projectId);
         return "redirect:/project/" + projectId;
     }
 

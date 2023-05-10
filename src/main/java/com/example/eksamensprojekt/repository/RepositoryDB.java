@@ -31,15 +31,18 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
-    public List<String> getAllUsers() {
-        List<String> users = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
         try {
-            String SQL = "SELECT name FROM user";
+            String SQL = "SELECT * FROM user";
             Statement stmt = connection().createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
             while(rs.next()) {
-                String name = rs.getString("name");;
-                users.add(name);
+                int id = rs.getInt("userid");
+                String name = rs.getString("name");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                users.add(new User(id, name, username, password));
             }
             return users;
         } catch (SQLException e) {
