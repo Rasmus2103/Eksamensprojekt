@@ -13,6 +13,10 @@
   <h2 th:if="${user != null}" th:text="'Name: ' + ${user.getUserName()}"> </h2>
 </div>
 
+<div>
+  <a th:href="@{/userProjects.html/{userid}(userid=${user.userid})}">Return to home</a>
+</div>
+
 <table>
   <thead>
   <tr>
