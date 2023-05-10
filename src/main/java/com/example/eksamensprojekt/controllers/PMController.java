@@ -322,4 +322,15 @@ public class PMController {
         return "redirect:/login";
     }
 
+    @PostMapping("account/update/{userid}")
+    public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session) {
+        repositoryDB.updateUsername(userid, user.getUserName());
+        repositoryDB.updateName(userid, user.getname());
+        repositoryDB.updatePassword(userid, user.getPassword());
+
+        session.setAttribute("user", user);
+
+        return "redirect:/account/" + userid;
+    }
+
 }
