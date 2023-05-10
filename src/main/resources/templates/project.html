@@ -21,12 +21,15 @@
 <div id="container">
 
   <h1 th:text="${project.projectname}"></h1>
-
+  <a th:href="@{/project/update/{projectid}(projectid=${projectid})}">update project</a>
+  <br>
+  <br>
 
 
     <tr th:each="boards: ${boards}">
       <a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
       <td th:text="${boards.boardname}"></td>
+        <br>
       </a>
     </tr>
 
