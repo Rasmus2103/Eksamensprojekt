@@ -20,6 +20,7 @@
 </div>
 
 <a th:href="@{/createproject/{id}(id=${user.userid})}">Create a new project</a>
+<a th:href="@{/account/{userid}(userid=${user.userid})}">Account details</a>
 
 <div id="container">
     <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
