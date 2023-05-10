@@ -138,12 +138,10 @@ public class PMController {
         return isLogged(session) ? "updateproject" : "index";
     }
 
-    @PostMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
+    @PostMapping("project/update/{projectid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid) {
         repositoryDB.updateProjectName(projectid, project.getProjectname());
-        User user = repositoryDB.getUser(userid);
-        model.addAttribute("user", user);
-        return "redirect:/userprojects" + userid;
+        return "redirect:/project/" + projectid;
     }
 
     @GetMapping("storylist/{boardid}")
