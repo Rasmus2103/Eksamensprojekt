@@ -21,11 +21,11 @@
          <input type="text" th:field="*{acceptcriteria}" /><br/>
 
          <label>Deadline</label>
-         <input type="date" th:field="*{deadline}">
+         <input type="date" th:field="*{deadline}"/>
          <br/>
 
          <button type="submit">Update</button>
-
+         <a th:href="@{/story/{storyid}(storyid=${task.storyid})}">Go back</a>
      </form>
 
  </div>

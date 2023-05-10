@@ -711,7 +711,31 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
+    public List<Integer> getAllStoryPointsForBoard(int storyid) {
+        List<Integer> storyPoints = new ArrayList<>();
+        try {
+            String SQL = "SELECT storypoints FROM task WHERE storyid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                storyPoints.add(rs.getInt("storypoints"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return storyPoints;
+    }
 
+    public int getSumOfStoryPointsForBoard(int storyid) {
+        List<Integer> storyPoints = getAllStoryPointsForBoard(storyid);
+        int sum = 0;
+        for (int points : storyPoints) {
+            sum += points;
+        }
+        return sum;
+    }
 
 
 

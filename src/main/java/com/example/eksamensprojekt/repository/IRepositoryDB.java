@@ -47,4 +47,7 @@ public interface IRepositoryDB {
     void updateTaskDescription(int taskid, String taskdescription);
     void updateTaskStorypoints(int taskid, int storypoints);
 
+    List<Integer>getAllStoryPointsForBoard(int storyid);
+    int getSumOfStoryPointsForBoard(int storyid);
+
 }

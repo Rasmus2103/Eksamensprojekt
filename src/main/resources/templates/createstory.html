@@ -12,7 +12,7 @@
     <h1>Create Story</h1>
 
     <form th:action="@{''}" method="post" th:object="${story}">
-
+      <input type="hidden" th:field="*{boardid}"/>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Story name</label>
         <input type="text" class="form-control" th:field="*{storyname}">
@@ -34,6 +34,7 @@
 
 
       <button type="submit" class="btn btn-primary">Submit</button>
+      <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
     </form>
   </div>
 </body>

@@ -20,7 +20,8 @@
      <label>Story Points:</label>
      <input type="number" th:field="*{storypoints}"/><br/>
 
-     <button type="submit">Update</button>
+        <button type="submit">Update</button>
+       <a th:href="@{/story/{storyid}(storyid=${task.storyid})}">Go back</a>
    </form>
 
  </div>

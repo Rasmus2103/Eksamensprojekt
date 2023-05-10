@@ -28,8 +28,6 @@
     <table class="stories">
         <tr th:each="stories: ${stories}">
             <td th:text="${stories.storyname}"></td>
-            <td th:text="${stories.storydescription}"></td>
-            <td th:text="${stories.acceptcriteria}"></td>
             <td th:text="${stories.deadline}"></td>
             <td>
                 <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
@@ -40,17 +38,12 @@
             <td>
                 <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
             </td>
-            <td>
-
-            </td>
         </tr>
     </table>
     <!-- <label>Task(s):</label>
     <div th:each="power: ${''}">
         <input type="checkbox" th:field="*{''}" th:value="${''}" th:text="${''}" th:checked="">
     </div> -->
-
-    <a href="#">Mark as finished</a>
 
 </div>
 </body>

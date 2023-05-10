@@ -245,4 +245,14 @@ public class RepositoryDBStub implements IRepositoryDB {
     public void updateTaskStorypoints(int taskid, int storypoints) {
 
     }
+
+    @Override
+    public List<Integer> getAllStoryPointsForBoard(int storyid) {
+        return null;
+    }
+
+    @Override
+    public int getSumOfStoryPointsForBoard(int storyid) {
+        return 0;
+    }
 }

@@ -101,7 +101,7 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("project") Project project, @PathVariable("id") int id) {
+    public String createproject(@ModelAttribute("projectDTOForm") Project project, @PathVariable("id") int id) {
         repositoryDB.addProject(id, project.getProjectname());
         return "redirect:/userProjects/" + id;
     }
@@ -157,6 +157,7 @@ public class PMController {
     @GetMapping("story/createstory/{boardid}")
     public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
         Story story = new Story();
+        story.setBoardid(boardid);
         model.addAttribute("story", story);
 
         Board board = repositoryDB.getSpecificBoard(boardid);
@@ -187,6 +188,9 @@ public class PMController {
 
         List<Task> tasks = repositoryDB.getTasks(storyid);
         model.addAttribute("tasks", tasks);
+
+        int totalStorypoints = repositoryDB.getSumOfStoryPointsForBoard(storyid);
+        model.addAttribute("totalStoryPoints", totalStorypoints);
 
         return isLogged(session) ? "story" : "index";
     }
@@ -248,6 +252,7 @@ public class PMController {
     @GetMapping("story/createtask/{storyid}")
     public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Task task = new Task();
+        task.setStoryid(storyid);
         model.addAttribute("task", task);
 
         Task task1 = repositoryDB.getSpecificTask(storyid);
