@@ -11,7 +11,7 @@
 <div id="container">
 
     <h1>Update Project Name</h1>
-    <form action="#" th:action="@{/project/update/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
+    <form action="#" th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}" method="post" th:object="${project}">
         <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
         <label>Add a new project Name:</label>
         <input type="text" th:field="*{projectname}"/>

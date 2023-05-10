@@ -17,12 +17,6 @@
             <label class="form-label">Give the project a name</label>
             <input type="text" class="form-control" th:field="*{projectname}"/>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Choose project collaborators</label>
-            <div th:each="users: ${users}">
-                <input type="checkbox" th:field="*{userList}" th:value="${user.getUserid()}" th:text="${users}">
-            </div>
-        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
         <a th:href="@{/userProjects/{id}(id=${user.userid})}">Go back</a>

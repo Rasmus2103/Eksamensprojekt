@@ -12,6 +12,7 @@ public interface IRepositoryDB {
     boolean usernameExists(String username);
     void registerUser(User user);
     void deleteUser(int userid);
+    void deleteUserFromProject(int projectid, int userid);
     void updateName(int userid, String name);
     void updateUsername(int userid, String username);
     void updatePassword(int userid, String password);

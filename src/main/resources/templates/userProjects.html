@@ -30,7 +30,7 @@
 
     <tr th:each="projects: ${projects}">
         <td>
-            <a th:href="@{/project/{projectid}(projectid=${projects.projectid})}"> <h3 th:text="${projects.projectname}"></h3></a>
+            <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}"> <h3 th:text="${projects.projectname}"></h3></a>
         </td>
         <td>
             <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a>

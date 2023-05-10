@@ -113,14 +113,17 @@ public class PMController {
         return "redirect:/userProjects/" + userid;
     }
 
-    @GetMapping("project/{projectid}")
-    public String getProject(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
+    @GetMapping("project/{projectid}/{userid}")
+    public String getProject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
 
         int boardid = 0;
         List<Story> stories = repositoryDB.getStories(boardid);
         model.addAttribute("stories", stories);
+
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
 
         List<Board> boards = repositoryDB.getBoards(projectid);
         model.addAttribute("boards", boards);
@@ -146,21 +149,28 @@ public class PMController {
         return "redirect:/project/" + projectId;
     }
 
+    @GetMapping("/leaveproject/{projectid}/{userid}")
+    public String leaveproject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid){
+        repositoryDB.deleteUserFromProject(projectid,userid);
+        return "redirect:/userProjects/" + userid;
+    }
 
 
-
-    @GetMapping("project/update/{projectid}")
-    public String updateProjectName(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
+    @GetMapping("project/update/{projectid}/{userid}")
+    public String updateProjectName(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
+
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
         return isLogged(session) ? "updateproject" : "index";
     }
 
-    @PostMapping("project/update/{projectid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, Model model) {
+    @PostMapping("project/update/{projectid}/{userid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
         if (project.getProjectname() != null){
             repositoryDB.updateProjectName(projectid, project.getProjectname());
-            return "redirect:/project/" + projectid;
+            return "redirect:/project/" + projectid + "/" + userid;
         }
         model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
         return "project/update/" + projectid;

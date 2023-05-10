@@ -136,9 +136,28 @@ public class RepositoryDB implements IRepositoryDB {
             if (rs.next()) {
                 userid = rs.getInt("userid");
             }
+            String SQL2 = "DELETE FROM userproject WHERE userid=?";
+            PreparedStatement ps2 = connection().prepareStatement(SQL2);
+            ps2.setInt(1,userid);
+            ps2.executeUpdate();
+
             SQL = "DELETE FROM user WHERE userid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteUserFromProject(int projectid, int userid){
+        try {
+            String SQL = "DELETE FROM userproject WHERE projectid=? AND userid=?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ps.setInt(2, userid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
