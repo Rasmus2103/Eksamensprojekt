@@ -22,7 +22,7 @@
 
   <h1 th:text="${project.projectname}"></h1>
   <a th:href="@{/project/update/{projectid}(projectid=${projectid})}">update project</a>
-  <a href="#">Add users to Project</a>
+  <a th:href="@{/project/{projectId}/addusers(projectId=${project.projectid})}">Add users to Project</a>
   <br>
   <br>
 
