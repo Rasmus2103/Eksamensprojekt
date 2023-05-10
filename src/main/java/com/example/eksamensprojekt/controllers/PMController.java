@@ -293,11 +293,11 @@ public class PMController {
         }
     }
 
-    @DeleteMapping("account/delete/{userid}")
+    @GetMapping("account/delete/{userid}")
     public String deleteAccount(@PathVariable("userid") int userid, HttpSession session) {
         repositoryDB.deleteUser(userid);
         session.invalidate();
-        return "redirect:/index";
+        return "redirect:/login";
     }
 
 }
