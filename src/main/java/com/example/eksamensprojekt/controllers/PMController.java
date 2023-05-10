@@ -101,8 +101,8 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("project") Project project, @PathVariable("id") int id) {
-        repositoryDB.addProject(id, project.getProjectname());
+    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
+        repositoryDB.addProject(id, projectDto.getProjectname());
         return "redirect:/userProjects/" + id;
     }
 
