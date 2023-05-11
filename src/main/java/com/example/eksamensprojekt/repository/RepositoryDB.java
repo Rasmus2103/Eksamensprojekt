@@ -280,6 +280,17 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public void addUserToProject(int userid, int projectid) {
         try {
+            String checkSQL = "SELECT * FROM userproject WHERE userid = ? AND projectid = ?";
+            PreparedStatement checkPs = connection().prepareStatement(checkSQL);
+            checkPs.setInt(1, userid);
+            checkPs.setInt(2, projectid);
+            ResultSet rs = checkPs.executeQuery();
+
+            if(rs.next()) {
+                System.out.println("User has already been assigned");
+                return;
+            }
+
             String SQL = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
