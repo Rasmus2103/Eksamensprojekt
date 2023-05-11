@@ -48,35 +48,58 @@
 </nav>
 
 <body>
-  <div id="container">
-
-    <h1>Create Story</h1>
-
-    <form th:action="@{''}" method="post" th:object="${story}">
-      <input type="hidden" th:field="*{boardid}"/>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Story name</label>
-        <input type="text" class="form-control" th:field="*{storyname}">
-      </div>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Story Description</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
-      </div>
-
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
-        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
-      </div>
-
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Deadline</label>
-        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{deadline}">
-      </div>
-
-
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
-    </form>
+<div class="left-div">
+  <div class="sidebar">
+    <div class="sidebar-overview">
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
+      <h3> Project Name</h3>
+    </div>
+    <ul>
+      <li><a href="#">Home</a></li>
+    </ul>
+    <h4>--- Boards ---</h4>
+    <br>
+    <ul>
+      <li><a href="#">Backlog</a></li>
+      <li><a href="#">Sprint</a></li>
+      <li><a href="#">Archive</a></li>
+    </ul>
   </div>
+</div>
+<div class="right-div">
+
+</div>
+<div id="container">
+
+  <h1>Create Story</h1>
+
+  <form th:action="@{''}" method="post" th:object="${story}">
+    <input type="hidden" th:field="*{boardid}"/>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Story name</label>
+      <input type="text" class="form-control" th:field="*{storyname}">
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Story Description</label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
+      <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Deadline</label>
+      <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{deadline}">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
+  </form>
+</div>
+
+
 </body>
 </html>

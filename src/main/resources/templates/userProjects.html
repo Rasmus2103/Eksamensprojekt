@@ -49,35 +49,47 @@
 
 <body>
 
-<!--<div class="main">
-
-    <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <ul class="nav nav-pills">
-                <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
-            </ul>
-        </header>
-    </div>
-</div>-->
-
-<a th:href="@{/createproject/{id}(id=${user.userid})}">Create a new project</a>
-<a th:href="@{/account/{userid}(userid=${user.userid})}">Account details</a>
-
-<div id="container">
-    <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
-    <div th:if="${projects.isEmpty()}">
-        <h6>No projects yet... feel free to add one</h6>
-    </div>
-
-    <tr th:each="projects: ${projects}">
-        <td>
-            <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}"> <h3 th:text="${projects.projectname}"></h3></a>
-        </td>
-        <td>
-            <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a>
-        </td>
+<div class="left-div">
+    <div class="sidebar">
+        <div class="sidebar-overview">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
+            <h3> Project Name</h3>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+        </ul>
+        <h4>--- Boards ---</h4>
         <br>
-    </tr>
+        <ul>
+            <li><a href="#">Backlog</a></li>
+            <li><a href="#">Sprint</a></li>
+            <li><a href="#">Archive</a></li>
+        </ul>
+    </div>
 </div>
+
+<div class="right-div">
+    <a th:href="@{/createproject/{id}(id=${user.userid})}">Create a new project</a>
+    <a th:href="@{/account/{userid}(userid=${user.userid})}">Account details</a>
+
+    <div id="container">
+        <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
+        <div th:if="${projects.isEmpty()}">
+            <h6>No projects yet... feel free to add one</h6>
+        </div>
+
+        <tr th:each="projects: ${projects}">
+            <td>
+                <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}"> <h3 th:text="${projects.projectname}"></h3></a>
+            </td>
+            <td>
+                <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a>
+            </td>
+            <br>
+        </tr>
+    </div>
+
+</div>
+
 </body>
 </html>
