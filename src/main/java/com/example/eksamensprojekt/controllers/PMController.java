@@ -38,7 +38,6 @@ public class PMController {
         User user = repositoryDB.getUser(repositoryDB.getUserid(username));
         if(user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
-            session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
         }
         model.addAttribute("wrongCredentials", true);
@@ -99,13 +98,7 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id, Model model) {
-        String projectname = projectDto.getProjectname();
-        if(projectname == null || projectname.trim().isEmpty()) {
-            model.addAttribute("Nothing", true);
-            return "createproject";
-        }
-
+    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
         repositoryDB.addProject(id, projectDto.getProjectname());
         return "redirect:/userProjects/" + id;
     }
@@ -142,18 +135,23 @@ public class PMController {
     }
 
     @GetMapping("/project/{projectId}/{userId}/addusers")
-    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model, HttpSession session) {
+    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model) {
         Project project = repositoryDB.getSpecificProject(projectId);
         List<User> users = repositoryDB.getAllUsers();
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
 
         model.addAttribute("project", project);
         model.addAttribute("users", users);
 
         return "addusers";
     }
+
+    /*@PostMapping("/project/{projectId}/adduser")
+    public String addUserToProject(@PathVariable("projectId") int projectId, @ModelAttribute("users") List<User> users) {
+        // TODO metoden virker ikke
+        for(int userId: )
+        repositoryDB.addUserToProject(users.indexOf(0), projectId);
+        return "redirect:/project/" + projectId;
+    }*/
 
     @PostMapping("/project/{projectId}/{userId}/adduser")
     public String addUserToProject(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, @RequestParam("userIds") List<Integer> userIds) {
@@ -196,9 +194,6 @@ public class PMController {
         List<Story> stories = repositoryDB.getStories(boardid);
         model.addAttribute("stories", stories);
 
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
         return isLogged(session) ? "storylist" : "index";
     }
 
@@ -209,9 +204,6 @@ public class PMController {
 
         Board board = repositoryDB.getSpecificBoard(boardid);
         model.addAttribute("board", board);
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
 
         return isLogged(session) ? "createstory" : "index";
     }
@@ -239,9 +231,6 @@ public class PMController {
         List<Task> tasks = repositoryDB.getTasks(storyid);
         model.addAttribute("tasks", tasks);
 
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
         int totalStoryPoints = repositoryDB.getSumOfStoryPointsForBoard(storyid);
         model.addAttribute("totalStoryPoints", totalStoryPoints);
 
@@ -252,8 +241,6 @@ public class PMController {
     public String updateStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Story story = repositoryDB.getSpecificStory(storyid);
         model.addAttribute("story", story);
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
         return isLogged(session) ? "updatestory" : "index";
     }
 
@@ -312,9 +299,6 @@ public class PMController {
         Task task1 = repositoryDB.getSpecificTask(storyid);
         model.addAttribute("task1", task1);
 
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
         return isLogged(session) ? "createtask" : "index";
     }
 
@@ -328,8 +312,6 @@ public class PMController {
     public String updateTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
         Task task = repositoryDB.getSpecificTask(taskid);
         model.addAttribute("task", task);
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
         return isLogged(session) ? "updatetask" : "index";
     }
 
