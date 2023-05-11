@@ -131,8 +131,8 @@ public class PMController {
         return isLogged(session) ? "project" : "index";
     }
 
-    @GetMapping("/project/{projectId}/addusers")
-    public String showAddUserForm(@PathVariable("projectId") int projectId, Model model) {
+    @GetMapping("/project/{projectId}/{userId}/addusers")
+    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model) {
         Project project = repositoryDB.getSpecificProject(projectId);
         List<User> users = repositoryDB.getAllUsers();
 
@@ -142,12 +142,22 @@ public class PMController {
         return "addusers";
     }
 
-    @PostMapping("/project/{projectId}/adduser")
+    /*@PostMapping("/project/{projectId}/adduser")
     public String addUserToProject(@PathVariable("projectId") int projectId, @ModelAttribute("users") List<User> users) {
         // TODO metoden virker ikke
+        for(int userId: )
         repositoryDB.addUserToProject(users.indexOf(0), projectId);
         return "redirect:/project/" + projectId;
+    }*/
+
+    @PostMapping("/project/{projectId}/{userId}/adduser")
+    public String addUserToProject(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, @RequestParam("userIds") List<Integer> userIds) {
+        for (int userid : userIds) {
+            repositoryDB.addUserToProject(userid, projectId);
+        }
+        return "redirect:/project/" + projectId + "/" + userId;
     }
+
 
     @GetMapping("/leaveproject/{projectid}/{userid}")
     public String leaveproject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid){
