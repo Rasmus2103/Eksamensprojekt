@@ -194,6 +194,9 @@ public class PMController {
         List<Story> stories = repositoryDB.getStories(boardid);
         model.addAttribute("stories", stories);
 
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
+
         return isLogged(session) ? "storylist" : "index";
     }
 
