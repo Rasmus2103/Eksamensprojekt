@@ -218,6 +218,9 @@ public class PMController {
         List<Task> tasks = repositoryDB.getTasks(storyid);
         model.addAttribute("tasks", tasks);
 
+        int totalStoryPoints = repositoryDB.getSumOfStoryPointsForBoard(storyid);
+        model.addAttribute("totalStoryPoints", totalStoryPoints);
+
         return isLogged(session) ? "story" : "index";
     }
 
