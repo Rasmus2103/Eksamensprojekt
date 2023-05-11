@@ -67,37 +67,37 @@
   </div>
 </div>
 <div class="right-div">
+  <div id="container">
 
-</div>
-<div id="container">
+    <h1>Create Story</h1>
 
-  <h1>Create Story</h1>
+    <form th:action="@{''}" method="post" th:object="${story}">
+      <input type="hidden" th:field="*{boardid}"/>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Story name</label>
+        <input type="text" class="form-control" th:field="*{storyname}">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Story Description</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
+      </div>
 
-  <form th:action="@{''}" method="post" th:object="${story}">
-    <input type="hidden" th:field="*{boardid}"/>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Story name</label>
-      <input type="text" class="form-control" th:field="*{storyname}">
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Story Description</label>
-      <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
-    </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
+        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
+      </div>
 
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
-      <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
-    </div>
-
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Deadline</label>
-      <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{deadline}">
-    </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Deadline</label>
+        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{deadline}">
+      </div>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
-  </form>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
+    </form>
+  </div>
+
 </div>
 
 

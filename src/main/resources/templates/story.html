@@ -68,52 +68,42 @@
     </div>
 </div>
 
-<div class="main">
-    <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <ul class="nav nav-pills">
-                <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
-            </ul>
-        </header>
+
+<div class="right-div">
+    <div id="container">
+        <a th:href="@{/story/createtask/{storyid}(storyid=${storyid})}">Create a new Task</a>
+
+
+        <h1 th:text="${story.storyname}"></h1>
+        <p th:text="${story.storydescription}"></p>
+        <p th:text="${story.acceptcriteria}"></p>
+
+        <div th:if="${tasks.isEmpty()}">
+            <h6>No tasks yet... feel free to add one</h6>
+        </div>
+        <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
+            <table>
+                <tr th:each="tasks: ${tasks}">
+                    <td>
+                        <input type="checkbox" th:name="|task_${tasks.taskid}|" th:checked="${tasks.finished}"/>
+                    </td>
+                    <td th:text="${tasks.taskname}"></td>
+                    <td th:text="${tasks.taskdescription}"></td>
+                    <td th:text="${tasks.storypoints}"></td>
+                    <td>
+                        <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update Task</a>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit">Marked as finished</button>
+        </form>
+
+        <h2>Total Storypoints:</h2>
+        <h4 th:text="${totalStoryPoints}"></h4>
     </div>
-</div>
-
-<div id="container">
-    <a th:href="@{/story/createtask/{storyid}(storyid=${storyid})}">Create a new Task</a>
-
-
-    <h1 th:text="${story.storyname}"></h1>
-    <p th:text="${story.storydescription}"></p>
-    <p th:text="${story.acceptcriteria}"></p>
-
-    <div th:if="${tasks.isEmpty()}">
-        <h6>No tasks yet... feel free to add one</h6>
-    </div>
-
-
-
-    <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
-        <table>
-            <tr th:each="tasks: ${tasks}">
-                <td>
-                    <input type="checkbox" th:name="|task_${tasks.taskid}|" th:checked="${tasks.finished}"/>
-                </td>
-                <td th:text="${tasks.taskname}"></td>
-                <td th:text="${tasks.taskdescription}"></td>
-                <td th:text="${tasks.storypoints}"></td>
-                <td>
-                    <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
-                </td>
-                <td>
-                    <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update Task</a>
-                </td>
-            </tr>
-        </table>
-        <button type="submit">Marked as finished</button>
-    </form>
-
-    <h2>Total Storypoints:</h2>
-    <h4 th:text="${totalStoryPoints}"></h4>
 </div>
 
 </body>

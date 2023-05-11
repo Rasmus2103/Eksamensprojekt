@@ -49,26 +49,6 @@
 
 <body>
 
-<div class="left-div">
-    <div class="sidebar">
-        <div class="sidebar-overview">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-            <h3> Project Name</h3>
-        </div>
-        <ul>
-            <li><a href="#">Home</a></li>
-        </ul>
-        <h4>--- Boards ---</h4>
-        <br>
-        <ul>
-            <li><a href="#">Backlog</a></li>
-            <li><a href="#">Sprint</a></li>
-            <li><a href="#">Archive</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="right-div">
     <a th:href="@{/createproject/{id}(id=${user.userid})}">Create a new project</a>
     <a th:href="@{/account/{userid}(userid=${user.userid})}">Account details</a>
 
@@ -87,7 +67,6 @@
             </td>
             <br>
         </tr>
-    </div>
 
 </div>
 
