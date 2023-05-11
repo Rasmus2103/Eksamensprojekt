@@ -5,7 +5,7 @@ import com.example.eksamensprojekt.model.*;
 import java.sql.Date;
 import java.util.List;
 
-public interface IRepositoryDB {
+public interface IRepositoryStub {
     List<User> getAllUsers();
     User getUser(int userid);
     int getUserid(String username);

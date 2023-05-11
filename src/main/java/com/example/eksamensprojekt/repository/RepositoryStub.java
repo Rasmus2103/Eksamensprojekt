@@ -4,15 +4,12 @@ import com.example.eksamensprojekt.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Repository("eksamensprojekt_Stub")
-public class RepositoryDBStub implements IRepositoryDB {
+public class RepositoryStub implements IRepositoryStub {
 
  // Stub data for testing
     private User testUser1 = new User(0, "Test", "Test", "Test");
@@ -50,7 +47,7 @@ public class RepositoryDBStub implements IRepositoryDB {
             new Task(3, "TestTask3", "TestTask3", 1, 1)
             ));
 
-    public RepositoryDBStub() {
+    public RepositoryStub() {
     }
 
    @Override
