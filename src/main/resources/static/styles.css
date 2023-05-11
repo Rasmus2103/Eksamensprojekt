@@ -14,7 +14,6 @@ body {
 
 .profile-container {
     height: 100%; /* Set container height to 100% of body height */
-    width: 50%;
     margin: auto;
     padding: 10px;
     display: flex;
@@ -150,4 +149,78 @@ button:hover {
 
 p {
     margin-bottom: 10px;
+}
+
+.left-div {
+    width: 20%;
+    float: left;
+}
+
+.right-div {
+    width: 80%;
+    float: right;
+}
+
+.sidebar {
+    width: 22%;
+    margin: 0;
+    padding: 0;
+    background-color: #c0c0c0;
+    border-right: 1px solid #d0d0d0;
+    position: fixed;
+    height: 100%;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.sidebar:hover {
+    background-color: #d2d2d2;
+    border-color: #dcdcdc;
+}
+
+.sidebar-overview {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-overview img {
+    max-height: 20%;
+    max-width: 20%;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+.sidebar-overview h3 {
+    margin: 0;
+}
+
+.sidebar h4 {
+    margin: 0;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    align-content: center;
+}
+
+.sidebar ul li a {
+    display: block;
+    width: 95%;
+    padding: 8px 16px;
+    background-color: #888888;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #666666;
 }
