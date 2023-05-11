@@ -407,7 +407,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addBoard(int projectid, String boardname) {
-        //TODO metode skal gøres private så den udelukkende hjælper deleteproject metoden, brugeren skal ikke selv kunne oprette nogle boards
+        //TODO metode skal gøres private så den udelukkende hjælper addproject metoden, brugeren skal ikke selv kunne oprette nogle boards
         try{
             String SQL = "INSERT INTO board (boardname, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
