@@ -38,11 +38,10 @@
         <li class="nav-item">
           <a style="color: #ffffff;" class="nav-link" href="#">Help</a>
         </li>
-        <ul class="nav nav-pills">
+
         <li class="nav-item">
           <a style="color: #ffffff;" th:href="@{/}" class="nav-link">Logout</a>
         </li>
-        </ul>
 
       </ul>
     </div>
@@ -67,7 +66,7 @@
 
   <h1 th:text="${project.projectname}"></h1>
   <a th:href="@{/project/update/{projectid}/{userid}(projectid=${projectid},userid=${user.getUserid()})}">update project</a>
-  <a th:href="@{/project/{projectId}/addusers(projectId=${project.projectid})}">Add users to Project</a>
+  <a th:href="@{/project/{projectId}/{userId}/addusers(projectId=${project.projectid}, userId=${user.userid})}">Add users to Project</a>
   <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}" onclick="return confirm('Are you sure?')">leave project</a>
   <br>
   <br>
