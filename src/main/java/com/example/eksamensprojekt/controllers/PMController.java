@@ -38,6 +38,7 @@ public class PMController {
         User user = repositoryDB.getUser(repositoryDB.getUserid(username));
         if(user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
         }
         model.addAttribute("wrongCredentials", true);
