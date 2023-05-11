@@ -128,6 +128,9 @@ public class PMController {
         List<Board> boards = repositoryDB.getBoards(projectid);
         model.addAttribute("boards", boards);
 
+        List<String> users = repositoryDB.getUserNamesByProjectId(projectid);
+        model.addAttribute("users", users);
+
         return isLogged(session) ? "project" : "index";
     }
 

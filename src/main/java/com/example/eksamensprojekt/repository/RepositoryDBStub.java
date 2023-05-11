@@ -142,6 +142,11 @@ public class RepositoryDBStub implements IRepositoryDB {
     }
 
     @Override
+    public List<String> getUserNamesByProjectId(int projectid) {
+        return null;
+    }
+
+    @Override
     public void deleteProject(int projectid) {
 
     }

@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
+                    <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff;" >
@@ -49,61 +49,42 @@
 
 <body>
 
-<div class="left-div">
-    <div class="sidebar">
-        <div class="sidebar-overview">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-            <h3> Project Name</h3>
-        </div>
-        <ul>
-            <li><a href="#">Home</a></li>
-        </ul>
-        <h4>--- Boards ---</h4>
-        <br>
-        <ul>
-            <li><a href="#">Backlog</a></li>
-            <li><a href="#">Sprint</a></li>
-            <li><a href="#">Archive</a></li>
-        </ul>
-    </div>
+<div class="main">
+   <!-- <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <ul class="nav nav-pills">
+                <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
+            </ul>
+        </header>
+    </div>-->
 </div>
 
+<div id="container">
 
-<div class="right-div">
-    <div class="main">
-        <div id="container">
-
-            <a th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
-            <div th:if="${stories.isEmpty()}">
-                <h6>No stories yet... feel free to add one</h6>
-            </div>
-
-            <table class="stories">
-                <tr th:each="stories: ${stories}">
-                    <td th:text="${stories.storyname}"></td>
-                    <td th:text="${stories.deadline}"></td>
-                    <td>
-                        <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
-                    </td>
-                    <td>
-                        <a th:href="@{/story/update/{storyid}(storyid=${stories.storyid})}">Update Story</a>
-                    </td>
-                    <td>
-                        <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="container">
-                <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
-                    </ul>
-                </header>
-            </div>
-
-        </div>
+    <a th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
+    <div th:if="${stories.isEmpty()}">
+        <h6>No stories yet... feel free to add one</h6>
     </div>
+
+    <table class="stories">
+        <tr th:each="stories: ${stories}">
+            <td th:text="${stories.storyname}"></td>
+            <td th:text="${stories.deadline}"></td>
+            <td>
+                <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
+            </td>
+            <td>
+                <a th:href="@{/story/update/{storyid}(storyid=${stories.storyid})}">Update Story</a>
+            </td>
+            <td>
+                <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
+            </td>
+        </tr>
+    </table>
+    <!-- <label>Task(s):</label>
+    <div th:each="power: ${''}">
+        <input type="checkbox" th:field="*{''}" th:value="${''}" th:text="${''}" th:checked="">
+    </div> -->
 
 </div>
 </body>

@@ -302,6 +302,29 @@ public class RepositoryDB implements IRepositoryDB {
         }
     }
 
+    public List<String> getUserNamesByProjectId(int projectid) {
+        List<String> userNames = new ArrayList<>();
+        try {
+            String SQL = "SELECT u.name " +
+                    "FROM user AS u " +
+                    "JOIN userproject AS up ON u.userid = up.userid " +
+                    "JOIN project AS p ON p.projectid = up.projectid " +
+                    "WHERE p.projectid = ?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                String name = rs.getString("name");
+                userNames.add(name);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return userNames;
+    }
+
     @Override
     public int getProjectId(String projectname) {
         try {
