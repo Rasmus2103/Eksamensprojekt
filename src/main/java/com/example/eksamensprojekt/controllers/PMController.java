@@ -113,8 +113,8 @@ public class PMController {
         return "redirect:/userProjects/" + userid;
     }
 
-    @GetMapping("project/{projectid}")
-    public String getProject(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
+    @GetMapping("project/{projectid}/{userid}")
+    public String getProject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
 
@@ -122,14 +122,17 @@ public class PMController {
         List<Story> stories = repositoryDB.getStories(boardid);
         model.addAttribute("stories", stories);
 
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
+
         List<Board> boards = repositoryDB.getBoards(projectid);
         model.addAttribute("boards", boards);
 
         return isLogged(session) ? "project" : "index";
     }
 
-    @GetMapping("/project/{projectId}/addusers")
-    public String showAddUserForm(@PathVariable("projectId") int projectId, Model model) {
+    @GetMapping("/project/{projectId}/{userId}/addusers")
+    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model) {
         Project project = repositoryDB.getSpecificProject(projectId);
         List<User> users = repositoryDB.getAllUsers();
 
@@ -139,28 +142,45 @@ public class PMController {
         return "addusers";
     }
 
-    @PostMapping("/project/{projectId}/adduser")
+    /*@PostMapping("/project/{projectId}/adduser")
     public String addUserToProject(@PathVariable("projectId") int projectId, @ModelAttribute("users") List<User> users) {
         // TODO metoden virker ikke
+        for(int userId: )
         repositoryDB.addUserToProject(users.indexOf(0), projectId);
         return "redirect:/project/" + projectId;
+    }*/
+
+    @PostMapping("/project/{projectId}/{userId}/adduser")
+    public String addUserToProject(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, @RequestParam("userIds") List<Integer> userIds) {
+        for (int userid : userIds) {
+            repositoryDB.addUserToProject(userid, projectId);
+        }
+        return "redirect:/project/" + projectId + "/" + userId;
     }
 
 
+    @GetMapping("/leaveproject/{projectid}/{userid}")
+    public String leaveproject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid){
+        repositoryDB.deleteUserFromProject(projectid,userid);
+        return "redirect:/userProjects/" + userid;
+    }
 
 
-    @GetMapping("project/update/{projectid}")
-    public String updateProjectName(@PathVariable("projectid") int projectid, Model model, HttpSession session) {
+    @GetMapping("project/update/{projectid}/{userid}")
+    public String updateProjectName(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         Project project = repositoryDB.getSpecificProject(projectid);
         model.addAttribute("project", project);
+
+        User user = repositoryDB.getUser(userid);
+        model.addAttribute("user", user);
         return isLogged(session) ? "updateproject" : "index";
     }
 
-    @PostMapping("project/update/{projectid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, Model model) {
+    @PostMapping("project/update/{projectid}/{userid}")
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
         if (project.getProjectname() != null){
             repositoryDB.updateProjectName(projectid, project.getProjectname());
-            return "redirect:/project/" + projectid;
+            return "redirect:/project/" + projectid + "/" + userid;
         }
         model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
         return "project/update/" + projectid;
@@ -207,6 +227,9 @@ public class PMController {
 
         List<Task> tasks = repositoryDB.getTasks(storyid);
         model.addAttribute("tasks", tasks);
+
+        int totalStoryPoints = repositoryDB.getSumOfStoryPointsForBoard(storyid);
+        model.addAttribute("totalStoryPoints", totalStoryPoints);
 
         return isLogged(session) ? "story" : "index";
     }

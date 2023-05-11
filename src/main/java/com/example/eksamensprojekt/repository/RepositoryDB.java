@@ -136,9 +136,28 @@ public class RepositoryDB implements IRepositoryDB {
             if (rs.next()) {
                 userid = rs.getInt("userid");
             }
+            String SQL2 = "DELETE FROM userproject WHERE userid=?";
+            PreparedStatement ps2 = connection().prepareStatement(SQL2);
+            ps2.setInt(1,userid);
+            ps2.executeUpdate();
+
             SQL = "DELETE FROM user WHERE userid = ?";
             ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteUserFromProject(int projectid, int userid){
+        try {
+            String SQL = "DELETE FROM userproject WHERE projectid=? AND userid=?";
+            PreparedStatement ps = connection().prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ps.setInt(2, userid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -261,6 +280,17 @@ public class RepositoryDB implements IRepositoryDB {
     @Override
     public void addUserToProject(int userid, int projectid) {
         try {
+            String checkSQL = "SELECT * FROM userproject WHERE userid = ? AND projectid = ?";
+            PreparedStatement checkPs = connection().prepareStatement(checkSQL);
+            checkPs.setInt(1, userid);
+            checkPs.setInt(2, projectid);
+            ResultSet rs = checkPs.executeQuery();
+
+            if(rs.next()) {
+                System.out.println("User has already been assigned");
+                return;
+            }
+
             String SQL = "INSERT INTO userproject (userid, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL);
             ps.setInt(1, userid);
@@ -377,7 +407,7 @@ public class RepositoryDB implements IRepositoryDB {
 
     @Override
     public void addBoard(int projectid, String boardname) {
-        //TODO metode skal gøres private så den udelukkende hjælper deleteproject metoden, brugeren skal ikke selv kunne oprette nogle boards
+        //TODO metode skal gøres private så den udelukkende hjælper addproject metoden, brugeren skal ikke selv kunne oprette nogle boards
         try{
             String SQL = "INSERT INTO board (boardname, projectid) VALUES (?,?)";
             PreparedStatement ps = connection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);

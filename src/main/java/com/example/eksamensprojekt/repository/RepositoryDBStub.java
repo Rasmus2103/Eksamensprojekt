@@ -97,6 +97,11 @@ public class RepositoryDBStub implements IRepositoryDB {
     }
 
     @Override
+    public void deleteUserFromProject(int projectid, int userid){
+
+    }
+
+    @Override
     public void updateName(int userid, String name) {
 
     }
