@@ -98,7 +98,13 @@ public class PMController {
     }
 
     @PostMapping("createproject/{id}")
-    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
+    public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id, Model model) {
+        String projectname = projectDto.getProjectname();
+        if(projectname == null || projectname.trim().isEmpty()) {
+            model.addAttribute("Nothing", true);
+            return "createproject";
+        }
+
         repositoryDB.addProject(id, projectDto.getProjectname());
         return "redirect:/userProjects/" + id;
     }
@@ -127,6 +133,9 @@ public class PMController {
 
         List<Board> boards = repositoryDB.getBoards(projectid);
         model.addAttribute("boards", boards);
+
+        List<String> users = repositoryDB.getUserNamesByProjectId(projectid);
+        model.addAttribute("users", users);
 
         return isLogged(session) ? "project" : "index";
     }

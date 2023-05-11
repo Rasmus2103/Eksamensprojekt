@@ -79,6 +79,10 @@
       </a>
     </tr>
 
+    <div th:each="userlist: ${users}">
+        <p th:text="${userlist}"></p>
+    </div>
+
   <!-- <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a> -->
 </div>
 </body>

@@ -55,6 +55,7 @@
     <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
 
         <div class="mb-3">
+            <h3 th:if="${Nothing}" style="color:red;">Please enter a name for your project</h3>
             <label class="form-label">Give the project a name</label>
             <input type="text" class="form-control" th:field="*{projectname}"/>
         </div>
