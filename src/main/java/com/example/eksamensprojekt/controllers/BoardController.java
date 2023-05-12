@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class BoardController {
     private IBoardRepository boardRepository;
 
-    public BoardController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.boardRepository =(IBoardRepository) context.getBean(impl);
-    }
+//    public BoardController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+//        this.boardRepository =(IBoardRepository) context.getBean(impl);
+//    }
 }

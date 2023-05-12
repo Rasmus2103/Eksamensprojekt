@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class ProjectController {
     private IProjectRepository projectRepository;
 
-    public ProjectController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.projectRepository =(IProjectRepository) context.getBean(impl);
-    }
+//    public ProjectController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+//        this.projectRepository =(IProjectRepository) context.getBean(impl);
+//    }
 }

@@ -22,12 +22,12 @@ public class PMController {
     private IStoryRepository storyRepository;
     private ITaskRepository taskRepository;
 
-    public PMController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.userRepository =(IUserRepository) context.getBean(impl);
-        this.projectRepository =(IProjectRepository) context.getBean(impl);
-        this.boardRepository =(IBoardRepository) context.getBean(impl);
-        this.storyRepository =(IStoryRepository) context.getBean(impl);
-        this.taskRepository =(ITaskRepository) context.getBean(impl);
+    public PMController(IUserRepository userRepository, IProjectRepository projectRepository, IBoardRepository boardRepository, IStoryRepository storyRepository, ITaskRepository taskRepository) {
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+        this.boardRepository = boardRepository;
+        this.storyRepository = storyRepository;
+        this.taskRepository = taskRepository;
     }
 
     private boolean isLogged(HttpSession session) {

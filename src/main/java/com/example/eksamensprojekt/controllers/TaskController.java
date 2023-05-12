@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class TaskController {
     private ITaskRepository taskRepository;
 
-    public TaskController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.taskRepository =(ITaskRepository) context.getBean(impl);
-    }
+//    public TaskController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+//        this.taskRepository =(ITaskRepository) context.getBean(impl);
+//    }
 }

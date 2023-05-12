@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class UserController {
     private IUserRepository userRepository;
 
-    public UserController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.userRepository =(IUserRepository) context.getBean(impl);
-    }
+//    public UserController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+//        this.userRepository =(IUserRepository) context.getBean(impl);
+//    }
 }

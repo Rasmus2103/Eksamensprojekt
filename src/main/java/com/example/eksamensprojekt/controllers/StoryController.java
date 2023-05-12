@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class StoryController {
     private IStoryRepository storyRepository;
 
-    public StoryController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
-        this.storyRepository =(IStoryRepository) context.getBean(impl);
-    }
+//    public StoryController(ApplicationContext context, @Value("eksamensprojekt_DB") String impl) {
+//        this.storyRepository =(IStoryRepository) context.getBean(impl);
+//    }
 }
