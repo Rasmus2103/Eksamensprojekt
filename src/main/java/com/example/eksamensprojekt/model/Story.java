@@ -8,19 +8,19 @@ public class Story {
     private String storyname;
     private String storydescription;
     private String acceptcriteria;
-    private Date deadline;
+    private Date storydeadline;
     private int boardid;
 
     public Story(){
 
     }
 
-    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date deadline, int boardid){
+    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid){
         this.storyid = storyid;
         this.storyname = storyname;
         this.storydescription = storydescription;
         this.acceptcriteria = acceptcriteria;
-        this.deadline = deadline;
+        this.storydeadline = storydeadline;
         this.boardid = boardid;
     }
 
@@ -56,12 +56,12 @@ public class Story {
         this.acceptcriteria = acceptcriteria;
     }
 
-    public Date getDeadline() {
-        return deadline;
+    public Date getStorydeadline() {
+        return storydeadline;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public void setStorydeadline(Date storydeadline) {
+        this.storydeadline = storydeadline;
     }
 
     public int getBoardid() {

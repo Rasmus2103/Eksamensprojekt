@@ -84,7 +84,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         storyRepository.updateStoryName(storyid, story.getStoryname());
         storyRepository.updateStoryDescription(storyid, story.getStorydescription());
         storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
-        storyRepository.updateStoryDeadline(storyid, story.getDeadline());
+        storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
         return "redirect:/storylist/" + boardid;
     }
 
