@@ -89,7 +89,7 @@
         <table class="stories">
             <tr th:each="stories: ${stories}">
                 <td th:text="${stories.storyname}"></td>
-                <td th:text="${stories.deadline}"></td>
+                <td th:text="${stories.storydeadline}"></td>
                 <td>
                     <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
                 </td>
