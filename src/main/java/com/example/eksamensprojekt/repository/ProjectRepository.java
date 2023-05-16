@@ -15,7 +15,7 @@ public class ProjectRepository implements IProjectRepository {
         List<Project> projects = new ArrayList<>();
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT p.projectname, p.projectid p.projectdeadline FROM project p " +
+            String SQL = "SELECT p.projectname, p.projectid, p.projectdeadline FROM project p " +
                     "JOIN userproject up ON p.projectid = up.projectid " +
                     "WHERE up.userid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
