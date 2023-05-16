@@ -5,7 +5,7 @@ on:
  push:
 
 env:
-  GITHUB_TOKEN: ${{secrets.TOKEN_GITHUB}}
+  TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
   ORIGIN: origin
 
 permissions:
