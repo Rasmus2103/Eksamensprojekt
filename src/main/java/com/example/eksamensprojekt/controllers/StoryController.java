@@ -31,6 +31,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     int projectId = board.getProjectid();
     model.addAttribute("projectId", projectId);
 
+    Board boardName = boardRepository.getSpecificBoard(boardid);
+    model.addAttribute("boardName", boardName.getBoardname());
+
     Object userid = session.getAttribute("userid");
     model.addAttribute("userid", userid);
 
@@ -41,7 +44,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     public String moveStoryToSprintBoard(@PathVariable("storyId") int storyId, @RequestParam("projectId") int projectId, @RequestParam("boardId") int boardId) {
         // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
-        Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+        Board currentBoard = boardRepository.getSpecificBoard(boardId);
 
         System.out.println("storyId: " + storyId);
         System.out.println("currentBoard: " + currentBoard);
@@ -59,6 +62,24 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
+    @GetMapping("moveStoryBack/{storyId}")
+    public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
+        // First, find the current board and project associated with the story.
+        Story story = storyRepository.getSpecificStory(storyId);
+        Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+        int projectId = currentBoard.getProjectid();
+
+        // Now, find the backlog board id for the corresponding project.
+        int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
+
+        // Move the story to the backlog board.
+        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+
+        // Redirect back to the story list for the original board.
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
+
 
     @GetMapping("story/createstory/{boardid}")
     public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
@@ -67,6 +88,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
         Board board = boardRepository.getSpecificBoard(boardid);
         model.addAttribute("board", board);
+
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
 
         return isLogged(session) ? "createstory" : "index";
     }
@@ -110,6 +134,10 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     public String updateStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Story story = storyRepository.getSpecificStory(storyid);
         model.addAttribute("story", story);
+
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
+
         return isLogged(session) ? "updatestory" : "index";
     }
 
@@ -130,13 +158,26 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         model.addAttribute("story", story);
         model.addAttribute("users", users);
 
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
+
         return isLogged(session) ? "addstoryuser" : "index";
     }
 
     @PostMapping("story/{storyid}/addstoryuser")
-    public String addUserToStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds) {
-        for(int userid: userIds) {
-            storyRepository.addUserToStory(storyid, userid);
+    public String addUserToStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds, Model model) {
+        if (userIds != null) {
+            for (int userid : userIds) {
+                try {
+                    storyRepository.addUserToStory(storyid, userid);
+                } catch (RuntimeException e) {
+                    String errorMessage = "Failed to add user to story: " + e.getMessage();
+                    model.addAttribute("errorMessage", errorMessage);
+                    List<User> users = userRepository.getAllUsers();
+                    model.addAttribute("users", users);
+                    return "addstoryuser";
+                }
+            }
         }
         return "redirect:/story/" + storyid;
     }

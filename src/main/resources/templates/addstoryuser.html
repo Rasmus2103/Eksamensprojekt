@@ -79,6 +79,10 @@
             <button type="submit" class="btn btn-primary">Add User</button>
         </form>
 
+        <div th:if="${errorMessage}">
+            <p class="text-danger" th:text="${errorMessage}"></p>
+        </div>
+
     </div>
 </div>
 

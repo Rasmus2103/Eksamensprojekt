@@ -8,4 +8,5 @@ public interface IBoardRepository {
     List<Board> getBoards(int projectid);
     Board getSpecificBoard(int boardid);
     int getBoardIdByProjectId(int projectid);
+    int getBacklogBoardIdByProjectId(int projectid);
 }

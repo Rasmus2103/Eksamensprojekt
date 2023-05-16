@@ -188,26 +188,49 @@ public class StoryRepository implements IStoryRepository {
     public void addUserToStory(int storyid, int userid) {
         try {
             Connection connection = ConnectionDB.connection();
-            String checkSQL = "SELECT * FROM storyuser WHERE storyid = ? AND userid = ?";
+            String checkSQL = "SELECT projectid FROM story JOIN board ON story.boardid = board.boardid WHERE storyid = ?";
             PreparedStatement checkPs = connection.prepareStatement(checkSQL);
             checkPs.setInt(1, storyid);
-            checkPs.setInt(2, userid);
-            ResultSet rs = checkPs.executeQuery();
-            if(rs.next()) {
-                System.out.println("User has already been asigned to story");
-                return;
-            }
+            ResultSet projectIdRs = checkPs.executeQuery();
 
-            String SQL = "INSERT INTO storyuser (storyid, userid) VALUES (?,?)";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setInt(1, storyid);
-            ps.setInt(2, userid);
-            ps.executeUpdate();
+            if (projectIdRs.next()) {
+                int projectid = projectIdRs.getInt("projectid");
+
+                String userInProjectSQL = "SELECT * FROM userproject WHERE projectid = ? AND userid = ?";
+                PreparedStatement userInProjectPs = connection.prepareStatement(userInProjectSQL);
+                userInProjectPs.setInt(1, projectid);
+                userInProjectPs.setInt(2, userid);
+                ResultSet userInProjectRs = userInProjectPs.executeQuery();
+
+                if (!userInProjectRs.next()) {
+                    throw new RuntimeException("User is not part of the project.");
+                }
+
+                String checkStoryUserSQL = "SELECT * FROM storyuser WHERE storyid = ? AND userid = ?";
+                PreparedStatement checkStoryUserPs = connection.prepareStatement(checkStoryUserSQL);
+                checkStoryUserPs.setInt(1, storyid);
+                checkStoryUserPs.setInt(2, userid);
+                ResultSet checkStoryUserRs = checkStoryUserPs.executeQuery();
+
+                if (checkStoryUserRs.next()) {
+                    System.out.println("User has already been assigned to story");
+                    return;
+                }
+
+                String SQL = "INSERT INTO storyuser (storyid, userid) VALUES (?,?)";
+                PreparedStatement ps = connection.prepareStatement(SQL);
+                ps.setInt(1, storyid);
+                ps.setInt(2, userid);
+                ps.executeUpdate();
+            } else {
+                throw new RuntimeException("Story not found.");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
 
     public void moveStoryToBoard(int storyid, int boardid) {
         try {

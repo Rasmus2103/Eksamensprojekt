@@ -24,4 +24,5 @@ public class BoardController extends PMController {
 
         return isLogged(session) ? "board" : "index";
     }
+
 }
