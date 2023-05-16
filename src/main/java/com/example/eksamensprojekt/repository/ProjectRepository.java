@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository("project_DB")
@@ -14,7 +15,7 @@ public class ProjectRepository implements IProjectRepository {
         List<Project> projects = new ArrayList<>();
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT p.projectname, p.projectid FROM project p " +
+            String SQL = "SELECT p.projectname, p.projectid p.projectdeadline FROM project p " +
                     "JOIN userproject up ON p.projectid = up.projectid " +
                     "WHERE up.userid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
@@ -23,7 +24,8 @@ public class ProjectRepository implements IProjectRepository {
             while (rs.next()) {
                 String projectname = rs.getString("projectname");
                 int projectid = rs.getInt("projectid");
-                projects.add(new Project(projectid, projectname));
+                Date projectdeadline = rs.getDate("projectdeadline");
+                projects.add(new Project(projectid, projectname, projectdeadline));
             }
             return projects;
         } catch (SQLException e) {
@@ -36,7 +38,7 @@ public class ProjectRepository implements IProjectRepository {
     public Project getSpecificProject(int projectid) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT projectname, projectid FROM project WHERE projectid = ?";
+            String SQL = "SELECT projectname, projectid, projectdeadline FROM project WHERE projectid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, projectid);
             ResultSet rs = ps.executeQuery();
@@ -44,7 +46,8 @@ public class ProjectRepository implements IProjectRepository {
             while (rs.next()) {
                 String projectname = rs.getString("projectname");
                 projectid = rs.getInt("projectid");
-                project = new Project(projectid, projectname);
+                Date projectdeadline = rs.getDate("projectdeadline");
+                project = new Project(projectid, projectname, projectdeadline);
             }
             return project;
         } catch (SQLException e) {

@@ -13,6 +13,7 @@ PRIMARY KEY (userid)
 CREATE TABLE project (
 projectid INT auto_increment,
 projectname VARCHAR(50),
+projectdeadline DATE,
 PRIMARY KEY (projectid)
 );
 
@@ -29,7 +30,7 @@ storyid INT auto_increment,
 storyname VARCHAR(50),
 storydescription VARCHAR(500),
 acceptcriteria VARCHAR(500),
-deadline DATE,
+storydeadline DATE,
 boardid INT,
 PRIMARY KEY (storyid),
 FOREIGN KEY (boardid) REFERENCES board (boardid)

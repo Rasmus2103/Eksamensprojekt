@@ -23,8 +23,8 @@ public class StoryRepository implements IStoryRepository {
                 String storyname = rs.getString("storyname");
                 String storydescription = rs.getString("storydescription");
                 String acceptcriteria = rs.getString("acceptcriteria");
-                Date deadline = rs.getDate("deadline");
-                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid));
+                Date storydeadline = rs.getDate("storydeadline");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid));
             }
             return stories;
         } catch (SQLException e){
@@ -37,7 +37,7 @@ public class StoryRepository implements IStoryRepository {
     public Story getSpecificStory(int storyid) {
         try{
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, deadline, boardid FROM story WHERE storyid = ?";
+            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid FROM story WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
@@ -47,9 +47,9 @@ public class StoryRepository implements IStoryRepository {
                 String storyname = rs.getString("storyname");
                 String storydescription = rs.getString("storydescription");
                 String acceptcriteria = rs.getString("acceptcriteria");
-                Date deadline = rs.getDate("deadline");
+                Date storydeadline = rs.getDate("storydeadline");
                 int boardid = rs.getInt("boardid");
-                story = new Story(storyid, storyname, storydescription, acceptcriteria, deadline, boardid);
+                story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid);
             }
             return story;
         } catch (SQLException e){
@@ -62,12 +62,12 @@ public class StoryRepository implements IStoryRepository {
     public void addStory(int boardid, Story story) {
         try{
             Connection connection = ConnectionDB.connection();
-            String SQL = "INSERT INTO story (storyname, storydescription, acceptcriteria, deadline, boardid) VALUES (?,?,?,?,?)";
+            String SQL = "INSERT INTO story (storyname, storydescription, acceptcriteria, storydeadline, boardid) VALUES (?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, story.getStoryname());
             ps.setString(2, story.getStorydescription());
             ps.setString(3, story.getAcceptcriteria());
-            ps.setDate(4, story.getDeadline());
+            ps.setDate(4, story.getStorydeadline());
             ps.setInt(5, boardid);
             ps.executeUpdate();
         } catch (SQLException e){
@@ -151,7 +151,7 @@ public class StoryRepository implements IStoryRepository {
     public void updateStoryDeadline(int storyid, Date storydeadline) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "update story set deadline = ? where storyid = ?";
+            String SQL = "update story set storydeadline = ? where storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setDate(1, (java.sql.Date) storydeadline);
             ps.setInt(2, storyid);

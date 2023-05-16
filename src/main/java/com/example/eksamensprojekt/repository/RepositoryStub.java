@@ -18,9 +18,9 @@ public class RepositoryStub implements IRepositoryStub {
 
     private List<User> usersStub = new ArrayList<>(List.of(testUser1, testUser2, testUser3));
 
-    private List<Project> projectsStub = new ArrayList<>(List.of(new Project(0, "TestProject"),
-            new Project(1, "TestProject1"),
-            new Project(2, "TestProject2")
+    private List<Project> projectsStub = new ArrayList<>(List.of(new Project(0, "TestProject", "2023-10-10"),
+            new Project(1, "TestProject1", "2023-10-10"),
+            new Project(2, "TestProject2", "2023-10-10")
             ));
 
     private Map<Integer, ArrayList<User>> projectOverviewStub = Map.of(0, new ArrayList<>(List.of(testUser1)),
