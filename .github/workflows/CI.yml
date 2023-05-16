@@ -30,6 +30,8 @@ jobs:
 
       - name: Get default target branch name
         id: repo
+        env:
+            GH_TOKEN: ${{ github.token }}
         run: |
           set -ex
           TARGET_BRANCH=$( gh repo view --json defaultBranchRef --jq .defaultBranchRef.name )
@@ -38,7 +40,7 @@ jobs:
       - name: Rebased against default branch
         run: |
           set -ex
-          git rebase ${ORIGIN}/${{ steps.repo.outputs.master }}
+          git rebase ${ORIGIN}/${{ steps.repo.outputs.target_branch }}
           
       - name: Do the build
         run: |
@@ -49,5 +51,5 @@ jobs:
           set -ex
           git checkout ${{ steps.repo.outputs.target_branch }}
           git pull
-          git merge --ff-only ${{github.Eksamensprojekt}}
-          git push ${ORIGIN} ${{ steps.repo.outputs.master }}
+          git merge --ff-only BRANCH_TO_MERGE
+          git push ${ORIGIN} ${{ steps.repo.outputs.target_branch }}
