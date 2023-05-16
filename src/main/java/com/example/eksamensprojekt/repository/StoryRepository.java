@@ -162,6 +162,54 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
+    public List<String> getUserNamesByStoryId(int storyid) {
+        List<String> userNames = new ArrayList<>();
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "SELECT story.storyname, user.username " +
+            "FROM story " +
+            "JOIN storyuser ON story.storyid = storyuser.storyid " +
+            "JOIN user ON user.userid = storyuser.userid " +
+            "WHERE story.storyid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                String name = rs.getString("username");
+                userNames.add(name);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return userNames;
+    }
+
+    public void addUserToStory(int storyid, int userid) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String checkSQL = "SELECT * FROM storyuser WHERE storyid = ? AND userid = ?";
+            PreparedStatement checkPs = connection.prepareStatement(checkSQL);
+            checkPs.setInt(1, storyid);
+            checkPs.setInt(2, userid);
+            ResultSet rs = checkPs.executeQuery();
+            if(rs.next()) {
+                System.out.println("User has already been asigned to story");
+                return;
+            }
+
+            String SQL = "INSERT INTO storyuser (storyid, userid) VALUES (?,?)";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.setInt(2, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public List<Integer> getAllStoryPoints(int storyid) {
         List<Integer> storyPoints = new ArrayList<>();
         try {

@@ -2,6 +2,7 @@ package com.example.eksamensprojekt.controllers;
 import com.example.eksamensprojekt.model.Board;
 import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.Task;
+import com.example.eksamensprojekt.model.User;
 import com.example.eksamensprojekt.repository.IStoryRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         int totalStoryPoints = storyRepository.getSumOfStoryPoints(storyid);
         model.addAttribute("totalStoryPoints", totalStoryPoints);
 
+        List<String> userNames = storyRepository.getUserNamesByStoryId(storyid);
+        model.addAttribute("userNames", userNames);
+
         return isLogged(session) ? "story" : "index";
     }
 
@@ -86,6 +90,25 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
         storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
         return "redirect:/storylist/" + boardid;
+    }
+
+    @GetMapping("story/{storyid}/addstoryuser")
+    public String addUserToStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
+        Story story = storyRepository.getSpecificStory(storyid);
+        List<User> users = userRepository.getAllUsers();
+
+        model.addAttribute("story", story);
+        model.addAttribute("users", users);
+
+        return isLogged(session) ? "addstoryuser" : "index";
+    }
+
+    @PostMapping("story/{storyid}/addstoryuser")
+    public String addUserToStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds) {
+        for(int userid: userIds) {
+            storyRepository.addUserToStory(storyid, userid);
+        }
+        return "redirect:/story/" + storyid;
     }
 
 
