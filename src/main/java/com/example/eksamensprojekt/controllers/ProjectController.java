@@ -29,6 +29,7 @@ public class ProjectController extends PMController {
             User user = (User) session.getAttribute("user");
             if (user.getUserid() == id) {
                 model.addAttribute("user", user);
+                model.addAttribute("userid", user.getUserid());
                 List<Project> projects = projectRepository.getProjects(id);
                 model.addAttribute("projects", projects);
                 return "userProjects";
