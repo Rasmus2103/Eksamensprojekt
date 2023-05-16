@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("eksamensprojekt_DB")
+@Repository("project_DB")
 public class ProjectRepository implements IProjectRepository {
 
     @Override

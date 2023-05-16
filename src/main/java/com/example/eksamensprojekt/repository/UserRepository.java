@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("eksamensprojekt_DB")
+@Repository("user_DB")
 public class UserRepository implements IUserRepository {
 
     public List<User> getAllUsers() {

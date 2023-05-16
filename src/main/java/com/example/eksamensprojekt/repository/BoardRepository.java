@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("eksamensprojekt_DB")
+@Repository("board_DB")
 public class BoardRepository implements IBoardRepository {
     @Override
     public List<Board> getBoards(int projectid) {
