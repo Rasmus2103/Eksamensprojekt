@@ -8,10 +8,12 @@ import com.example.eksamensprojekt.repository.IProjectRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +30,7 @@ public class ProjectController extends PMController {
             User user = (User) session.getAttribute("user");
             if (user.getUserid() == id) {
                 model.addAttribute("user", user);
+                model.addAttribute("userid", user.getUserid());
                 List<Project> projects = projectRepository.getProjects(id);
                 model.addAttribute("projects", projects);
                 return "userProjects";
@@ -124,12 +127,19 @@ public class ProjectController extends PMController {
     }
 
     @PostMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model) {
+    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         if (project.getProjectname() != null) {
             projectRepository.updateProjectName(projectid, project.getProjectname());
             return "redirect:/project/" + projectid + "/" + userid;
         }
         model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
-        return "project/update/" + projectid;
+        return "project/update/" + projectid + "/" + session.getAttribute("userid");
     }
+
+    @PostMapping("project/updatedeadline/{projectid}")
+    public String updateProjectdeadline(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, HttpSession session) {
+            projectRepository.updateProjectDeadline(projectid, project.getProjectdeadline());
+           return "redirect:/project/" + projectid + "/" + session.getAttribute("userid");
+    }
+
 }

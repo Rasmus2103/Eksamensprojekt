@@ -82,9 +82,22 @@
   <div id="container">
 
     <h1 th:text="${project.projectname}"></h1>
-    <a th:href="@{/project/update/{projectid}/{userid}(projectid=${projectid},userid=${user.getUserid()})}">update project</a>
+    <a th:href="@{/project/update/{projectid}/{userid}(projectid=${projectid},userid=${user.getUserid()})}">change project name</a>
     <a th:href="@{/project/{projectId}/{userId}/addusers(projectId=${project.projectid}, userId=${user.userid})}">Add users to Project</a>
     <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}" onclick="return confirm('Are you sure?')">leave project</a>
+
+    <div>
+      <button data-modal-open-target="update-modal" data-is-modal id="modal-button">update project deadline</button>
+    <dialog id="update-modal">
+      <form action="#" th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
+        <label>Choose a new deadline:</label>
+        <input type="date" th:field="*{projectdeadline}"/>
+        <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
+        <button type="submit">update</button>
+      </form>
+    </dialog>
+    </div>
+
     <br>
     <br>
 
@@ -108,6 +121,21 @@
   </div>
 
 </div>
+
+<script>
+  const dialog = document.querySelector("dialog")
+
+  document.getElementById("modal-button").addEventListener("click", showmodal);
+  function showmodal(){
+    dialog.showModal()
+  }
+
+  document.getElementById("modal-close").addEventListener("click", closemodal);
+  function closemodal(){
+    dialog.close()
+  }
+
+</script>
 
 </body>
 </html>
