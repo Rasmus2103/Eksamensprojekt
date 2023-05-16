@@ -1,31 +1,55 @@
-name: continuous integration
-run-name:  ${{ github.actor }} is trying to integrate 
+name: Continuous Integration
 
+# run on pull requests
 on:
-  push:
-    branches-ignore:
-      - master
+ push:
+
+env:
+  TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
+  ORIGIN: origin
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  ci-ff-only:
     runs-on: ubuntu-latest
     steps:
+    
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Check if branch can be rebased against master
+
+      - name: Tell git who we are
         run: |
-          git fetch
-          if ! git rebase --onto master HEAD~1; then
-            echo "Branch cannot be rebased against master. Please merge main into your branch before pushing again." >&2
-            exit 1
-          fi
-      - name: Build with Maven
-        run: mvn clean package
-      - name: Push changes to master branch
-        if: ${{ success() }}
-        uses: ad-m/github-push-action@master
-        with:
-          branch: master
-          github_token: ${{ secrets.TOKEN_GITHUB }}
+          set -ex
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git config --global advice.skippedCherryPicks false
+
+      - name: Get default target branch name
+        id: repo
+        env:
+            GH_TOKEN: ${{ github.token }}
+        run: |
+          set -ex
+          TARGET_BRANCH=$( gh repo view --json defaultBranchRef --jq .defaultBranchRef.name )
+          echo ::set-output name=target_branch::$TARGET_BRANCH
+
+      - name: Rebased against default branch
+        run: |
+          set -ex
+          git rebase ${ORIGIN}/${{ steps.repo.outputs.target_branch }}
+          
+      - name: Do the build
+        run: |
+          echo This is where you run the build
+        
+      - name: Checkout default branch, merge only if Fast-Forward and Push back to origin
+        run: |
+          set -ex
+          git checkout ${{ steps.repo.outputs.target_branch }}
+          git pull
+          git merge --ff-only BRANCH_TO_MERGE
+          git push ${ORIGIN} ${{ steps.repo.outputs.target_branch }}

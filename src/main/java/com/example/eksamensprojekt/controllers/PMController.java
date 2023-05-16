@@ -16,11 +16,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class PMController {
-    protected IUserRepository userRepository;
-    protected IProjectRepository projectRepository;
-    protected IBoardRepository boardRepository;
-    protected IStoryRepository storyRepository;
-    protected ITaskRepository taskRepository;
+    protected IUserRepository userRepository = new UserRepository();
+    protected IProjectRepository projectRepository = new ProjectRepository();
+    protected IBoardRepository boardRepository = new BoardRepository();
+    protected IStoryRepository storyRepository = new StoryRepository();
+    protected ITaskRepository taskRepository = new TaskRepository();
 
     public PMController(IUserRepository userRepository, IProjectRepository projectRepository, IBoardRepository boardRepository, IStoryRepository storyRepository, ITaskRepository taskRepository) {
         this.userRepository = userRepository;
