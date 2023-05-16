@@ -8,6 +8,7 @@ import com.example.eksamensprojekt.repository.IProjectRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -136,10 +137,9 @@ public class ProjectController extends PMController {
     }
 
     @PostMapping("project/updatedeadline/{projectid}")
-    public String updateProjectdeadline(@RequestParam("projectdeadline") Date projectdeadline, @ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, HttpSession session) {
+    public String updateProjectdeadline(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, HttpSession session) {
             projectRepository.updateProjectDeadline(projectid, project.getProjectdeadline());
-            return "redirect:/project/" + projectid + "/" + session.getAttribute("userid");
+           return "redirect:/project/" + projectid + "/" + session.getAttribute("userid");
     }
-
 
 }
