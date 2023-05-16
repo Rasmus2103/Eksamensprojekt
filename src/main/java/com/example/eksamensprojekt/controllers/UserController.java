@@ -28,6 +28,7 @@ public class UserController extends PMController {
         User user = userRepository.getUser(userRepository.getUserid(username));
         if(user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
         }
         model.addAttribute("wrongCredentials", true);

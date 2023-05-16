@@ -99,6 +99,9 @@
                 <td>
                     <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
                 </td>
+                <td>
+                    <a th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move story to Sprintboard</a>
+                </td>
             </tr>
         </table>
 

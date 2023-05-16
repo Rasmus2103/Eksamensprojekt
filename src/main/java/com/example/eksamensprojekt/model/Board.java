@@ -39,4 +39,13 @@ public class Board {
     public void setProjectid(int projectid) {
         this.projectid = projectid;
     }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + boardid +
+                ", name='" + boardname + '\'' +
+                ", projectId=" + projectid +
+                '}';
+    }
 }

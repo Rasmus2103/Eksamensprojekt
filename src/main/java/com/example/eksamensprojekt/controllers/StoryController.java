@@ -27,11 +27,38 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     List<Story> stories = storyRepository.getStories(boardid);
     model.addAttribute("stories", stories);
 
+    Board board = boardRepository.getSpecificBoard(boardid);
+    int projectId = board.getProjectid();
+    model.addAttribute("projectId", projectId);
+
     Object userid = session.getAttribute("userid");
     model.addAttribute("userid", userid);
 
     return isLogged(session) ? "storylist" : "index";
 }
+
+    @GetMapping("moveStory/{storyId}")
+    public String moveStoryToSprintBoard(@PathVariable("storyId") int storyId, @RequestParam("projectId") int projectId, @RequestParam("boardId") int boardId) {
+        // First, find the current board and project associated with the story.
+        Story story = storyRepository.getSpecificStory(storyId);
+        Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+
+        System.out.println("storyId: " + storyId);
+        System.out.println("currentBoard: " + currentBoard);
+        System.out.println("projectId: " + projectId);
+
+        // Now, find the sprint board id for the corresponding project.
+        int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
+
+        System.out.println("sprintBoardId: " + sprintBoardId);
+
+        // Move the story to the sprint board.
+        storyRepository.moveStoryToBoard(storyId, sprintBoardId);
+
+        // Redirect back to the story list for the original board.
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
 
     @GetMapping("story/createstory/{boardid}")
     public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
@@ -72,6 +99,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
         List<String> userNames = storyRepository.getUserNamesByStoryId(storyid);
         model.addAttribute("userNames", userNames);
+
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
 
         return isLogged(session) ? "story" : "index";
     }

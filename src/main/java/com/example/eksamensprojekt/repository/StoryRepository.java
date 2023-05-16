@@ -209,6 +209,20 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
+    public void moveStoryToBoard(int storyid, int boardid) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "UPDATE story SET boardid = ? WHERE storyid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.setInt(2, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public List<Integer> getAllStoryPoints(int storyid) {
         List<Integer> storyPoints = new ArrayList<>();
