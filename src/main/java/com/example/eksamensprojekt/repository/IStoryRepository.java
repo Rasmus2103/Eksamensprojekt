@@ -14,6 +14,8 @@ public interface IStoryRepository {
     void updateStoryDescription(int storyid, String storydescription);
     void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
     void updateStoryDeadline(int storyid, Date storydeadline);
+    List<String> getUserNamesByStoryId(int storyid);
+    void addUserToStory(int storyid, int userid);
     List<Integer>getAllStoryPoints(int storyid);
     int getSumOfStoryPoints(int storyid);
 }

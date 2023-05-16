@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryDBTest {
 
-    IRepositoryStub repositoryDBTest = new RepositoryStub();
+    IRepositoryDB repositoryDBTest = new RepositoryDBStub();
 
     @BeforeEach
     void setUp() {
