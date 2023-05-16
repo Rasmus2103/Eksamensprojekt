@@ -148,6 +148,21 @@ public class ProjectRepository implements IProjectRepository {
         }
     }
 
+    @Override
+    public void updateProjectDeadline(int projectid, Date projectdeadline) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "update project set projectdeadline = ? where projectid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setDate(1, (java.sql.Date) projectdeadline);
+            ps.setInt(2, projectid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     // OBS! de 3 nederste metoder bliver benyttet som hjælpe metoder i denne klasse
     @Override
     public void addUserToProject(int userid, int projectid) {
