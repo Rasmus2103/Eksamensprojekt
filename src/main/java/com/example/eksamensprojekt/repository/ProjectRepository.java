@@ -226,7 +226,13 @@ public class ProjectRepository implements IProjectRepository {
                 ps2 = connection.prepareStatement(SQL2);
                 ps2.setInt(1, storyid);
                 ps2.executeUpdate();
+
+                SQL = "DELETE FROM storyuser WHERE storyid=? ";
+                ps = connection.prepareStatement(SQL);
+                ps.setInt(1, storyid);
+                ps.executeUpdate();
             }
+
             SQL = "DELETE FROM story WHERE boardid = ?";
             ps = connection.prepareStatement(SQL);
             ps.setInt(1, boardid);
