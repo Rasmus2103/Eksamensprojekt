@@ -42,20 +42,17 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
     @GetMapping("moveStory/{storyId}")
     public String moveStoryToSprintBoard(@PathVariable("storyId") int storyId, @RequestParam("projectId") int projectId, @RequestParam("boardId") int boardId) {
-        // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(boardId);
 
-        System.out.println("storyId: " + storyId);
+        /*System.out.println("storyId: " + storyId);
         System.out.println("currentBoard: " + currentBoard);
-        System.out.println("projectId: " + projectId);
+        System.out.println("projectId: " + projectId);*/
 
-        // Now, find the sprint board id for the corresponding project.
         int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
-        System.out.println("sprintBoardId: " + sprintBoardId);
+        //System.out.println("sprintBoardId: " + sprintBoardId);
 
-        // Move the story to the sprint board.
         storyRepository.moveStoryToBoard(storyId, sprintBoardId);
 
         // Redirect back to the story list for the original board.
@@ -194,5 +191,31 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         model.addAttribute("tasks", tasks);
         return "story";
     }
+
+    @PostMapping("markStoryAsFinished/{storyId}")
+    public String markStoryAsFinished(@PathVariable("storyId") int storyId) {
+        // First, update the story's isFinished status to true
+        storyRepository.markStoryAsFinished(storyId);
+
+        // Check if all tasks associated with the story are finished
+        boolean allTasksFinished = taskRepository.areAllTasksFinished(storyId);
+
+        if (allTasksFinished) {
+            // Find the history board ID for the project
+            Story story = storyRepository.getSpecificStory(storyId);
+            Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+            int projectId = currentBoard.getProjectid();
+            int historyBoardId = boardRepository.getHistoryBoardIdByProjectId(projectId);
+
+            // Move the story to the history board
+            storyRepository.moveStoryToBoard(storyId, historyBoardId);
+        }
+
+        // Redirect back to the story details page
+        return "redirect:/story/" + storyId;
+    }
+
+
+
 
 }

@@ -12,4 +12,7 @@ public interface ITaskRepository {
     void updateTaskName(int taskid, String taskname);
     void updateTaskDescription(int taskid, String taskdescription);
     void updateTaskStorypoints(int taskid, int storypoints);
+    //void updateTaskStatus(int taskId, boolean status);
+    void updateTaskFinished(int taskId, boolean finished);
+    boolean areAllTasksFinished(int storyId);
 }

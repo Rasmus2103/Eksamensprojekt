@@ -90,25 +90,28 @@
         <div th:if="${tasks.isEmpty()}">
             <h6>No tasks yet... feel free to add one</h6>
         </div>
-        <form method="post" th:action="@{/story/{storyid}(storyid=${story.storyid})}">
-            <table>
-                <tr th:each="tasks: ${tasks}">
+        <table>
+            <tr th:each="tasks: ${tasks}">
+                <form method="post" th:action="@{/toggleTask/{storyid}/{taskId}(storyid=${story.storyid}, taskId=${tasks.taskid})}">
                     <td>
-                        <input type="checkbox" th:name="|task_${tasks.taskid}|" th:checked="${tasks.finished}"/>
+                        <input type="checkbox" th:checked="${tasks.isFinished}" th:name="finished" onchange="this.form.submit()"/>
                     </td>
-                    <td th:text="${tasks.taskname}"></td>
-                    <td th:text="${tasks.taskdescription}"></td>
-                    <td th:text="${tasks.storypoints}"></td>
-                    <td>
-                        <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
-                    </td>
-                    <td>
-                        <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update Task</a>
-                    </td>
-                </tr>
-            </table>
-            <button type="submit">Marked as finished</button>
-        </form>
+                </form>
+                <td th:text="${tasks.taskname}"></td>
+                <td th:text="${tasks.taskdescription}"></td>
+                <td th:text="${tasks.storypoints}"></td>
+                <td>
+                    <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
+                </td>
+                <td>
+                    <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update Task</a>
+                </td>
+            </tr>
+            <form method="post" th:action="@{/markStoryAsFinished/{storyId}(storyId=${story.storyid})}">
+                <button type="submit" onclick="return confirm('Are you sure?')">Mark Story as Finished</button>
+            </form>
+        </table>
+
 
         <h2>Total Storypoints:</h2>
         <h4 th:text="${totalStoryPoints}"></h4>
