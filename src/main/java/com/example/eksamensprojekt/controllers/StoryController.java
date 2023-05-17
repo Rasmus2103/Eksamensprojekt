@@ -30,9 +30,11 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     Board board = boardRepository.getSpecificBoard(boardid);
     int projectId = board.getProjectid();
     model.addAttribute("projectId", projectId);
+    model.addAttribute("board", board);
 
-    Board boardName = boardRepository.getSpecificBoard(boardid);
-    model.addAttribute("boardName", boardName.getBoardname());
+    List<Board> boards = boardRepository.getBoards(projectId);
+    model.addAttribute("boards", boards);
+
 
     Object userid = session.getAttribute("userid");
     model.addAttribute("userid", userid);
@@ -88,6 +90,10 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
         Board board = boardRepository.getSpecificBoard(boardid);
         model.addAttribute("board", board);
+        int projectId = board.getProjectid();
+        model.addAttribute("projectid", projectId);
+        List<Board> boards = boardRepository.getBoards(projectId);
+        model.addAttribute("boards", boards);
 
         Object userid = session.getAttribute("userid");
         model.addAttribute("userid", userid);
@@ -114,6 +120,14 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     public String getStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
         Story story = storyRepository.getSpecificStory(storyid);
         model.addAttribute("story", story);
+
+        int boardID = story.getBoardid();
+        Board board = boardRepository.getSpecificBoard(boardID);
+        model.addAttribute("board", board);
+        int projectID = board.getProjectid();
+        model.addAttribute("projectId", projectID);
+        List<Board> boards = boardRepository.getBoards(projectID);
+        model.addAttribute("boards", boards);
 
         List<Task> tasks = taskRepository.getTasks(storyid);
         model.addAttribute("tasks", tasks);
