@@ -9,4 +9,5 @@ public interface IBoardRepository {
     Board getSpecificBoard(int boardid);
     int getBoardIdByProjectId(int projectid);
     int getBacklogBoardIdByProjectId(int projectid);
+    int getHistoryBoardIdByProjectId(int projectId);
 }

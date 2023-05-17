@@ -6,6 +6,7 @@ import com.example.eksamensprojekt.repository.ITaskRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,4 +71,19 @@ public class TaskController extends PMController {
         model.addAttribute("story", story);
         return "redirect:/story/" + storyid;
     }
+
+    @PostMapping("toggleTask/{storyid}/{taskId}")
+    public String toggleTask(@PathVariable("taskId") int taskId, @PathVariable("storyid") int storyid, @RequestParam(value = "finished", required = false) Boolean finished) {
+        System.out.println("Task ID: " + taskId + " Finished: " + finished);
+        if (finished == null) {
+            finished = false;
+        }
+        taskRepository.updateTaskFinished(taskId, finished);
+        return "redirect:/story/" + storyid;
+    }
+
+
+
+
+
 }
