@@ -82,6 +82,23 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
+    @GetMapping("moveStoryBackToSprintBoard/{storyId}")
+    public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
+        // First, find the current board and project associated with the story.
+        Story story = storyRepository.getSpecificStory(storyId);
+        Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+        int projectId = currentBoard.getProjectid();
+
+        // Now, find the backlog board id for the corresponding project.
+        int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
+
+        // Move the story to the backlog board.
+        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+
+        // Redirect back to the story list for the original board.
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
 
 
     @GetMapping("story/createstory/{boardid}")
@@ -216,8 +233,8 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "story";
     }
 
-    @PostMapping("markStoryAsFinished/{storyId}")
-    public String markStoryAsFinished(@PathVariable("storyId") int storyId) {
+    @PostMapping("markStoryAsFinished/{boardid}/{storyId}")
+    public String markStoryAsFinished(@PathVariable("boardid") int boardid, @PathVariable("storyId") int storyId) {
         // First, update the story's isFinished status to true
         storyRepository.markStoryAsFinished(storyId);
 
@@ -236,7 +253,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         }
 
         // Redirect back to the story details page
-        return "redirect:/story/" + storyId;
+        return "redirect:/storylist/" + boardid;
     }
 
 

@@ -98,7 +98,7 @@
             <tr th:each="tasks: ${tasks}">
                 <form method="post" th:action="@{/toggleTask/{storyid}/{taskId}(storyid=${story.storyid}, taskId=${tasks.taskid})}">
                     <td>
-                        <input th:if="${boardName == 'sprintboard'}" type="checkbox" th:checked="${tasks.isFinished}" th:name="finished" onchange="this.form.submit()"/>
+                        <input type="checkbox" th:checked="${tasks.isFinished}" th:name="finished" onchange="this.form.submit()"/>
                     </td>
                 </form>
                 <td th:text="${tasks.taskname}"></td>
@@ -111,7 +111,7 @@
                     <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update<i class="fa-sharp fa-solid fa-pen"></i></a>
                 </td>
             </tr>
-            <form th:if="${boardName == 'sprintboard'}" method="post" th:action="@{/markStoryAsFinished/{storyId}(storyId=${story.storyid})}">
+            <form method="post" th:action="@{/markStoryAsFinished/{boardid}/{storyId}(boardid=${story.boardid}, storyId=${story.storyid})}">
                 <button type="submit" onclick="return confirm('Are you sure?')">Mark Story as Finished</button>
             </form>
         </table>
