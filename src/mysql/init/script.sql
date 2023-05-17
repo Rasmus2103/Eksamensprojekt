@@ -31,6 +31,7 @@ storyname VARCHAR(50),
 storydescription VARCHAR(500),
 acceptcriteria VARCHAR(500),
 storydeadline DATE,
+isfinished BOOLEAN,
 boardid INT,
 PRIMARY KEY (storyid),
 FOREIGN KEY (boardid) REFERENCES board (boardid)
@@ -41,6 +42,7 @@ taskid INT auto_increment,
 taskname VARCHAR(50),
 taskdescription VARCHAR(500),
 storypoints INT,
+isfinished BOOLEAN,
 storyid INT,
 PRIMARY KEY (taskid),
 FOREIGN KEY (storyid) REFERENCES story (storyid)
@@ -54,4 +56,10 @@ FOREIGN KEY (userid) REFERENCES user (userid),
 FOREIGN KEY (projectid) REFERENCES project (projectid)
 );
 
-commit;
+CREATE TABLE storyuser(
+storyid INT,
+userid INT,
+PRIMARY KEY (storyid, userid),
+FOREIGN KEY (storyid) REFERENCES story (storyid),
+FOREIGN KEY (userid) REFERENCES user (userid)
+);
