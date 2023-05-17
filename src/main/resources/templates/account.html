@@ -48,6 +48,19 @@
 
 <body>
 
+<div class="left-div">
+  <div class="sidebar">
+    <div class="sidebar-overview">
+      <br>
+      <h3>Account Settings</h3>
+    </div>
+    <ul>
+      <br>
+      <li><a th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a></li>
+    </ul>
+  </div>
+</div>
+
 <div class="profile-container right-div">
   <div id="profile">
     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Profile Picture">

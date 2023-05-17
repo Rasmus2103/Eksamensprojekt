@@ -64,7 +64,7 @@
                 <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}"> <h3 th:text="${projects.projectname}"></h3></a>
             </td>
             <td>
-                <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure you want to delete the project?')"><i class="fa-sharp fa-solid fa-trash"></i></a>
+                <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure you want to delete the project?')">Delete Project <i class="fa-sharp fa-solid fa-trash"></i></a>
             </td>
             <br>
         </tr>
