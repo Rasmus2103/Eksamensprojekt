@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    padding-top: 50px;
     height: 100%; /* Set body height to full viewport height */
     display: block;
 }
