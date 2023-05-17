@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link th:href="@{/styles.css}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/f16ddf284a.js" crossorigin="anonymous"></script>
     <title>Story</title>
 </head>
 
@@ -104,10 +105,10 @@
                 <td th:text="${tasks.taskdescription}"></td>
                 <td th:text="${tasks.storypoints}"></td>
                 <td>
-                    <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete task</a>
+                    <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete<i class="fa-sharp fa-solid fa-trash"></i></a>
                 </td>
                 <td>
-                    <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update Task</a>
+                    <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update<i class="fa-sharp fa-solid fa-pen"></i></a>
                 </td>
             </tr>
             <form method="post" th:action="@{/markStoryAsFinished/{boardid}/{storyId}(boardid=${story.boardid}, storyId=${story.storyid})}">
