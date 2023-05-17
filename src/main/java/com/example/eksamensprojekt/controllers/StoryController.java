@@ -1,8 +1,5 @@
 package com.example.eksamensprojekt.controllers;
-import com.example.eksamensprojekt.model.Board;
-import com.example.eksamensprojekt.model.Story;
-import com.example.eksamensprojekt.model.Task;
-import com.example.eksamensprojekt.model.User;
+import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.IStoryRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +26,11 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
     Board board = boardRepository.getSpecificBoard(boardid);
     int projectId = board.getProjectid();
+    Project project = projectRepository.getSpecificProject(projectId);
+    String projectname = project.getProjectname();
+    session.getAttribute("userid");
+    model.addAttribute("userid");
+    model.addAttribute("projectname", projectname);
     model.addAttribute("projectId", projectId);
     model.addAttribute("board", board);
 
@@ -128,6 +130,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         model.addAttribute("projectId", projectID);
         List<Board> boards = boardRepository.getBoards(projectID);
         model.addAttribute("boards", boards);
+        Project project = projectRepository.getSpecificProject(projectID);
+        String projectname = project.getProjectname();
+        model.addAttribute("projectname", projectname);
 
         List<Task> tasks = taskRepository.getTasks(storyid);
         model.addAttribute("tasks", tasks);
