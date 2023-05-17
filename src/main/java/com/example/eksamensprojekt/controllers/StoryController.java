@@ -1,8 +1,5 @@
 package com.example.eksamensprojekt.controllers;
-import com.example.eksamensprojekt.model.Board;
-import com.example.eksamensprojekt.model.Story;
-import com.example.eksamensprojekt.model.Task;
-import com.example.eksamensprojekt.model.User;
+import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.IStoryRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +26,11 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
     Board board = boardRepository.getSpecificBoard(boardid);
     int projectId = board.getProjectid();
+    Project project = projectRepository.getSpecificProject(projectId);
+    String projectname = project.getProjectname();
+    session.getAttribute("userid");
+    model.addAttribute("userid");
+    model.addAttribute("projectname", projectname);
     model.addAttribute("projectId", projectId);
     model.addAttribute("board", board);
 
@@ -65,6 +67,23 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
     @GetMapping("moveStoryBack/{storyId}")
     public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
+        // First, find the current board and project associated with the story.
+        Story story = storyRepository.getSpecificStory(storyId);
+        Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
+        int projectId = currentBoard.getProjectid();
+
+        // Now, find the backlog board id for the corresponding project.
+        int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
+
+        // Move the story to the backlog board.
+        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+
+        // Redirect back to the story list for the original board.
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
+    @GetMapping("moveStoryBackToSprintBoard/{storyId}")
+    public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
         // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
@@ -127,6 +146,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         model.addAttribute("projectId", projectID);
         List<Board> boards = boardRepository.getBoards(projectID);
         model.addAttribute("boards", boards);
+        Project project = projectRepository.getSpecificProject(projectID);
+        String projectname = project.getProjectname();
+        model.addAttribute("projectname", projectname);
 
         List<Task> tasks = taskRepository.getTasks(storyid);
         model.addAttribute("tasks", tasks);
@@ -211,8 +233,8 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "story";
     }
 
-    @PostMapping("markStoryAsFinished/{storyId}")
-    public String markStoryAsFinished(@PathVariable("storyId") int storyId) {
+    @PostMapping("markStoryAsFinished/{boardid}/{storyId}")
+    public String markStoryAsFinished(@PathVariable("boardid") int boardid, @PathVariable("storyId") int storyId) {
         // First, update the story's isFinished status to true
         storyRepository.markStoryAsFinished(storyId);
 
@@ -231,7 +253,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         }
 
         // Redirect back to the story details page
-        return "redirect:/story/" + storyId;
+        return "redirect:/storylist/" + boardid;
     }
 
 

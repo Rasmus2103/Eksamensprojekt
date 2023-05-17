@@ -64,10 +64,10 @@
     <div class="sidebar">
         <div class="sidebar-overview">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-            <h3> Project Name</h3>
+            <h3 th:text="${projectname}"></h3>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a></li>
         </ul>
         <h4>--- Boards ---</h4>
         <br>
@@ -116,6 +116,7 @@
                 <td>
                     <a th:if="${boardName == 'backlog'}" th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move story to Sprintboard</a>
                     <a th:if="${boardName == 'sprintboard'}" th:href="@{/moveStoryBack/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to backlog</a>
+                    <a th:if="${boardName == 'history board'}" th:href="@{moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to sprintboard</a>
                 </td>
             </tr>
         </table>
