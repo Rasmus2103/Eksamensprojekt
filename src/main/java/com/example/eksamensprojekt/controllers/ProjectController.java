@@ -80,6 +80,9 @@ public class ProjectController extends PMController {
         User user = userRepository.getUser(userid);
         model.addAttribute("user", user);
 
+        List<User> allusers = userRepository.getAllUsers();
+        model.addAttribute("allusers", allusers);
+
         List<Board> boards = boardRepository.getBoards(projectid);
         model.addAttribute("boards", boards);
 
@@ -87,17 +90,6 @@ public class ProjectController extends PMController {
         model.addAttribute("users", users);
 
         return isLogged(session) ? "project" : "index";
-    }
-
-    @GetMapping("/project/{projectId}/{userId}/addusers")
-    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model) {
-        Project project = projectRepository.getSpecificProject(projectId);
-        List<User> users = userRepository.getAllUsers();
-
-        model.addAttribute("project", project);
-        model.addAttribute("users", users);
-
-        return "addusers";
     }
 
     @PostMapping("/project/{projectId}/{userId}/adduser")
