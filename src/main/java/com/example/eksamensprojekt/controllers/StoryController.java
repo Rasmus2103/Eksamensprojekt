@@ -211,8 +211,8 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "story";
     }
 
-    @PostMapping("markStoryAsFinished/{storyId}")
-    public String markStoryAsFinished(@PathVariable("storyId") int storyId) {
+    @PostMapping("markStoryAsFinished/{boardid}/{storyId}")
+    public String markStoryAsFinished(@PathVariable("boardid") int boardid, @PathVariable("storyId") int storyId) {
         // First, update the story's isFinished status to true
         storyRepository.markStoryAsFinished(storyId);
 
@@ -231,7 +231,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         }
 
         // Redirect back to the story details page
-        return "redirect:/story/" + storyId;
+        return "redirect:/storylist/" + boardid;
     }
 
 
