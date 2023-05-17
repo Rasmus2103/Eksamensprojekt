@@ -48,28 +48,6 @@
 
 <body>
 
-<div class="left-div">
-  <div class="sidebar">
-    <div class="sidebar-overview">
-      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-      <h3> Project Name</h3>
-    </div>
-    <ul>
-      <li><a href="#">Home</a></li>
-    </ul>
-    <h4>--- Boards ---</h4>
-    <br>
-    <ul>
-      <tr th:each="boards: ${boards}">
-        <li><a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
-          <td th:text="${boards.boardname}"></td>
-          <br>
-        </a>
-      </tr>
-    </ul>
-  </div>
-</div>
-
 <div class="profile-container right-div">
   <div id="profile">
     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Profile Picture">
