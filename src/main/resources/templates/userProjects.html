@@ -50,7 +50,22 @@
 
 <body>
 
-    <a th:href="@{/createproject/{id}(id=${user.userid})}">Create a new project</a>
+<div>
+    <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Create new project</button>
+       <dialog id="update-modal2">
+         <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
+           <div class="mb-3">
+             <label class="form-label">Project name:</label>
+             <input type="text" class="form-control" th:field="*{projectname}"/>
+               <label class="form-label">Deadline:</label>
+               <input type="date" class="form-control" th:date="*{projectdeadline}"/>
+           </div>
+           <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+       </dialog>
+</div>
+
     <a th:href="@{/account/{userid}(userid=${user.userid})}">Account details</a>
 
     <div id="container">
@@ -70,6 +85,18 @@
         </tr>
 
 </div>
+
+<script>
+    const dialog2 = document.getElementById("update-modal2")
+    document.getElementById("modal-button2").addEventListener("click", showmodal2);
+    function showmodal2(){
+        dialog2.showModal()
+    }
+    document.getElementById("modal-close2").addEventListener("click", closemodal2);
+    function closemodal2(){
+        dialog2.close()
+    }
+</script>
 
 </body>
 </html>
