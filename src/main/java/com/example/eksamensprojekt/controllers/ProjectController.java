@@ -115,17 +115,6 @@ public class ProjectController extends PMController {
         return "redirect:/userProjects/" + userid;
     }
 
-
-    @GetMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
-        Project project = projectRepository.getSpecificProject(projectid);
-        model.addAttribute("project", project);
-
-        User user = userRepository.getUser(userid);
-        model.addAttribute("user", user);
-        return isLogged(session) ? "updateproject" : "index";
-    }
-
     @PostMapping("project/update/{projectid}/{userid}")
     public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         if (project.getProjectname() != null) {

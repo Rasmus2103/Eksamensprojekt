@@ -82,9 +82,22 @@
   <div id="container">
 
     <h1 th:text="${project.projectname}"></h1>
-    <a th:href="@{/project/update/{projectid}/{userid}(projectid=${projectid},userid=${user.getUserid()})}">change project name</a>
     <a th:href="@{/project/{projectId}/{userId}/addusers(projectId=${project.projectid}, userId=${user.userid})}">Add users to Project</a>
     <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}" onclick="return confirm('Are you sure?')">leave project</a>
+
+    <div>
+      <button data-modal-open-target="update-modal" data-is-modal id="modal-button2">update project name</button>
+      <dialog id="update-modal2">
+      <h1>Update Project Name</h1>
+      <form action="#" th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}" method="post" th:object="${project}">
+        <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
+        <label>Add a new project Name:</label>
+        <input type="text" th:field="*{projectname}"/>
+        <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog" type="submit">close</button>
+        <button type="submit">Update</button>
+      </form>
+      </dialog>
+    </div>
 
     <div>
       <button data-modal-open-target="update-modal" data-is-modal id="modal-button">update project deadline</button>
@@ -131,6 +144,16 @@
   }
 
   document.getElementById("modal-close").addEventListener("click", closemodal);
+  function closemodal(){
+    dialog.close()
+  }
+
+  document.getElementById("modal-button2").addEventListener("click", showmodal);
+  function showmodal(){
+    dialog.showModal()
+  }
+
+  document.getElementById("modal-close2").addEventListener("click", closemodal);
   function closemodal(){
     dialog.close()
   }
