@@ -92,6 +92,11 @@ public class StoryRepository implements IStoryRepository {
             ps.setInt(1, storyid);
             ps.executeUpdate();
 
+            SQL = "DELETE FROM storyuser WHERE storyid =?";
+            ps = connection.prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+
             SQL = "DELETE FROM story WHERE storyid = ?";
             ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);

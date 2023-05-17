@@ -80,6 +80,9 @@ public class ProjectController extends PMController {
         User user = userRepository.getUser(userid);
         model.addAttribute("user", user);
 
+        List<User> allusers = userRepository.getAllUsers();
+        model.addAttribute("allusers", allusers);
+
         List<Board> boards = boardRepository.getBoards(projectid);
         model.addAttribute("boards", boards);
 
@@ -87,17 +90,6 @@ public class ProjectController extends PMController {
         model.addAttribute("users", users);
 
         return isLogged(session) ? "project" : "index";
-    }
-
-    @GetMapping("/project/{projectId}/{userId}/addusers")
-    public String showAddUserForm(@PathVariable("projectId") int projectId, @PathVariable("userId") int userId, Model model) {
-        Project project = projectRepository.getSpecificProject(projectId);
-        List<User> users = userRepository.getAllUsers();
-
-        model.addAttribute("project", project);
-        model.addAttribute("users", users);
-
-        return "addusers";
     }
 
     @PostMapping("/project/{projectId}/{userId}/adduser")
@@ -113,17 +105,6 @@ public class ProjectController extends PMController {
     public String leaveproject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid) {
         userRepository.deleteUserFromProject(projectid, userid);
         return "redirect:/userProjects/" + userid;
-    }
-
-
-    @GetMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
-        Project project = projectRepository.getSpecificProject(projectid);
-        model.addAttribute("project", project);
-
-        User user = userRepository.getUser(userid);
-        model.addAttribute("user", user);
-        return isLogged(session) ? "updateproject" : "index";
     }
 
     @PostMapping("project/update/{projectid}/{userid}")

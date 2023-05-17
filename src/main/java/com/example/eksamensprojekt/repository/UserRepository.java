@@ -125,6 +125,11 @@ public class UserRepository implements IUserRepository {
             ps2.setInt(1,userid);
             ps2.executeUpdate();
 
+            String SQL3 = "DELETE FROM storyuser WHERE userid =?";
+            PreparedStatement ps3 = connection.prepareStatement(SQL3);
+            ps3.setInt(1, userid);
+            ps3.executeUpdate();
+
             SQL = "DELETE FROM user WHERE userid = ?";
             ps = connection.prepareStatement(SQL);
             ps.setInt(1, userid);
@@ -164,8 +169,25 @@ public class UserRepository implements IUserRepository {
     public void deleteUserFromProject(int projectid, int userid){
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "DELETE FROM userproject WHERE projectid=? AND userid=?";
+
+            String SQL = "SELECT DISTINCT story.storyid " +
+                    "FROM story " +
+                    "JOIN board ON story.boardid = board.boardid " +
+                    "JOIN project ON board.projectid = project.projectid " +
+                    "WHERE project.projectid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int storyid = rs.getInt("storyid");
+                String SQL2 = "DELETE FROM storyuser WHERE userid=? AND storyid=?";
+                ps = connection.prepareStatement(SQL2);
+                ps.setInt(1, userid);
+                ps.setInt(2, storyid);
+            }
+
+            String SQL2 = "DELETE FROM userproject WHERE projectid=? AND userid=?";
+            ps = connection.prepareStatement(SQL2);
             ps.setInt(1, projectid);
             ps.setInt(2, userid);
             ps.executeUpdate();
