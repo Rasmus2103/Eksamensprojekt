@@ -35,6 +35,8 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     List<Board> boards = boardRepository.getBoards(projectId);
     model.addAttribute("boards", boards);
 
+    Board boardname = boardRepository.getSpecificBoard(boardid);
+    model.addAttribute("boardName", boardname.getBoardname());
 
     Object userid = session.getAttribute("userid");
     model.addAttribute("userid", userid);
@@ -201,6 +203,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
         List<Task> taskslist = taskRepository.getTasks(storyid);
         model.addAttribute("tasks", taskslist);
+
+        Board boardname = boardRepository.getSpecificBoard(storyid);
+        model.addAttribute("boardName", boardname.getBoardname());
 
         model.addAttribute("tasks", tasks);
         return "story";
