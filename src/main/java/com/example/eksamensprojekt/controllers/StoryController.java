@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -51,13 +52,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(boardId);
 
-        /*System.out.println("storyId: " + storyId);
-        System.out.println("currentBoard: " + currentBoard);
-        System.out.println("projectId: " + projectId);*/
-
         int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
-
-        //System.out.println("sprintBoardId: " + sprintBoardId);
 
         storyRepository.moveStoryToBoard(storyId, sprintBoardId);
 
@@ -67,38 +62,29 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
     @GetMapping("moveStoryBack/{storyId}")
     public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
-        // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
         int projectId = currentBoard.getProjectid();
 
-        // Now, find the backlog board id for the corresponding project.
         int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
 
-        // Move the story to the backlog board.
         storyRepository.moveStoryToBoard(storyId, backlogBoardId);
 
-        // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
     @GetMapping("moveStoryBackToSprintBoard/{storyId}")
     public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
-        // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
         int projectId = currentBoard.getProjectid();
 
-        // Now, find the backlog board id for the corresponding project.
-        int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
+        int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
-        // Move the story to the backlog board.
-        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+        storyRepository.moveStoryToBoard(storyId, sprintBoardId);
 
-        // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
-
 
 
     @GetMapping("story/createstory/{boardid}")
@@ -120,10 +106,25 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     }
 
     @PostMapping("story/createstory/{boardid}")
-    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid) {
-        storyRepository.addStory(boardid, story);
-        return "redirect:/storylist/{boardid}";
+    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid, Model model) {
+        int projectId = boardRepository.getProjectIdByBoardId(boardid);
+            Project project = projectRepository.getSpecificProject(projectId);
+        if (project.getProjectdeadline().before(story.getStorydeadline())) {
+            model.addAttribute("errorMessage", "The story deadline cannot be after the project deadline.");
+            model.addAttribute("story", story);
+            Board board = boardRepository.getSpecificBoard(boardid);
+            model.addAttribute("board", board);
+            model.addAttribute("projectid", projectId);
+            List<Board> boards = boardRepository.getBoards(projectId);
+            model.addAttribute("boards", boards);
+            return "createstory";
+        } else {
+            storyRepository.addStory(boardid, story);
+            return "redirect:/storylist/{boardid}";
+        }
     }
+
+
 
     @GetMapping("story/slet/{boardid}/{storyid}")
     public String deleteStory(@PathVariable ("boardid") int boardid, @PathVariable("storyid") int storyid, Model model) {

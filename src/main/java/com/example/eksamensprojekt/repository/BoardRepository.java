@@ -54,6 +54,26 @@ public class BoardRepository implements IBoardRepository {
         }
     }
 
+    public int getProjectIdByBoardId(int boardId) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "SELECT projectid FROM board WHERE boardid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, boardId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("projectid");
+            } else {
+                throw new SQLException("No project found for board ID: " + boardId);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public int getBoardIdByProjectId(int projectid) {
         try {
             Connection connection = ConnectionDB.connection();

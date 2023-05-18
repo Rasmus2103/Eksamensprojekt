@@ -2,7 +2,7 @@ package com.example.eksamensprojekt.dto;
 
 import com.example.eksamensprojekt.model.User;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ProjectDTOForm {
@@ -55,12 +55,4 @@ public class ProjectDTOForm {
     }
 
 
-    @Override
-    public String toString() {
-        return "ProjectDTOForm{" +
-                "projectid=" + projectid +
-                ", projectname='" + projectname + '\'' +
-                ", userList=" + userList +
-                '}';
-    }
 }

@@ -36,7 +36,7 @@
           <a style="color: #ffffff;" class="nav-link" href="#">Settings</a>
         </li>
         <li class="nav-item">
-          <a style="color: #ffffff;" th:href="@{/}" class="nav-link">Logout</a>
+          <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
         </li>
 
 
@@ -92,7 +92,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
-      <a th:href="@{/story/{storyid}(storyid=${task.storyid})}">Go back</a>
+      <a th:href="@{/story/{storyid}(storyid=${story.storyid})}">Go back</a>
     </form>
 
   </div>

@@ -36,7 +36,7 @@
           <a style="color: #ffffff;" class="nav-link" href="#">Settings</a>
         </li>
         <li class="nav-item">
-          <a style="color: #ffffff;" th:href="@{/}" class="nav-link">Logout</a>
+          <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
         </li>
 
 
@@ -75,6 +75,7 @@
     <h1>Create Story</h1>
 
     <form th:action="@{''}" method="post" th:object="${story}">
+      <div th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;" class="error-message"></div>
       <input type="hidden" th:field="*{boardid}"/>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Story name</label>
@@ -97,7 +98,7 @@
 
 
       <button type="submit" class="btn btn-primary">Submit</button>
-      <a th:href="@{/storylist/{boardid}(boardid=${story.boardid})}">Go back</a>
+      <a th:href="@{/storylist/{boardid}(boardid=${board.boardid})}">Go back</a>
     </form>
   </div>
 

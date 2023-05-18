@@ -65,7 +65,7 @@ public class ProjectRepository implements IProjectRepository {
             String SQL = "INSERT INTO project (projectname, projectdeadline) VALUES (?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, project.getProjectname());
-            ps.setDate(2, (java.sql.Date) project.getProjectdeadline());
+            ps.setDate(2, project.getProjectdeadline());
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();

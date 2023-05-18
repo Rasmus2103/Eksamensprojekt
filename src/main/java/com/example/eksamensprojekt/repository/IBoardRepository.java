@@ -7,6 +7,7 @@ import java.util.List;
 public interface IBoardRepository {
     List<Board> getBoards(int projectid);
     Board getSpecificBoard(int boardid);
+    int getProjectIdByBoardId(int boardId);
     int getBoardIdByProjectId(int projectid);
     int getBacklogBoardIdByProjectId(int projectid);
     int getHistoryBoardIdByProjectId(int projectId);

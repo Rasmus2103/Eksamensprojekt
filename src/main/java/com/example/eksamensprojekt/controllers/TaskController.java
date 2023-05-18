@@ -38,6 +38,9 @@ public class TaskController extends PMController {
         Task task1 = taskRepository.getSpecificTask(storyid);
         model.addAttribute("task1", task1);
 
+        Story story = storyRepository.getSpecificStory(storyid);
+        model.addAttribute("story", story);
+
         return isLogged(session) ? "createtask" : "index";
     }
 
@@ -74,7 +77,6 @@ public class TaskController extends PMController {
 
     @PostMapping("toggleTask/{storyid}/{taskId}")
     public String toggleTask(@PathVariable("taskId") int taskId, @PathVariable("storyid") int storyid, @RequestParam(value = "finished", required = false) Boolean finished) {
-        System.out.println("Task ID: " + taskId + " Finished: " + finished);
         if (finished == null) {
             finished = false;
         }
