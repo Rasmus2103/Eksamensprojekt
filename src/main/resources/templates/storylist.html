@@ -116,7 +116,7 @@
                 <td>
                     <a th:if="${boardName == 'backlog'}" th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move story to Sprintboard</a>
                     <a th:if="${boardName == 'sprintboard'}" th:href="@{/moveStoryBack/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to backlog</a>
-                    <a th:if="${boardName == 'history board'}" th:href="@{moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to sprintboard</a>
+                    <a th:if="${boardName == 'history board'}" th:href="@{/moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to sprintboard</a>
                 </td>
             </tr>
         </table>
