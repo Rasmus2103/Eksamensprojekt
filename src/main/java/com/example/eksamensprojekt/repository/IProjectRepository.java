@@ -1,5 +1,6 @@
 package com.example.eksamensprojekt.repository;
 
+import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.Project;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface IProjectRepository {
     List<Project> getProjects(int userid);
     Project getSpecificProject(int projectid);
-    void addProject(int userid, String projectname);
+    void addProject(int userid, ProjectDTOForm project);
     List<String> getUserNamesByProjectId(int projectid);
     void deleteProject(int projectid);
     void updateProjectName(int projectid, String projectname);

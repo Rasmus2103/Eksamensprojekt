@@ -63,10 +63,10 @@
   <div class="sidebar">
     <div class="sidebar-overview">
       <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-      <h3> Project Name</h3>
+      <h3 th:text="${project.projectname}"></h3>
     </div>
     <ul>
-      <li><a href="#">Home</a></li>
+      <li><a th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a></li>
     </ul>
     <h4>--- Boards ---</h4>
     <br>
@@ -125,7 +125,7 @@
     <dialog id="update-modal">
       <form action="#" th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
         <label>Choose a new deadline:</label>
-        <input type="date" th:field="*{projectdeadline}"/>
+        <input type="date" th:date="*{projectdeadline}"/>
         <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
         <button type="submit">update</button>
       </form>

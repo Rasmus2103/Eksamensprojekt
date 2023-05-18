@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.repository;
+import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.Project;
 import org.springframework.stereotype.Repository;
 
@@ -6,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Repository("project_DB")
 public class ProjectRepository implements IProjectRepository {
@@ -57,12 +59,13 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    public void addProject(int userid, String projectname) {
+    public void addProject(int userid, ProjectDTOForm project) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "INSERT INTO project (projectname) VALUES (?)";
+            String SQL = "INSERT INTO project (projectname, projectdeadline) VALUES (?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, projectname);
+            ps.setString(1, project.getProjectname());
+            ps.setDate(2, (java.sql.Date) project.getProjectdeadline());
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
