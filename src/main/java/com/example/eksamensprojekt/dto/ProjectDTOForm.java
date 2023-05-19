@@ -2,7 +2,7 @@ package com.example.eksamensprojekt.dto;
 
 import com.example.eksamensprojekt.model.User;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ProjectDTOForm {

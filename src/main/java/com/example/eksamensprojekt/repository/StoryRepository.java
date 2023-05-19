@@ -158,7 +158,7 @@ public class StoryRepository implements IStoryRepository {
             Connection connection = ConnectionDB.connection();
             String SQL = "update story set storydeadline = ? where storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setDate(1, (java.sql.Date) storydeadline);
+            ps.setDate(1, storydeadline);
             ps.setInt(2, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {

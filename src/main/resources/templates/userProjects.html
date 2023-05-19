@@ -58,7 +58,7 @@
              <label class="form-label">Project name:</label>
              <input type="text" class="form-control" th:field="*{projectname}"/>
                <label class="form-label">Deadline:</label>
-               <input type="date" class="form-control" th:date="*{projectdeadline}"/>
+               <input type="date" class="form-control" th:field="*{projectdeadline}"/>
            </div>
            <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
            <button type="submit" class="btn btn-primary">Submit</button>

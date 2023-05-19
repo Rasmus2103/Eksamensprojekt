@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
 
 
@@ -157,7 +157,7 @@ public class ProjectRepository implements IProjectRepository {
             Connection connection = ConnectionDB.connection();
             String SQL = "update project set projectdeadline = ? where projectid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setDate(1, (java.sql.Date) projectdeadline);
+            ps.setDate(1, projectdeadline);
             ps.setInt(2, projectid);
             ps.executeUpdate();
         } catch (SQLException e) {

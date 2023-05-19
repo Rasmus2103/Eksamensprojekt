@@ -125,7 +125,7 @@
     <dialog id="update-modal">
       <form action="#" th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
         <label>Choose a new deadline:</label>
-        <input type="date" th:date="*{projectdeadline}"/>
+        <input type="date" th:field="*{projectdeadline}"/>
         <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
         <button type="submit">update</button>
       </form>
