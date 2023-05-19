@@ -160,24 +160,13 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return isLogged(session) ? "story" : "index";
     }
 
-    @GetMapping("story/update/{storyid}")
-    public String updateStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Story story = storyRepository.getSpecificStory(storyid);
-        model.addAttribute("story", story);
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
-        return isLogged(session) ? "updatestory" : "index";
-    }
-
     @PostMapping("story/update/{storyid}/{boardid}")
     public String updateStory(@ModelAttribute("story") Story story, @PathVariable("storyid") int storyid, @PathVariable("boardid") int boardid) {
         storyRepository.updateStoryName(storyid, story.getStoryname());
         storyRepository.updateStoryDescription(storyid, story.getStorydescription());
         storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
         storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
-        return "redirect:/storylist/" + boardid;
+        return "redirect:/story/" + storyid;
     }
 
     @PostMapping("story/{storyid}/addstoryuser")

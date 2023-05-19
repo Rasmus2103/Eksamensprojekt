@@ -32,6 +32,9 @@ public class TaskController extends PMController {
     public String updateTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
+
+        session.getAttribute("userid");
+        model.addAttribute("userid");
         return isLogged(session) ? "updatetask" : "index";
     }
 
