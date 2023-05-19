@@ -85,7 +85,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
-    @GetMapping("moveStoryBackToSprintBoard/{storyId}")
+    @GetMapping("storylist/moveStoryBackToSprintBoard/{storyId}")
     public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
         // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
@@ -93,10 +93,10 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         int projectId = currentBoard.getProjectid();
 
         // Now, find the backlog board id for the corresponding project.
-        int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
+        int sprintboardBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
         // Move the story to the backlog board.
-        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+        storyRepository.moveStoryToBoard(storyId, sprintboardBoardId);
 
         // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
