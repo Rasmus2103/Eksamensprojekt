@@ -43,6 +43,9 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     Object userid = session.getAttribute("userid");
     model.addAttribute("userid", userid);
 
+    Story story = new Story();
+    model.addAttribute("story", story);
+
     return isLogged(session) ? "storylist" : "index";
 }
 
@@ -97,26 +100,6 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
         // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
-    }
-
-
-
-    @GetMapping("story/createstory/{boardid}")
-    public String addStory(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
-        Story story = new Story();
-        model.addAttribute("story", story);
-
-        Board board = boardRepository.getSpecificBoard(boardid);
-        model.addAttribute("board", board);
-        int projectId = board.getProjectid();
-        model.addAttribute("projectid", projectId);
-        List<Board> boards = boardRepository.getBoards(projectId);
-        model.addAttribute("boards", boards);
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
-        return isLogged(session) ? "createstory" : "index";
     }
 
     @PostMapping("story/createstory/{boardid}")

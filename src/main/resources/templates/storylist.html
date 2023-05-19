@@ -89,7 +89,34 @@
         <h2 th:if="${boardName == 'sprintboard'}">Sprintboard</h2>
         <h2 th:if="${boardName == 'history board'}">History Board</h2>
 
-        <a th:if="${boardName == 'backlog'}" th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
+        <div>
+            <button th:if="${boardName == 'backlog'}" data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Story</button>
+            <dialog id="update-modal">
+                <form action="#" th:action="@{/story/createstory/{boardid}(boardid=${boardid})}" method="post" th:object="${story}">
+                    <input type="hidden" th:field="*{boardid}"/>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Story name</label>
+                        <input type="text" class="form-control" th:field="*{storyname}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Story Description</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Deadline</label>
+                        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{storydeadline}">
+                    </div>
+
+                    <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
+                    <button type="submit">Submit</button>
+                </form>
+            </dialog>
+        </div>
+
         <div th:if="${stories.isEmpty()}">
             <h6>No stories yet... feel free to add one</h6>
         </div>
@@ -129,5 +156,16 @@
     </div> -->
 
 </div>
+<script>
+    const dialog = document.getElementById("update-modal")
+    document.getElementById("modal-button").addEventListener("click", showmodal);
+    function showmodal(){
+        dialog.showModal()
+    }
+    document.getElementById("modal-close").addEventListener("click", closemodal);
+    function closemodal(){
+        dialog.close()
+    }
+</script>
 </body>
 </html>
