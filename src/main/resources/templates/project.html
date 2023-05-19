@@ -66,7 +66,7 @@
       <h3 th:text="${project.projectname}"></h3>
     </div>
     <ul>
-      <li><a th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a></li>
+      <li><a th:href="@{/project/{projectid}/{userid}(userid=${user.userid},projectid=${project.projectid})}">Home</a></li>
     </ul>
     <h4>--- Boards ---</h4>
     <br>
