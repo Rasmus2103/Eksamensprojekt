@@ -135,14 +135,6 @@
     <br>
     <br>
 
-
-    <tr th:each="boards: ${boards}">
-      <a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
-        <td th:text="${boards.boardname}"></td>
-        <br>
-      </a>
-    </tr>
-
     <p>active users:</p>
     <div th:each="userlist: ${users}">
       <p th:text="${userlist}"></p>

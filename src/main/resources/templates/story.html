@@ -75,9 +75,48 @@
 
 <div class="right-div">
     <div id="container">
-        <a th:href="@{/story/createtask/{storyid}(storyid=${storyid})}">Create a new Task</a>
-        <a th:href="@{/story/{storyid}/addstoryuser(storyid=${storyid})}">Add users to Story</a>
+        <div>
+            <button data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Task</button>
+            <dialog id="update-modal">
+                <form action="#" th:action="@{/story/createtask/{storyid}(storyid=${storyid})}" method="post" th:object="${task}">
+                    <input type="hidden" th:field="*{storyid}"/>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Task Name</label>
+                        <input type="text" class="form-control" th:field="*{taskname}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Task Description</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{taskdescription}">
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Story points</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{storypoints}">
+                    </div>
+                    <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
+                    <button type="submit">Submit</button>
+                </form>
+            </dialog>
+        </div>
+
+        <div>
+            <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Add users to Story</button>
+            <dialog id="update-modal2">
+                <form th:action="@{/story/{storyid}/addstoryuser(storyid=${storyid})}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Select users to add to the story</label>
+                        <div th:each="user : ${users}">
+                            <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                        </div>
+                    </div>
+                    <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog" type="submit">close</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </form>
+                <div th:if="${errorMessage}">
+                    <p th:text="errorMessage"></p>
+                </div>
+            </dialog>
+        </div>
 
         <h1 th:text="${story.storyname}"></h1>
         <p th:text="${story.storydescription}"></p>
@@ -121,6 +160,38 @@
         <h4 th:text="${totalStoryPoints}"></h4>
     </div>
 </div>
+
+<script>
+    const dialog = document.getElementById("update-modal")
+    document.getElementById("modal-button").addEventListener("click", showmodal);
+    function showmodal(){
+        dialog.showModal()
+    }
+    document.getElementById("modal-close").addEventListener("click", closemodal);
+    function closemodal(){
+        dialog.close()
+    }
+
+    const dialog2 = document.getElementById("update-modal2")
+    document.getElementById("modal-button2").addEventListener("click", showmodal2);
+    function showmodal2(){
+        dialog2.showModal()
+    }
+    document.getElementById("modal-close2").addEventListener("click", closemodal2);
+    function closemodal2(){
+        dialog2.close()
+    }
+
+    const dialog3 = document.getElementById("update-modal3")
+    document.getElementById("modal-button3").addEventListener("click", showmodal3);
+    function showmodal3(){
+        dialog3.showModal()
+    }
+    document.getElementById("modal-close3").addEventListener("click", closemodal3);
+    function closemodal3(){
+        dialog3.close()
+    }
+</script>
 
 </body>
 </html>

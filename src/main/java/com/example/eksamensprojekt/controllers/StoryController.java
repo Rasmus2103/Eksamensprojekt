@@ -145,6 +145,16 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         Object userid = session.getAttribute("userid");
         model.addAttribute("userid", userid);
 
+        Task task = new Task();
+        model.addAttribute("task", task);
+
+        Task task1 = taskRepository.getSpecificTask(storyid);
+        model.addAttribute("task1", task1);
+
+        List<User> users = userRepository.getAllUsers();
+        model.addAttribute("users", users);
+
+
         return isLogged(session) ? "story" : "index";
     }
 
@@ -168,20 +178,6 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "redirect:/storylist/" + boardid;
     }
 
-    @GetMapping("story/{storyid}/addstoryuser")
-    public String addUserToStory(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Story story = storyRepository.getSpecificStory(storyid);
-        List<User> users = userRepository.getAllUsers();
-
-        model.addAttribute("story", story);
-        model.addAttribute("users", users);
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
-        return isLogged(session) ? "addstoryuser" : "index";
-    }
-
     @PostMapping("story/{storyid}/addstoryuser")
     public String addUserToStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds, Model model) {
         if (userIds != null) {
@@ -193,7 +189,6 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
                     model.addAttribute("errorMessage", errorMessage);
                     List<User> users = userRepository.getAllUsers();
                     model.addAttribute("users", users);
-                    return "addstoryuser";
                 }
             }
         }

@@ -22,25 +22,6 @@ public class TaskController extends PMController {
         this.taskRepository =(ITaskRepository) context.getBean(impl);
     }
 
-    @GetMapping("task/{taskid}")
-    public String getTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
-        Task task = taskRepository.getSpecificTask(taskid);
-        model.addAttribute("task", task);
-
-        return isLogged(session) ? "task" : "index";
-    }
-
-    @GetMapping("story/createtask/{storyid}")
-    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Task task = new Task();
-        model.addAttribute("task", task);
-
-        Task task1 = taskRepository.getSpecificTask(storyid);
-        model.addAttribute("task1", task1);
-
-        return isLogged(session) ? "createtask" : "index";
-    }
-
     @PostMapping("story/createtask/{storyid}")
     public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
         taskRepository.addTask(storyid, task);
