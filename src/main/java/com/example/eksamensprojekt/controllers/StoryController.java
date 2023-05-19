@@ -33,6 +33,8 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     model.addAttribute("projectname", projectname);
     model.addAttribute("projectId", projectId);
     model.addAttribute("board", board);
+    model.addAttribute("boardid", boardid);
+
 
     List<Board> boards = boardRepository.getBoards(projectId);
     model.addAttribute("boards", boards);
