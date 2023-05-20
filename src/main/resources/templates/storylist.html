@@ -74,6 +74,7 @@
         <h2 th:if="${boardName == 'backlog'}">Backlog</h2>
         <h2 th:if="${boardName == 'sprintboard'}">Sprintboard</h2>
         <h2 th:if="${boardName == 'history board'}">History Board</h2>
+        <br>
 
         <div>
             <button th:if="${boardName == 'backlog'}" data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Story</button>
@@ -102,12 +103,13 @@
                 </form>
             </dialog>
         </div>
-
+        <br>
         <div th:if="${stories.isEmpty()}">
             <h6>No stories yet... feel free to add one</h6>
+            <br>
         </div>
 
-        <table class="stories">
+        <table class="stories" th:if="${#lists.size(stories) > 0}">
             <thead>
                 <tr>
                     <th>Story Name</th>
