@@ -66,7 +66,7 @@ public class ProjectController extends PMController {
         model.addAttribute("project", project);
 
         int boardid = 0;
-        List<Story> stories = storyRepository.getStories(boardid);
+        List<Story> stories = storyRepository.getStories(boardid, 0);
         model.addAttribute("stories", stories);
 
         User user = userRepository.getUser(userid);

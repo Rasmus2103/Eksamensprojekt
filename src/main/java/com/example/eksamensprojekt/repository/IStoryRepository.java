@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface IStoryRepository {
-    List<Story> getStories(int boardid);
+    List<Story> getStories(int boardid, int type);
     Story getSpecificStory(int storyid);
     void addStory(int boardid, Story story);
     void deleteStory(int storyid);
@@ -14,6 +14,8 @@ public interface IStoryRepository {
     void updateStoryDescription(int storyid, String storydescription);
     void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
     void updateStoryDeadline(int storyid, Date storydeadline);
+
+    void updateStoryProgress(int storyid, String status);
     List<String> getUserNamesByStoryId(int storyid);
     void addUserToStory(int storyid, int userid);
     void moveStoryToBoard(int storyid, int boardid);

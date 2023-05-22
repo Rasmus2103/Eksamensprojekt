@@ -73,77 +73,120 @@
 
 <div class="right-div">
     <div id="container">
-        <body>
         <div class="kanban">
             <div class="kanban-heading">
                 <strong class="kanban-heading-text">Kanban Board</strong>
             </div>
             <div class="kanban-board">
-                <div class="kanban-block" id="todo">
+                <div class="kanban-block" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <strong>To Do</strong>
                     <table class="sprint-stories">
-                    <tr th:each="stories: ${toDoStories}">
-                        <td th:text="${stories.storyname}" th:id="${stories.getStoryid()}" draggable="true" ondragstart="drag(event)">
-                            <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}"> </a>
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-                <div class="kanban-block" id="inprogress">
-                    <strong>In Progress</strong>
-                    <table class="sprint-stories">
-                        <tr th:each="story: ${inProgressStories}">
-                            <td th:text="${story.storyname}" th:id="${story.getStoryid()}" draggable="true" ondragstart="drag(event)">
-                                <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"></a>
+                        <tr th:each="story : ${todoStories}">
+                            <td
+                                    th:data-storyid="${story.storyid}"
+                                    th:data-boardid="${boardid}"
+                                    draggable="true"
+                                    ondragstart="drag(event)"
+                            >
+                                <a
+                                        th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                        th:text="${story.storyname}"
+                                        th:id="${story.storyid}"
+                                ></a>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="kanban-block" id="done">
+                <div class="kanban-block" id="doing" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <strong>In Progress</strong>
+                    <table class="sprint-stories">
+                        <tr th:each="story : ${doingStories}">
+                            <td
+                                    th:data-storyid="${story.storyid}"
+                                    th:data-boardid="${boardid}"
+                                    draggable="true"
+                                    ondragstart="drag(event)"
+                            >
+                                <a
+                                        th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                        th:text="${story.storyname}"
+                                        th:id="${story.storyid}"
+                                ></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="kanban-block" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <strong>Done</strong>
                     <table class="sprint-stories">
-                        <tr th:each="story: ${doneStories}">
-                            <td th:text="${story.storyname}" th:id="${story.getStoryid()}" draggable="true" ondragstart="drag(event)">
-                                <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"></a>
+                        <tr th:each="story : ${doneStories}">
+                            <td
+                                    th:data-storyid="${story.storyid}"
+                                    th:data-boardid="${boardid}"
+                                    draggable="true"
+                                    ondragstart="drag(event)"
+                            >
+                                <a
+                                        th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                        th:text="${story.storyname}"
+                                        th:id="${story.storyid}"
+                                ></a>
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-        <script>
-            function allowDrop(event) {
-                event.preventDefault();
-            }
+    </div>
+</div>
 
-            function drag(event) {
-                event.dataTransfer.setData("text", event.target.id);
-            }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function allowDrop(event) {
+        event.preventDefault();
+    }
 
-            function drop(event) {
-                event.preventDefault();
-                //const storyId = event.dataTransfer.getData("text");
-                //const targetElementId = event.target.id;
+    function drag(event) {
+        const storyId = event.target.getAttribute("data-storyid");
+        const boardId = event.target.getAttribute("data-boardid");
+        event.dataTransfer.setData("text", storyId + "-" + boardId);
+    }
 
-                // Example AJAX request using jQuery:
-                $.ajax({
-                    type: "POST",
-                    url: "", // Replace with your endpoint URL
-                    data: {
+    function drop(event) {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text");
+        const [storyId, boardId] = data.split("-");
 
-                    },
-                    success: function(response) {
-                        // Handle the success response
-                        console.log("Story status updated successfully!");
-                        // You may need to update the UI to reflect the changes
-                    },
-                    error: function(error) {
-                        // Handle the error response
-                        console.error("Error updating story status:", error);
-                    }
-                });
-            }
-        </script>
+        // Determine the progress value based on the target element ID
+        const targetElementId = event.target.id;
+        let status;
+        if (targetElementId === "todo") {
+            status = "todo";
+        } else if (targetElementId === "doing") {
+            status = "doing";
+        } else if (targetElementId === "done") {
+            status = "done";
+        }
+
+        // Example AJAX request using fetch API
+        fetch("/story/update/progress/" + storyId + "/" + boardId + "/" + status, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Handle the success response
+                console.log("Story status updated successfully!");
+                // You may need to update the UI to reflect the changes
+            })
+            .catch((error) => {
+                // Handle the error response
+                console.error("Error updating story status:", error);
+            });
+    }
+</script>
         </body>
 
         <!--

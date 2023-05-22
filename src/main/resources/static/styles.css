@@ -269,7 +269,7 @@ p {
     background-color: #eaeaea;
 }
 
-#inprogress {
+#doing{
     background-color: #eaeaea;
 }
 
@@ -278,7 +278,10 @@ p {
 }
 
 .sprint-stories {
-    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .sprint-stories tr {
@@ -287,7 +290,9 @@ p {
 }
 
 .sprint-stories td {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: #93c970;
     color: #fff;
     text-align: left;
@@ -295,4 +300,17 @@ p {
     border: 2px #749b56;
     border-radius: 6px;
     margin: 2px;
+    width: 100%;
+}
+
+
+.sprint-stories td:hover {
+    background-color: #a7e57e;
+}
+
+.sprint-stories td a {
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
 }

@@ -21,8 +21,14 @@ public class StoryController extends PMController {
 
 @GetMapping("storylist/{boardid}")
 public String getStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
-    List<Story> stories = storyRepository.getStories(boardid);
+    List<Story> stories = storyRepository.getStories(boardid,0);
+    List<Story> todoStories = storyRepository.getStories(boardid,1);
+    List<Story> doingStories = storyRepository.getStories(boardid, 2);
+    List<Story> doneStories = storyRepository.getStories(boardid, 3);
     model.addAttribute("stories", stories);
+    model.addAttribute("todoStories", todoStories);
+    model.addAttribute("doingStories", doingStories);
+    model.addAttribute("doneStories", doneStories);
 
     Board board = boardRepository.getSpecificBoard(boardid);
     int projectId = board.getProjectid();
@@ -48,7 +54,11 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     Story story = new Story();
     model.addAttribute("story", story);
 
-    return isLogged(session) ? "storylist" : "index";
+    if(boardRepository.getSpecificBoard(boardid).getBoardname().equals("sprintboard")){
+        return isLogged(session) ? "sprintboard" : "index";
+    } else {
+        return isLogged(session) ? "storylist" : "index";
+    }
 }
 
     @GetMapping("moveStory/{storyId}")
@@ -63,7 +73,6 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
         //System.out.println("sprintBoardId: " + sprintBoardId);
-
         storyRepository.moveStoryToBoard(storyId, sprintBoardId);
 
         // Redirect back to the story list for the original board.
@@ -114,7 +123,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     public String deleteStory(@PathVariable ("boardid") int boardid, @PathVariable("storyid") int storyid, Model model) {
         storyRepository.deleteStory(storyid);
 
-        List<Story> stories = storyRepository.getStories(boardid);
+        List<Story> stories = storyRepository.getStories(boardid, 0);
         model.addAttribute("story", stories);
         return "redirect:/storylist/" + boardid;
     }
@@ -167,6 +176,12 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
         storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
         return "redirect:/story/" + storyid;
+    }
+
+    @PostMapping("story/update/progress/{storyid}/{boardid}/{status}")
+    public String updateStoryProgress(@PathVariable("storyid") int storyid, @PathVariable("status") String status,  @PathVariable("boardid") int boardid) {
+        storyRepository.updateStoryProgress(storyid, status);
+        return "redirect:/storylist/" + boardid;
     }
 
     @PostMapping("story/{storyid}/addstoryuser")
@@ -225,7 +240,24 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         return "redirect:/storylist/" + boardid;
     }
 
+    @GetMapping("sprintboard/{boardid}")
+    public String getSprintStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
 
+
+        Board board = boardRepository.getSpecificBoard(boardid);
+        int projectId = board.getProjectid();
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("board", board);
+
+        List<Board> boards = boardRepository.getBoards(projectId);
+        model.addAttribute("boards", boards);
+
+
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
+
+        return isLogged(session) ? "sprintboard" : "index";
+    }
 
 
 }
