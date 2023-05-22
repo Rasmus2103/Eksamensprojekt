@@ -16,10 +16,10 @@ import java.util.Map;
 
 @Controller
 public class StoryController extends PMController {
-    private IStoryRepository storyRepository;
+    //private IStoryRepository storyRepository;
 
     public StoryController(ApplicationContext context, @Value("story_DB") String impl) {
-        this.storyRepository =(IStoryRepository) context.getBean(impl);
+        //this.storyRepository =(IStoryRepository) context.getBean(impl);
     }
 
 @GetMapping("storylist/{boardid}")
@@ -42,6 +42,26 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     return isLogged(session) ? "storylist" : "index";
 }
 
+    @GetMapping("sprintboard/{boardid}")
+    public String getSprintStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
+        List<Story> stories = storyRepository.getStories(boardid);
+        model.addAttribute("stories", stories);
+
+        Board board = boardRepository.getSpecificBoard(boardid);
+        int projectId = board.getProjectid();
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("board", board);
+
+        List<Board> boards = boardRepository.getBoards(projectId);
+        model.addAttribute("boards", boards);
+
+
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
+
+        return isLogged(session) ? "sprintboard" : "index";
+    }
+
     @GetMapping("moveStory/{storyId}")
     public String moveStoryToSprintBoard(@PathVariable("storyId") int storyId, @RequestParam("projectId") int projectId, @RequestParam("boardId") int boardId) {
         // First, find the current board and project associated with the story.
@@ -58,7 +78,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         System.out.println("sprintBoardId: " + sprintBoardId);
 
         // Move the story to the sprint board.
-        storyRepository.moveStoryToBoard(storyId, sprintBoardId);
+        storyRepository.moveStoryToBoard(storyId, sprintBoardId, true);
 
         // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
@@ -75,7 +95,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
 
         // Move the story to the backlog board.
-        storyRepository.moveStoryToBoard(storyId, backlogBoardId);
+        storyRepository.moveStoryToBoard(storyId, backlogBoardId, false);
 
         // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();

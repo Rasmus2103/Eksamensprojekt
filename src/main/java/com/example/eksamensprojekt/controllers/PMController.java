@@ -22,12 +22,12 @@ public class PMController {
     protected IStoryRepository storyRepository = new StoryRepository();
     protected ITaskRepository taskRepository = new TaskRepository();
 
-    public PMController(IUserRepository userRepository, IProjectRepository projectRepository, IBoardRepository boardRepository, IStoryRepository storyRepository, ITaskRepository taskRepository) {
-        this.userRepository = userRepository;
-        this.projectRepository = projectRepository;
-        this.boardRepository = boardRepository;
-        this.storyRepository = storyRepository;
-        this.taskRepository = taskRepository;
+    public PMController(ApplicationContext context, @Value("user_DB") String implUser, @Value("project_DB") String implProject, @Value("board_DB") String implBoard, @Value("story_DB") String implStory, @Value("task_DB") String implTask) {
+        this.userRepository = (IUserRepository) context.getBean(implUser);
+        this.projectRepository = (IProjectRepository) context.getBean(implProject);
+        this.boardRepository = (IBoardRepository) context.getBean(implBoard);
+        this.storyRepository = (IStoryRepository) context.getBean(implStory);
+        this.taskRepository = (ITaskRepository) context.getBean(implTask);
     }
 
     public PMController() {

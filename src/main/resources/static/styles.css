@@ -230,3 +230,69 @@ p {
 .sidebar ul li a:hover {
     background-color: #666666;
 }
+
+#kanban {
+    width: 75%;
+    padding: 2%;
+    float: right;
+    display: inline-grid;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.task {
+    background-color: white;
+    margin: 0.2rem 0rem 0.3rem 0rem;
+    border: 0.1rem solid black;
+    border-radius: 0.2rem;
+    padding: 0.5rem 0.2rem 0.5rem 2rem;
+}
+
+.kanban-board {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: sans-serif;
+}
+
+.kanban-block {
+    padding: 0.6rem;
+    width: 30.5%;
+    min-width: 14rem;
+    min-height: 4.5rem;
+    border-radius: 0.3rem;
+}
+
+#todo {
+    background-color: #eaeaea;
+}
+
+#inprogress {
+    background-color: #eaeaea;
+}
+
+#done {
+    background-color: #eaeaea;
+}
+
+.sprint-stories {
+    width: 98%;
+}
+
+.sprint-stories tr {
+    width: 95%;
+    height: auto;
+}
+
+.sprint-stories td {
+    display: block;
+    background-color: #93c970;
+    color: #fff;
+    text-align: left;
+    padding: 8px 16px;
+    border: 2px #749b56;
+    border-radius: 6px;
+    margin: 2px;
+}

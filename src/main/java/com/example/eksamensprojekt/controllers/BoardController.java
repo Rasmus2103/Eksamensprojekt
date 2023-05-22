@@ -13,10 +13,10 @@ import java.util.List;
 
 @Controller
 public class BoardController extends PMController {
-    private IBoardRepository boardRepository;
+    //private IBoardRepository boardRepository;
 
     public BoardController(ApplicationContext context, @Value("board_DB") String impl) {
-        this.boardRepository =(IBoardRepository) context.getBean(impl);
+        //this.boardRepository =(IBoardRepository) context.getBean(impl);
     }
 
     @GetMapping("board/{boardid}")

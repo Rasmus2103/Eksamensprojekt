@@ -237,13 +237,14 @@ public class StoryRepository implements IStoryRepository {
     }
 
 
-    public void moveStoryToBoard(int storyid, int boardid) {
+    public void moveStoryToBoard(int storyid, int boardid, boolean todo) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "UPDATE story SET boardid = ? WHERE storyid = ?";
+            String SQL = "UPDATE story SET boardid = ?, todo = ? WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, boardid);
-            ps.setInt(2, storyid);
+            ps.setBoolean(2, todo);
+            ps.setInt(3, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

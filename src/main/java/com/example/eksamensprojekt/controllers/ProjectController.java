@@ -18,10 +18,10 @@ import java.util.List;
 
 @Controller
 public class ProjectController extends PMController {
-    private IProjectRepository projectRepository;
+    //private IProjectRepository projectRepository;
 
     public ProjectController(ApplicationContext context, @Value("project_DB") String impl) {
-        this.projectRepository = (IProjectRepository) context.getBean(impl);
+        //this.projectRepository = (IProjectRepository) context.getBean(impl);
     }
 
     @GetMapping("userProjects/{id}")
