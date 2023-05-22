@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <link th:href="@{/styles.css}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/f16ddf284a.js" crossorigin="anonymous"></script>
     <title>Stories</title>
 </head>
 
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
     <div class="container-fluid">
-        <a style="color: #ffffff;" class="navbar-brand" href="#"> SmoothManager </a>
+        <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,22 +19,8 @@
                 <li class="nav-item">
                     <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff;" >
-                        Create
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">New project</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Teams</a>
-                </li>
-                <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Settings</a>
+                    <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${userid})}" class="nav-link" href="#">Settings</a>
                 </li>
                 <li class="nav-item">
                     <a style="color: #ffffff;" th:href="@{/}" class="nav-link">Logout</a>
@@ -63,10 +50,10 @@
     <div class="sidebar">
         <div class="sidebar-overview">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-            <h3> Project Name</h3>
+            <h3 th:text="${projectname}"></h3>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Project overview</a></li>
         </ul>
         <h4>--- Boards ---</h4>
         <br>
@@ -84,12 +71,45 @@
 <div class="right-div">
     <div id="container">
 
-        <a th:href="@{/story/createstory/{boardid}(boardid=${boardid})}">Create a new Story</a>
+        <h2 th:if="${boardName == 'backlog'}">Backlog</h2>
+        <h2 th:if="${boardName == 'sprintboard'}">Sprintboard</h2>
+        <h2 th:if="${boardName == 'history board'}">History Board</h2>
+        <br>
+
+        <div>
+            <button th:if="${boardName == 'backlog'}" data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Story</button>
+            <dialog id="update-modal">
+                <form action="#" th:action="@{/story/createstory/{boardid}(boardid=${boardid})}" method="post" th:object="${story}">
+                    <input type="hidden" th:field="*{boardid}"/>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Story name</label>
+                        <input type="text" class="form-control" th:field="*{storyname}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Story Description</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Deadline</label>
+                        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{storydeadline}">
+                    </div>
+
+                    <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
+                    <button type="submit">Submit</button>
+                </form>
+            </dialog>
+        </div>
+        <br>
         <div th:if="${stories.isEmpty()}">
             <h6>No stories yet... feel free to add one</h6>
+            <br>
         </div>
 
-        <table class="stories">
+        <table class="stories" th:if="${#lists.size(stories) > 0}">
             <thead>
                 <tr>
                     <th>Story Name</th>
@@ -103,14 +123,12 @@
                     <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
                 </td>
                 <td>
-                    <a th:href="@{/story/update/{storyid}(storyid=${stories.storyid})}">Update Story</a>
-                </td>
-                <td>
-                    <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story</a>
+                    <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story <i class="fa-sharp fa-solid fa-trash"></i></a>
                 </td>
                 <td>
                     <a th:if="${boardName == 'backlog'}" th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move story to Sprintboard</a>
                     <a th:if="${boardName == 'sprintboard'}" th:href="@{/moveStoryBack/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to backlog</a>
+                    <a th:if="${boardName == 'history board'}" th:href="@{moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to sprintboard</a>
                 </td>
             </tr>
         </table>
@@ -123,5 +141,26 @@
     </div> -->
 
 </div>
+<script>
+    const dialog = document.getElementById("update-modal")
+    document.getElementById("modal-button").addEventListener("click", showmodal);
+    function showmodal(){
+        dialog.showModal()
+    }
+    document.getElementById("modal-close").addEventListener("click", closemodal);
+    function closemodal(){
+        dialog.close()
+    }
+
+    const dialog2 = document.getElementById("update-modal2")
+    document.getElementById("modal-button2").addEventListener("click", showmodal2);
+    function showmodal2(){
+        dialog2.showModal()
+    }
+    document.getElementById("modal-close2").addEventListener("click", closemodal2);
+    function closemodal2(){
+        dialog2.close()
+    }
+</script>
 </body>
 </html>

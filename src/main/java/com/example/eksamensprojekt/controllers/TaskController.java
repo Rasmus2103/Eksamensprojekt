@@ -6,6 +6,7 @@ import com.example.eksamensprojekt.repository.ITaskRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +22,6 @@ public class TaskController extends PMController {
         //this.taskRepository =(ITaskRepository) context.getBean(impl);
     }
 
-    @GetMapping("task/{taskid}")
-    public String getTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
-        Task task = taskRepository.getSpecificTask(taskid);
-        model.addAttribute("task", task);
-
-        return isLogged(session) ? "task" : "index";
-    }
-
-    @GetMapping("story/createtask/{storyid}")
-    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Task task = new Task();
-        model.addAttribute("task", task);
-
-        Task task1 = taskRepository.getSpecificTask(storyid);
-        model.addAttribute("task1", task1);
-
-        return isLogged(session) ? "createtask" : "index";
-    }
-
     @PostMapping("story/createtask/{storyid}")
     public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
         taskRepository.addTask(storyid, task);
@@ -50,6 +32,9 @@ public class TaskController extends PMController {
     public String updateTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
+
+        session.getAttribute("userid");
+        model.addAttribute("userid");
         return isLogged(session) ? "updatetask" : "index";
     }
 
@@ -70,4 +55,19 @@ public class TaskController extends PMController {
         model.addAttribute("story", story);
         return "redirect:/story/" + storyid;
     }
+
+    @PostMapping("toggleTask/{storyid}/{taskId}")
+    public String toggleTask(@PathVariable("taskId") int taskId, @PathVariable("storyid") int storyid, @RequestParam(value = "finished", required = false) Boolean finished) {
+        System.out.println("Task ID: " + taskId + " Finished: " + finished);
+        if (finished == null) {
+            finished = false;
+        }
+        taskRepository.updateTaskFinished(taskId, finished);
+        return "redirect:/story/" + storyid;
+    }
+
+
+
+
+
 }

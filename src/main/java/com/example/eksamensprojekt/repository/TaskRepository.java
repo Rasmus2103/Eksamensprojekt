@@ -12,25 +12,29 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public List<Task> getTasks(int storyid) {
         List<Task> tasks = new ArrayList<>();
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT * FROM task WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
+                Task task = new Task();
                 int taskid = rs.getInt("taskid");
+                task.setTaskid(taskid);
                 String taskname = rs.getString("taskname");
                 String taskdescription = rs.getString("taskdescription");
                 int storypoints = rs.getInt("storypoints");
-                tasks.add(new Task(taskid, taskname, taskdescription, storypoints, storyid));
+                boolean finished = rs.getBoolean("isfinished");
+                tasks.add(new Task(taskid, taskname, taskdescription, storypoints, storyid, finished));
             }
             return tasks;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public Task getSpecificTask(int taskid) {
@@ -139,5 +143,46 @@ public class TaskRepository implements ITaskRepository {
             throw new RuntimeException(e);
         }
     }
+
+    /*public void updateTaskStatus(int taskId, boolean status) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "UPDATE task SET isfinished = ? WHERE taskid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setString(1, status ? "true" : "false");
+            ps.setInt(2, taskId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }*/
+
+    public void updateTaskFinished(int taskId, boolean finished) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "UPDATE task SET isfinished = ? WHERE taskid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setBoolean(1, finished);
+            ps.setInt(2, taskId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean areAllTasksFinished(int storyId) {
+        List<Task> tasks = getTasks(storyId);
+
+        for (Task task : tasks) {
+            if (!task.isFinished()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
 }

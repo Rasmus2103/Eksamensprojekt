@@ -19,12 +19,4 @@ public class BoardController extends PMController {
         //this.boardRepository =(IBoardRepository) context.getBean(impl);
     }
 
-    @GetMapping("board/{boardid}")
-    public String getBoard(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
-        Board board = boardRepository.getSpecificBoard(boardid);
-        model.addAttribute("board", board);
-
-        return isLogged(session) ? "board" : "index";
-    }
-
 }

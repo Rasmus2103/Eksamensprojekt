@@ -33,6 +33,8 @@ public class ProjectController extends PMController {
                 model.addAttribute("userid", user.getUserid());
                 List<Project> projects = projectRepository.getProjects(id);
                 model.addAttribute("projects", projects);
+                ProjectDTOForm projectDTOForm = new ProjectDTOForm();
+                model.addAttribute("projectDTO", projectDTOForm);
                 return "userProjects";
             } else {
                 return "redirect:/index";
@@ -42,19 +44,9 @@ public class ProjectController extends PMController {
         }
     }
 
-    @GetMapping("createproject/{id}")
-    public String createProject(@PathVariable("id") int id, Model model, HttpSession session) {
-        ProjectDTOForm projectDTOForm = new ProjectDTOForm();
-        model.addAttribute("projectDTO", projectDTOForm);
-
-        User user = userRepository.getUser(id);
-        model.addAttribute("user", user);
-        return isLogged(session) ? "createproject" : "index";
-    }
-
     @PostMapping("createproject/{id}")
     public String createproject(@ModelAttribute("projectDTO") ProjectDTOForm projectDto, @ModelAttribute("users") User users, @PathVariable("id") int id) {
-        projectRepository.addProject(id, projectDto.getProjectname());
+        projectRepository.addProject(id, projectDto);
         return "redirect:/userProjects/" + id;
     }
 

@@ -158,7 +158,7 @@ public class StoryRepository implements IStoryRepository {
             Connection connection = ConnectionDB.connection();
             String SQL = "update story set storydeadline = ? where storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setDate(1, (java.sql.Date) storydeadline);
+            ps.setDate(1, storydeadline);
             ps.setInt(2, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -246,6 +246,29 @@ public class StoryRepository implements IStoryRepository {
             ps.setBoolean(2, todo);
             ps.setInt(3, storyid);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void markStoryAsFinished(int storyId) {
+        try {
+            Connection connection = ConnectionDB.connection();
+
+            // Check if all tasks for the story are finished
+            String checkSQL = "SELECT COUNT(*) FROM task WHERE storyid = ? AND isfinished = false";
+            PreparedStatement checkPs = connection.prepareStatement(checkSQL);
+            checkPs.setInt(1, storyId);
+            ResultSet checkRs = checkPs.executeQuery();
+            if (checkRs.next() && checkRs.getInt(1) == 0) {
+                String SQL = "UPDATE story SET isfinished = true WHERE storyid = ?";
+                PreparedStatement ps = connection.prepareStatement(SQL);
+                ps.setInt(1, storyId);
+                ps.executeUpdate();
+            } else {
+                System.out.println("Not all tasks are finished.");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
