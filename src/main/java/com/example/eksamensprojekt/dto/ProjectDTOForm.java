@@ -55,12 +55,4 @@ public class ProjectDTOForm {
     }
 
 
-    @Override
-    public String toString() {
-        return "ProjectDTOForm{" +
-                "projectid=" + projectid +
-                ", projectname='" + projectname + '\'' +
-                ", userList=" + userList +
-                '}';
-    }
 }
