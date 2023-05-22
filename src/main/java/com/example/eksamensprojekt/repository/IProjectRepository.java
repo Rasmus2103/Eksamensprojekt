@@ -3,7 +3,7 @@ package com.example.eksamensprojekt.repository;
 import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.Project;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface IProjectRepository {

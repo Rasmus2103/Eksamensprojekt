@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
     <div class="container-fluid">
-        <a style="color: #ffffff;" class="navbar-brand" href="#"> SmoothManager </a>
+        <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,28 +18,12 @@
                 <li class="nav-item">
                     <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff;" >
-                        Create
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">New project</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Teams</a>
-                </li>
-                <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link" href="#">Settings</a>
+                    <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${userid})}" class="nav-link" href="#">Settings</a>
                 </li>
                 <li class="nav-item">
                     <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
                 </li>
-
-
             </ul>
         </div>
     </div>

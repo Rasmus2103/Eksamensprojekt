@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
   <div class="container-fluid">
-    <a style="color: #ffffff;" class="navbar-brand" href="#"> SmoothManager </a>
+    <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -18,22 +18,8 @@
         <li class="nav-item">
           <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff;" >
-            Create
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">New project</a></li>
-          </ul>
-        </li>
         <li class="nav-item">
-          <a style="color: #ffffff;" class="nav-link" href="#">Projects</a>
-        </li>
-        <li class="nav-item">
-          <a style="color: #ffffff;" class="nav-link" href="#">Teams</a>
-        </li>
-        <li class="nav-item">
-          <a style="color: #ffffff;" class="nav-link" href="#">Settings</a>
+          <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${user.userid})}" class="nav-link" href="#">Settings</a>
         </li>
 
         <li class="nav-item">
@@ -66,7 +52,7 @@
       <h3 th:text="${project.projectname}"></h3>
     </div>
     <ul>
-      <li><a th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a></li>
+      <li><a th:href="@{/project/{projectid}/{userid}(userid=${user.userid},projectid=${project.projectid})}">Project overview</a></li>
     </ul>
     <h4>--- Boards ---</h4>
     <br>
@@ -125,7 +111,7 @@
     <dialog id="update-modal">
       <form action="#" th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
         <label>Choose a new deadline:</label>
-        <input type="date" th:date="*{projectdeadline}"/>
+        <input type="date" th:field="*{projectdeadline}"/>
         <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
         <button type="submit">update</button>
       </form>
@@ -134,14 +120,6 @@
 
     <br>
     <br>
-
-
-    <tr th:each="boards: ${boards}">
-      <a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
-        <td th:text="${boards.boardname}"></td>
-        <br>
-      </a>
-    </tr>
 
     <p>active users:</p>
     <div th:each="userlist: ${users}">
