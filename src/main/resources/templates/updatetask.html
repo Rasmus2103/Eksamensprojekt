@@ -37,10 +37,10 @@
     <div class="sidebar">
         <div class="sidebar-overview">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-            <h3> Project Name</h3>
+            <h3 th:text="${project.getProjectname()}"></h3>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Project overview</a></li>
         </ul>
         <h4>--- Boards ---</h4>
         <br>
@@ -49,7 +49,7 @@
                 <li><a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
                     <td th:text="${boards.boardname}"></td>
                     <br>
-                </a>
+                </a></li>
             </tr>
         </ul>
     </div>
@@ -57,7 +57,7 @@
 
  <div id="container" class="right-div">
 
-   <h1>Update Task(s)</h1>
+   <h1>Update Task</h1>
    <form th:action="@{/task/update/{taskid}/{storyid}(taskid=${task.taskid}, storyid=${task.storyid})}" method="post" th:object="${task}">
      <label>Task Name:</label>
      <input type="text" th:field="*{taskname}"/><br/>

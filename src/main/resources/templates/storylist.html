@@ -148,11 +148,6 @@
                 </form>
             </dialog>
         </div>
-        <br>
-        <div th:if="${stories.isEmpty()}">
-            <h6>No stories yet... feel free to add one</h6>
-            <br>
-        </div>
 
         <div th:if="${boardName != 'sprintboard'}">
         <table class="stories" th:if="${#lists.size(stories) > 0}">
@@ -180,6 +175,10 @@
         </table>
         </div>
 
+        <br>
+        <div th:if="${stories.isEmpty()}">
+            <h6>No stories yet... feel free to add one</h6>
+        </div>
 </div>
 
 </div>
