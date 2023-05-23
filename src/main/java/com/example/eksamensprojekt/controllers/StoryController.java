@@ -55,11 +55,8 @@ public class StoryController extends PMController {
         Story story = new Story();
         model.addAttribute("story", story);
 
-        if(boardRepository.getSpecificBoard(boardid).getBoardname().equals("sprintboard")){
-            return isLogged(session) ? "sprintboard" : "index";
-        } else {
-            return isLogged(session) ? "storylist" : "index";
-        }
+        return isLogged(session) ? "storylist" : "index";
+
     }
 
     @GetMapping("moveStory/{storyId}")
@@ -177,12 +174,6 @@ public class StoryController extends PMController {
         storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
         storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
         return "redirect:/story/" + storyid;
-    }
-
-    @PostMapping("story/update/progress/{storyid}/{boardid}/{status}")
-    public String updateStoryProgress(@PathVariable("storyid") int storyid, @PathVariable("status") String status,  @PathVariable("boardid") int boardid) {
-        storyRepository.updateStoryProgress(storyid, status);
-        return "redirect:/storylist/" + boardid;
     }
 
     @PostMapping("story/{storyid}/addstoryuser")

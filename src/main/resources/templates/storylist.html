@@ -76,6 +76,50 @@
         <h2 th:if="${boardName == 'history board'}">History Board</h2>
         <br>
 
+                <div class="kanban" th:if="${boardName == 'sprintboard'}">
+                    <div class="kanban-board">
+                        <div class="kanban-block" id="todo">
+                            <strong>To Do</strong>
+                            <table class="sprint-stories">
+                                <tr th:each="story : ${todoStories}">
+                                    <td>
+                                        <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                           th:text="${story.storyname}"
+                                           th:id="${story.storyid}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="kanban-block" id="doing" >
+                            <strong>In Progress</strong>
+                            <table class="sprint-stories">
+                                <tr th:each="story : ${doingStories}">
+                                    <td>
+                                        <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                           th:text="${story.storyname}"
+                                           th:id="${story.storyid}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="kanban-block" id="done">
+                            <strong>Done</strong>
+                            <table class="sprint-stories">
+                                <tr th:each="story : ${doneStories}">
+                                    <td>
+                                        <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
+                                           th:text="${story.storyname}"
+                                           th:id="${story.storyid}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
         <div>
             <button th:if="${boardName == 'backlog'}" data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Story</button>
             <dialog id="update-modal">
@@ -109,6 +153,7 @@
             <br>
         </div>
 
+        <div th:if="${boardName != 'sprintboard'}">
         <table class="stories" th:if="${#lists.size(stories) > 0}">
             <thead>
                 <tr>
@@ -132,6 +177,7 @@
                 </td>
             </tr>
         </table>
+        </div>
 
 </div>
 
