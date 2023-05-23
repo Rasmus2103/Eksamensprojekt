@@ -28,8 +28,8 @@ body {
 }
 
 h1, p {
-    max-width: 800px; /* Set max width for content */
-    padding: 0 20px; /* Add padding to content */
+    max-width: 800px;
+    padding: 0 20px;
 }
 
 label,
@@ -313,4 +313,8 @@ p {
     height: 100%;
     color: inherit;
     text-decoration: none;
+}
+
+.userstoryh1 {
+    text-align: center;
 }
