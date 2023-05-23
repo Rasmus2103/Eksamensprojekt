@@ -93,10 +93,10 @@
     <div>
       <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">update project name</button>
       <dialog id="update-modal2">
-      <form action="#" th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}" method="post" th:object="${project}">
+      <form th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}" method="post" th:object="${project}">
         <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
         <label>Add a new project Name:</label>
-        <input type="text" th:field="*{projectname}"/>
+        <input type="text" th:field="*{projectname}" required/>
         <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
         <button type="submit">Update</button>
       </form>
@@ -120,12 +120,12 @@
     <br>
     <br>
 
-    <p>active users:</p>
+    <h4>Active users:</h4>
     <div th:each="userlist: ${users}">
       <p th:text="${userlist}"></p>
     </div>
 
-    <p>project deadline:</p>
+    <h4>Project deadline:</h4>
     <p th:text="${project.getProjectdeadline()}"></p>
 
     <!-- <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a> -->
