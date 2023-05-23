@@ -1,168 +1,203 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-  <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-  <link th:href="@{/styles.css}" rel="stylesheet">
-  <title>Project</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link th:href="@{/styles.css}" rel="stylesheet">
+    <title>Project</title>
 </head>
 
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
-  <div class="container-fluid">
-    <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${user.userid})}" class="nav-link" href="#">Settings</a>
-        </li>
+    <div class="container-fluid">
+        <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a style="color: #ffffff;" class="nav-link active" aria-current="page"
+                       th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${user.userid})}" class="nav-link">Settings</a>
+                </li>
 
-        <li class="nav-item">
-          <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
-        </li>
+                <li class="nav-item">
+                    <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')"
+                       class="nav-link">Logout</a>
+                </li>
 
-      </ul>
+            </ul>
+        </div>
     </div>
-  </div>
 
-  </nav>
+</nav>
 
 <body>
-<!-- <div class="main">
 
-  <div class="container">
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <ul class="nav nav-pills">
-        <li class="nav-item">  <a th:href="@{/}" class="nav-link">Logout</a></li>
-      </ul>
-    </header>
-  </div>
-</div> -->
 
 <div class="left-div">
-  <div class="sidebar">
-    <div class="sidebar-overview">
-      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
-      <h3 th:text="${project.projectname}"></h3>
+    <div class="sidebar">
+        <div class="sidebar-overview">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                 alt="Project Logo">
+            <h3 th:text="${project.projectname}"></h3>
+        </div>
+        <ul>
+            <li><a th:href="@{/project/{projectid}/{userid}(userid=${user.userid},projectid=${project.projectid})}">Project
+                overview</a></li>
+        </ul>
+        <h4>--- Boards ---</h4>
+        <br>
+        <ul>
+            <tr th:each="boards: ${boards}">
+                <li><a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
+                    <td th:text="${boards.boardname}"></td>
+                    <br>
+                </a></li>
+            </tr>
+        </ul>
     </div>
-    <ul>
-      <li><a th:href="@{/project/{projectid}/{userid}(userid=${user.userid},projectid=${project.projectid})}">Project overview</a></li>
-    </ul>
-    <h4>--- Boards ---</h4>
-    <br>
-    <ul>
-      <tr th:each="boards: ${boards}">
-        <li><a th:href="@{/storylist/{boardid}(boardid=${boards.boardid})}">
-          <td th:text="${boards.boardname}"></td>
-          <br>
-        </a></li>
-      </tr>
-    </ul>
-  </div>
 </div>
 
 <div class="right-div">
-  <div id="container">
+    <div id="container">
 
-    <h1 th:text="${project.projectname}"></h1>
-    <button>
-    <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}" onclick="return confirm('Are you sure?')">leave project</a>
-    </button>
+        <table class="stories">
+            <tr>
+                <td>
+                    <div>
+                        <button data-modal-open-target="update-modal3" data-is-modal id="modal-button3">add users
+                        </button>
+                        <dialog id="update-modal3">
+                            <form th:action="@{/project/{projectId}/{userId}/adduser(projectId=${project.projectid}, userId=${userid})}"
+                                  method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Select users to add to the project</label>
+                                    <div th:each="allusers : ${allusers}">
+                                        <input type="checkbox" name="userIds" th:value="${allusers.getUserid()}"
+                                               th:text="${allusers.getUserName()}"/>
+                                    </div>
+                                </div>
+                                <button data-modal-close-target="update-modal3" id="modal-close3" formmethod="dialog"
+                                        type="submit">
+                                    close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Add Users</button>
+                            </form>
+                        </dialog>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">update project
+                            name
+                        </button>
+                        <dialog id="update-modal2">
+                            <form th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}"
+                                  method="post" th:object="${project}">
+                                <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the
+                                    project a
+                                    name</h4>
+                                <label>Add a new project Name:</label>
+                                <input type="text" th:field="*{projectname}" required/>
+                                <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog"
+                                        type="submit">
+                                    close
+                                </button>
+                                <button type="submit">Update</button>
+                            </form>
+                        </dialog>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button">update project
+                            deadline
+                        </button>
+                        <dialog id="update-modal">
+                            <form action="#"
+                                  th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}"
+                                  method="post" th:object="${project}">
+                                <label>Choose a new deadline:</label>
+                                <input type="date" th:field="*{projectdeadline}"/>
+                                <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog"
+                                        type="submit">
+                                    close
+                                </button>
+                                <button type="submit">update</button>
+                            </form>
+                        </dialog>
+                    </div>
+                </td>
+                <td>
+                    <button>
+                        <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}"
+                           onclick="return confirm('Are you sure?')">leave project</a>
+                    </button>
+                </td>
+            </tr>
+        </table>
 
-    <div>
-      <button data-modal-open-target="update-modal3" data-is-modal id="modal-button3">add users</button>
-      <dialog id="update-modal3">
-        <form th:action="@{/project/{projectId}/{userId}/adduser(projectId=${project.projectid}, userId=${userid})}" method="post">
-        <div class="mb-3">
-          <label class="form-label">Select users to add to the project</label>
-          <div th:each="allusers : ${allusers}">
-            <input type="checkbox" name="userIds" th:value="${allusers.getUserid()}" th:text="${allusers.getUserName()}"/>
-          </div>
+        <br>
+        <h1 th:text="${project.projectname}"></h1>
+
+        <br>
+        <h4>Active users:</h4>
+        <div th:each="userlist: ${users}">
+            <p th:text="${userlist}"></p>
         </div>
-        <button data-modal-close-target="update-modal3" id="modal-close3" formmethod="dialog" type="submit">close</button>
-        <button type="submit" class="btn btn-primary">Add Users</button>
-      </form>
-      </dialog>
+
+        <br>
+        <h4>Project deadline:</h4>
+        <p th:text="${project.getProjectdeadline()}"></p>
+
     </div>
-
-    <div>
-      <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">update project name</button>
-      <dialog id="update-modal2">
-      <form th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}" method="post" th:object="${project}">
-        <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
-        <label>Add a new project Name:</label>
-        <input type="text" th:field="*{projectname}" required/>
-        <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
-        <button type="submit">Update</button>
-      </form>
-      </dialog>
-    </div>
-
-    <br>
-
-    <div>
-      <button data-modal-open-target="update-modal" data-is-modal id="modal-button">update project deadline</button>
-    <dialog id="update-modal">
-      <form action="#" th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}" method="post" th:object="${project}">
-        <label>Choose a new deadline:</label>
-        <input type="date" th:field="*{projectdeadline}"/>
-        <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
-        <button type="submit">update</button>
-      </form>
-    </dialog>
-    </div>
-
-    <br>
-    <br>
-
-    <h4>Active users:</h4>
-    <div th:each="userlist: ${users}">
-      <p th:text="${userlist}"></p>
-    </div>
-
-    <h4>Project deadline:</h4>
-    <p th:text="${project.getProjectdeadline()}"></p>
-
-    <!-- <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete the project</a> -->
-  </div>
 
 </div>
 
 <script>
-  const dialog = document.getElementById("update-modal")
-  document.getElementById("modal-button").addEventListener("click", showmodal);
-  function showmodal(){
-    dialog.showModal()
-  }
-  document.getElementById("modal-close").addEventListener("click", closemodal);
-  function closemodal(){
-    dialog.close()
-  }
+    const dialog = document.getElementById("update-modal")
+    document.getElementById("modal-button").addEventListener("click", showmodal);
 
-  const dialog2 = document.getElementById("update-modal2")
-  document.getElementById("modal-button2").addEventListener("click", showmodal2);
-  function showmodal2(){
-    dialog2.showModal()
-  }
-  document.getElementById("modal-close2").addEventListener("click", closemodal2);
-  function closemodal2(){
-    dialog2.close()
-  }
+    function showmodal() {
+        dialog.showModal()
+    }
 
-  const dialog3 = document.getElementById("update-modal3")
-  document.getElementById("modal-button3").addEventListener("click", showmodal3);
-  function showmodal3(){
-    dialog3.showModal()
-  }
-  document.getElementById("modal-close3").addEventListener("click", closemodal3);
-  function closemodal3(){
-    dialog3.close()
-  }
+    document.getElementById("modal-close").addEventListener("click", closemodal);
+
+    function closemodal() {
+        dialog.close()
+    }
+
+    const dialog2 = document.getElementById("update-modal2")
+    document.getElementById("modal-button2").addEventListener("click", showmodal2);
+
+    function showmodal2() {
+        dialog2.showModal()
+    }
+
+    document.getElementById("modal-close2").addEventListener("click", closemodal2);
+
+    function closemodal2() {
+        dialog2.close()
+    }
+
+    const dialog3 = document.getElementById("update-modal3")
+    document.getElementById("modal-button3").addEventListener("click", showmodal3);
+
+    function showmodal3() {
+        dialog3.showModal()
+    }
+
+    document.getElementById("modal-close3").addEventListener("click", closemodal3);
+
+    function closemodal3() {
+        dialog3.close()
+    }
 
 </script>
 
