@@ -1,5 +1,6 @@
 package com.example.eksamensprojekt.controllers;
 import com.example.eksamensprojekt.model.Board;
+import com.example.eksamensprojekt.model.Project;
 import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.Task;
 import com.example.eksamensprojekt.repository.ITaskRepository;
@@ -22,38 +23,22 @@ public class TaskController extends PMController {
         //this.taskRepository =(ITaskRepository) context.getBean(impl);
     }
 
-    @GetMapping("task/{taskid}")
-    public String getTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
-        Task task = taskRepository.getSpecificTask(taskid);
-        model.addAttribute("task", task);
-
-        return isLogged(session) ? "task" : "index";
-    }
-
-    @GetMapping("story/createtask/{storyid}")
-    public String addTask(@PathVariable("storyid") int storyid, Model model, HttpSession session) {
-        Task task = new Task();
-        model.addAttribute("task", task);
-
-        Task task1 = taskRepository.getSpecificTask(storyid);
-        model.addAttribute("task1", task1);
-
-        Story story = storyRepository.getSpecificStory(storyid);
-        model.addAttribute("story", story);
-
-        return isLogged(session) ? "createtask" : "index";
-    }
-
     @PostMapping("story/createtask/{storyid}")
     public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
         taskRepository.addTask(storyid, task);
         return "redirect:/story/{storyid}";
     }
 
-    @GetMapping("task/update/{taskid}")
-    public String updateTask(@PathVariable("taskid") int taskid, Model model, HttpSession session) {
+    @GetMapping("task/update/{taskid}/{projectid}")
+    public String updateTask(@PathVariable("taskid") int taskid,@PathVariable("projectid") int projectid ,Model model, HttpSession session) {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
+        session.getAttribute("userid");
+        model.addAttribute("userid");
+        Project project = projectRepository.getSpecificProject(projectid);
+        model.addAttribute("project", project);
+        List<Board> boards = boardRepository.getBoards(projectid);
+        model.addAttribute("boards", boards);
         return isLogged(session) ? "updatetask" : "index";
     }
 

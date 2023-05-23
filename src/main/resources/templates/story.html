@@ -224,7 +224,7 @@
                                 <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete<i class="fa-sharp fa-solid fa-trash"></i></a>
                             </td>
                             <td>
-                                <a th:href="@{/task/update/{taskid}(taskid=${tasks.taskid})}">Update task<i class="fa-sharp fa-solid fa-pen"></i></a>
+                                <a th:href="@{/task/update/{taskid}/{projectid}(taskid=${tasks.taskid}, projectid=${projectId})}">Update task<i class="fa-sharp fa-solid fa-pen"></i></a>
                             </td>
                         </tr>
                     </table>
