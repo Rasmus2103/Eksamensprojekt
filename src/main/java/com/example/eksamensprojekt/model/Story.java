@@ -10,26 +10,20 @@ public class Story {
     private String acceptcriteria;
     private Date storydeadline;
     private int boardid;
-    private boolean todo;
-    private boolean inprogress;
-    private boolean done;
-    private boolean archived;
+    private int sprintboardid;
 
     public Story(){
 
     }
 
-    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid, boolean todo, boolean inprogress, boolean done, boolean archived){
+    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid, int sprintboardid){
         this.storyid = storyid;
         this.storyname = storyname;
         this.storydescription = storydescription;
         this.acceptcriteria = acceptcriteria;
         this.storydeadline = storydeadline;
         this.boardid = boardid;
-        this.todo = todo;
-        this.inprogress = inprogress;
-        this.done = done;
-        this.archived = archived;
+        this.sprintboardid = sprintboardid;
     }
 
     public int getStoryid() {
@@ -80,35 +74,13 @@ public class Story {
         this.boardid = boardid;
     }
 
-    public boolean getTodo() {
-        return todo;
+    public int getSprintboardid() {
+        return sprintboardid;
     }
 
-    public void setTodo(boolean todo) {
-        this.todo = todo;
+    public void setSprintboardid(int sprintboardid) {
+        this.sprintboardid = sprintboardid;
     }
 
-    public boolean getInprogress() {
-        return inprogress;
-    }
 
-    public void setInprogress(boolean inprogress) {
-        this.inprogress = inprogress;
-    }
-
-    public boolean getDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public boolean getArchived() {
-        return archived;
-    }
-
-    public void setArchived(boolean archived) {
-        this.archived = archived;
-    }
 }

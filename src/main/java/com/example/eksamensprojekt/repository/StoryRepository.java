@@ -10,49 +10,57 @@ import java.util.List;
 public class StoryRepository implements IStoryRepository {
 
     @Override
-    public List<Story> getStories(int boardid, int type) {
+    public List<Story> getStories(int boardid) {
         List<Story> stories = new ArrayList<>();
-        List<Story> todoStories = new ArrayList<>();
-        List<Story> doingStories = new ArrayList<>();
-        List<Story> doneStories = new ArrayList<>();
-        try{
+
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT * FROM story WHERE boardid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, boardid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int storyid = rs.getInt("storyid");
                 String storyname = rs.getString("storyname");
                 String storydescription = rs.getString("storydescription");
                 String acceptcriteria = rs.getString("acceptcriteria");
                 Date storydeadline = rs.getDate("storydeadline");
-                boolean todo = rs.getBoolean("todo");
-                boolean doing = rs.getBoolean("doing");
-                boolean done = rs.getBoolean("done");
-                boolean archived = rs.getBoolean("archived");
-                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived));
-                if (rs.getBoolean("todo")) {
-                    todoStories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived));
-                } else if (rs.getBoolean("doing")) {
-                    doingStories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived));
-                } else if (rs.getBoolean("done")) {
-                    doneStories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived));
-                }
+                int sprintboardid = rs.getInt("sprintboardid");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid));
             }
-            if (type == 1) {
-                return todoStories;
-            } else if (type == 2) {
-                return doingStories;
-            } else if (type == 3) {
-                return doneStories;
-            } else {
-                return stories;
-            }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
+        return stories;
+    }
+
+
+
+    @Override
+    public List<Story> getStoriesSprintboard(int boardid, int sprintboardid) {
+        List<Story> stories = new ArrayList<>();
+
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "SELECT * FROM story WHERE boardid = ? AND sprintboardid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.setInt(2, sprintboardid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date storydeadline = rs.getDate("storydeadline");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return stories;
     }
 
     @Override
@@ -71,11 +79,8 @@ public class StoryRepository implements IStoryRepository {
                 String acceptcriteria = rs.getString("acceptcriteria");
                 Date storydeadline = rs.getDate("storydeadline");
                 int boardid = rs.getInt("boardid");
-                boolean todo = rs.getBoolean("todo");
-                boolean doing = rs.getBoolean("doing");
-                boolean done = rs.getBoolean("done");
-                boolean archived = rs.getBoolean("archived");
-                story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived);
+                int sprintboardid = rs.getInt("sprintboardid");
+                story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid);
             }
             return story;
         } catch (SQLException e){

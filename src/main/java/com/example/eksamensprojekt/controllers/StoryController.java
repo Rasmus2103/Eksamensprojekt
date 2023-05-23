@@ -22,10 +22,10 @@ public class StoryController extends PMController {
 
     @GetMapping("storylist/{boardid}")
     public String getStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
-        List<Story> stories = storyRepository.getStories(boardid,0);
-        List<Story> todoStories = storyRepository.getStories(boardid,1);
-        List<Story> doingStories = storyRepository.getStories(boardid, 2);
-        List<Story> doneStories = storyRepository.getStories(boardid, 3);
+        List<Story> stories = storyRepository.getStories(boardid);
+        List<Story> todoStories = storyRepository.getStoriesSprintboard(boardid,0);
+        List<Story> doingStories = storyRepository.getStoriesSprintboard(boardid, 1);
+        List<Story> doneStories = storyRepository.getStoriesSprintboard(boardid, 2);
         model.addAttribute("stories", stories);
         model.addAttribute("todoStories", todoStories);
         model.addAttribute("doingStories", doingStories);
@@ -124,7 +124,7 @@ public class StoryController extends PMController {
     public String deleteStory(@PathVariable ("boardid") int boardid, @PathVariable("storyid") int storyid, Model model) {
         storyRepository.deleteStory(storyid);
 
-        List<Story> stories = storyRepository.getStories(boardid, 0);
+        List<Story> stories = storyRepository.getStories(boardid);
         model.addAttribute("story", stories);
         return "redirect:/storylist/" + boardid;
     }
