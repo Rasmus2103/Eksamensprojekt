@@ -199,17 +199,13 @@ public class StoryRepository implements IStoryRepository {
     }
 
     @Override
-    public void updateStoryProgress(int storyid, String status) {
+    public void updateStorySprintboardid(int storyid, int sprintboardid) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQLCleaner = "update story set todo = false, doing = false, done = false, archived = false where storyid = ?";
-            PreparedStatement psCleaner = connection.prepareStatement(SQLCleaner);
-            psCleaner.setInt(1, storyid);
-            psCleaner.executeUpdate();
-
-            String SQL = "update story set" + status + "= true where storyid = ?";
+            String SQL = "update story set sprintboardid = ? where storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setInt(1, storyid);
+            ps.setInt(1, sprintboardid);
+            ps.setInt(2, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
