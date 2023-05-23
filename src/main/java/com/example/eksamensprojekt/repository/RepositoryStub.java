@@ -39,9 +39,9 @@ public class RepositoryStub implements IRepositoryStub {
             new Board(5, "Sprint", 2)
              ));
 
-    private List<Story> storiesStub = new ArrayList<>(List.of(new Story(0, "TestStory", "TestStory", "TestStory", Date.valueOf("2021-05-05"), 0, false, false, false, false),
-            new Story(1, "TestStory1", "TestStory1", "TestStory1", Date.valueOf("2021-05-05"), 0, false, false, false, false),
-            new Story(2, "TestStory2", "TestStory2", "TestStory2", Date.valueOf("2021-05-05"), 1, false, false, false, false)
+    private List<Story> storiesStub = new ArrayList<>(List.of(new Story(0, "TestStory", "TestStory", "TestStory", Date.valueOf("2021-05-05"), 0, 0),
+            new Story(1, "TestStory1", "TestStory1", "TestStory1", Date.valueOf("2021-05-05"), 0, 0),
+            new Story(2, "TestStory2", "TestStory2", "TestStory2", Date.valueOf("2021-05-05"), 1, 0)
             ));
 
     private List<Task> tasksStub = new ArrayList<>(List.of(new Task(0, "TestTask", "TestTask", 10, 0),
