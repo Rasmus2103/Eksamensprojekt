@@ -67,7 +67,7 @@ public class StoryRepository implements IStoryRepository {
     public Story getSpecificStory(int storyid) {
         try{
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived FROM story WHERE storyid = ?";
+            String SQL = "SELECT * FROM story WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();

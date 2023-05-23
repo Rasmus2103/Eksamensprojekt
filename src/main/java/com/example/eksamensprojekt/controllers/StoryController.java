@@ -54,6 +54,7 @@ public class StoryController extends PMController {
 
         Story story = new Story();
         model.addAttribute("story", story);
+        model.addAttribute("errorMessage", 0);
 
         if(boardRepository.getSpecificBoard(boardid).getBoardname().equals("sprintboard")){
             return isLogged(session) ? "sprintboard" : "index";
@@ -115,9 +116,22 @@ public class StoryController extends PMController {
     }
 
     @PostMapping("story/createstory/{boardid}")
-    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid) {
-        storyRepository.addStory(boardid, story);
-        return "redirect:/storylist/{boardid}";
+    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid, Model model) {
+        int projectId = boardRepository.getProjectIdByBoardId(boardid);
+        Project project = projectRepository.getSpecificProject(projectId);
+        if (project.getProjectdeadline().before(story.getStorydeadline())) {
+            model.addAttribute("errorMessage", "The story deadline cannot be after the project deadline.");
+            model.addAttribute("story", story);
+            Board board = boardRepository.getSpecificBoard(boardid);
+            model.addAttribute("board", board);
+            model.addAttribute("projectid", projectId);
+            List<Board> boards = boardRepository.getBoards(projectId);
+            model.addAttribute("boards", boards);
+            return "redirect:/storylist/{boardid}";
+        } else {
+            storyRepository.addStory(boardid, story);
+            return "redirect:/storylist/{boardid}";
+        }
     }
 
     @GetMapping("story/slet/{boardid}/{storyid}")
@@ -171,12 +185,25 @@ public class StoryController extends PMController {
     }
 
     @PostMapping("story/update/{storyid}/{boardid}")
-    public String updateStory(@ModelAttribute("story") Story story, @PathVariable("storyid") int storyid, @PathVariable("boardid") int boardid) {
-        storyRepository.updateStoryName(storyid, story.getStoryname());
-        storyRepository.updateStoryDescription(storyid, story.getStorydescription());
-        storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
-        storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
-        return "redirect:/story/" + storyid;
+    public String updateStory(@ModelAttribute("story") Story story, @PathVariable("storyid") int storyid, @PathVariable("boardid") int boardid, Model model) {
+        int projectId = boardRepository.getProjectIdByBoardId(boardid);
+        Project project = projectRepository.getSpecificProject(projectId);
+        if (project.getProjectdeadline().before(story.getStorydeadline())) {
+            model.addAttribute("errorMessage", "The story deadline cannot be after the project deadline.");
+            model.addAttribute("story", story);
+            Board board = boardRepository.getSpecificBoard(boardid);
+            model.addAttribute("board", board);
+            model.addAttribute("projectid", projectId);
+            List<Board> boards = boardRepository.getBoards(projectId);
+            model.addAttribute("boards", boards);
+            return "redirect:/story/" + storyid;
+        } else {
+                storyRepository.updateStoryName(storyid, story.getStoryname());
+                storyRepository.updateStoryDescription(storyid, story.getStorydescription());
+                storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
+                storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
+                return "redirect:/story/" + storyid;
+            }
     }
 
     @PostMapping("story/update/progress/{storyid}/{boardid}/{status}")
