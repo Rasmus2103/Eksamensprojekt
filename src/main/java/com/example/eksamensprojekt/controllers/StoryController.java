@@ -55,7 +55,6 @@ public class StoryController extends PMController {
 
         Story story = new Story();
         model.addAttribute("story", story);
-        model.addAttribute("errorMessage", 0);
 
         return isLogged(session) ? "storylist" : "index";
 
@@ -114,22 +113,15 @@ public class StoryController extends PMController {
     }
 
     @PostMapping("story/createstory/{boardid}")
-    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid, Model model) {
+    public String addStory(@ModelAttribute("story") Story story, @PathVariable("boardid") int boardid, HttpSession session) {
         int projectId = boardRepository.getProjectIdByBoardId(boardid);
         Project project = projectRepository.getSpecificProject(projectId);
         if (project.getProjectdeadline().before(story.getStorydeadline())) {
-            model.addAttribute("errorMessage", "The story deadline cannot be after the project deadline.");
-            model.addAttribute("story", story);
-            Board board = boardRepository.getSpecificBoard(boardid);
-            model.addAttribute("board", board);
-            model.addAttribute("projectid", projectId);
-            List<Board> boards = boardRepository.getBoards(projectId);
-            model.addAttribute("boards", boards);
-            return "redirect:/storylist/{boardid}";
+            session.setAttribute("errorMessage", "The story deadline cannot be after the project deadline.");
         } else {
             storyRepository.addStory(boardid, story);
-            return "redirect:/storylist/{boardid}";
         }
+        return "redirect:/storylist/{boardid}";
     }
 
     @GetMapping("story/slet/{boardid}/{storyid}")
@@ -177,7 +169,6 @@ public class StoryController extends PMController {
 
         List<User> users = userRepository.getAllUsers();
         model.addAttribute("users", users);
-
 
         return isLogged(session) ? "story" : "index";
     }
@@ -229,9 +220,6 @@ public class StoryController extends PMController {
 
         List<Task> taskslist = taskRepository.getTasks(storyid);
         model.addAttribute("tasks", taskslist);
-
-        Board boardname = boardRepository.getSpecificBoard(storyid);
-        model.addAttribute("boardName", boardname.getBoardname());
 
         model.addAttribute("tasks", tasks);
         return "story";
