@@ -125,6 +125,7 @@
             <dialog id="update-modal">
                 <form action="#" th:action="@{/story/createstory/{boardid}(boardid=${boardid})}" method="post" th:object="${story}">
                     <input type="hidden" th:field="*{boardid}"/>
+                    <div th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;" class="error-message"></div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Story name</label>
                         <input type="text" class="form-control" th:field="*{storyname}">
