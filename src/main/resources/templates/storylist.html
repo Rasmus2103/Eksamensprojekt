@@ -83,6 +83,7 @@
                             <table class="sprint-stories">
                                 <tr th:each="story : ${todoStories}">
                                     <td>
+                                        <a th:href="@{/moveStoryBack/{storyId}(storyId=${story.storyid})}" onclick="return confirm('Do you want to move this to the backlog?')"><i class="fa-solid fa-arrow-right fa-rotate-180"></i></a>
                                         <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
                                            th:text="${story.storyname}"
                                            th:id="${story.storyid}">
@@ -171,9 +172,8 @@
                     <a th:href="@{/story/slet/{boardid}/{storyid}(boardid=${stories.boardid}, storyid=${stories.storyid})}" onclick="return confirm('Are you sure?')">Delete story <i class="fa-sharp fa-solid fa-trash"></i></a>
                 </td>
                 <td>
-                    <a th:if="${boardName == 'backlog'}" th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move story to Sprintboard</a>
-                    <a th:if="${boardName == 'sprintboard'}" th:href="@{/moveStoryBack/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to backlog</a>
-                    <a th:if="${boardName == 'history board'}" th:href="@{/moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move back to sprintboard</a>
+                    <a th:if="${boardName == 'backlog'}" th:href="@{/moveStory/{storyId}(storyId=${stories.storyid}, projectId=${projectId}, boardId=${boardid})}" onclick="return confirm('Are you sure you want move this story?')">Move to Sprintboard</a>
+                    <a th:if="${boardName == 'history board'}" th:href="@{/moveStoryBackToSprintBoard/{storyId}(storyId=${stories.storyid})}" onclick="return confirm('Are you sure you want move this story?')">Move to sprintboard</a>
                 </td>
             </tr>
         </table>
