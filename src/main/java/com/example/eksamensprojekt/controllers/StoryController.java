@@ -30,6 +30,7 @@ public class StoryController extends PMController {
         model.addAttribute("todoStories", todoStories);
         model.addAttribute("doingStories", doingStories);
         model.addAttribute("doneStories", doneStories);
+        model.addAttribute("boardid", boardid);
 
         Board board = boardRepository.getSpecificBoard(boardid);
         int projectId = board.getProjectid();
@@ -56,11 +57,8 @@ public class StoryController extends PMController {
         model.addAttribute("story", story);
         model.addAttribute("errorMessage", 0);
 
-        if(boardRepository.getSpecificBoard(boardid).getBoardname().equals("sprintboard")){
-            return isLogged(session) ? "sprintboard" : "index";
-        } else {
-            return isLogged(session) ? "storylist" : "index";
-        }
+        return isLogged(session) ? "storylist" : "index";
+
     }
 
     @GetMapping("moveStory/{storyId}")
@@ -98,7 +96,7 @@ public class StoryController extends PMController {
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
-    @GetMapping("storylist/moveStoryBackToSprintBoard/{storyId}")
+    @GetMapping("moveStoryBackToSprintBoard/{storyId}")
     public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
         // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
@@ -204,12 +202,6 @@ public class StoryController extends PMController {
                 storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
                 return "redirect:/story/" + storyid;
             }
-    }
-
-    @PostMapping("story/update/progress/{storyid}/{boardid}/{status}")
-    public String updateStoryProgress(@PathVariable("storyid") int storyid, @PathVariable("status") String status,  @PathVariable("boardid") int boardid) {
-        storyRepository.updateStoryProgress(storyid, status);
-        return "redirect:/storylist/" + boardid;
     }
 
     @PostMapping("story/{storyid}/addstoryuser")

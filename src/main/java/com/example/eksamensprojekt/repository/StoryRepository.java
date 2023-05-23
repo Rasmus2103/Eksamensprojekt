@@ -199,17 +199,13 @@ public class StoryRepository implements IStoryRepository {
     }
 
     @Override
-    public void updateStoryProgress(int storyid, String status) {
+    public void updateStorySprintboardid(int storyid, int sprintboardid) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQLCleaner = "update story set todo = false, doing = false, done = false, archived = false where storyid = ?";
-            PreparedStatement psCleaner = connection.prepareStatement(SQLCleaner);
-            psCleaner.setInt(1, storyid);
-            psCleaner.executeUpdate();
-
-            String SQL = "update story set" + status + "= true where storyid = ?";
+            String SQL = "update story set sprintboardid = ? where storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setInt(1, storyid);
+            ps.setInt(1, sprintboardid);
+            ps.setInt(2, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -296,11 +292,10 @@ public class StoryRepository implements IStoryRepository {
         if (br.getSpecificBoard(boardid).getBoardname().equals("sprintboard")) {
             try {
                 Connection connection = ConnectionDB.connection();
-                String SQL = "UPDATE story SET boardid = ?, todo = ? WHERE storyid = ?";
+                String SQL = "UPDATE story SET boardid = ? WHERE storyid = ?";
                 PreparedStatement ps = connection.prepareStatement(SQL);
                 ps.setInt(1, boardid);
-                ps.setBoolean(2, true);
-                ps.setInt(3, storyid);
+                ps.setInt(2, storyid);
                 ps.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -329,12 +324,12 @@ public class StoryRepository implements IStoryRepository {
             Connection connection = ConnectionDB.connection();
 
             // Check if all tasks for the story are finished
-            String checkSQL = "SELECT COUNT(*) FROM task WHERE storyid = ? AND isfinished = false";
+            String checkSQL = "SELECT COUNT(*) FROM task WHERE storyid = ? AND isfinished = 0";
             PreparedStatement checkPs = connection.prepareStatement(checkSQL);
             checkPs.setInt(1, storyId);
             ResultSet checkRs = checkPs.executeQuery();
             if (checkRs.next() && checkRs.getInt(1) == 0) {
-                String SQL = "UPDATE story SET isfinished = true WHERE storyid = ?";
+                String SQL = "UPDATE story SET isfinished = 1 WHERE storyid = ?";
                 PreparedStatement ps = connection.prepareStatement(SQL);
                 ps.setInt(1, storyId);
                 ps.executeUpdate();
