@@ -61,7 +61,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
     }
 
     @GetMapping("moveStoryBack/{storyId}")
-    public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
+        public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
         int projectId = currentBoard.getProjectid();
@@ -102,7 +102,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
         Object userid = session.getAttribute("userid");
         model.addAttribute("userid", userid);
 
-        return isLogged(session) ? "createstory" : "index";
+        return isLogged(session) ? "storylist" : "index";
     }
 
     @PostMapping("story/createstory/{boardid}")
@@ -117,7 +117,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
             model.addAttribute("projectid", projectId);
             List<Board> boards = boardRepository.getBoards(projectId);
             model.addAttribute("boards", boards);
-            return "createstory";
+            return "storylist";
         } else {
             storyRepository.addStory(boardid, story);
             return "redirect:/storylist/{boardid}";
@@ -220,7 +220,7 @@ public String getStories(@PathVariable("boardid") int boardid, Model model, Http
 
 
     @PostMapping("story/{storyid}")
-    public String processForm(@PathVariable("storyid") int storyid, @RequestParam Map<String, Boolean> tasks, Model model) {
+        public String processForm(@PathVariable("storyid") int storyid, @RequestParam Map<String, Boolean> tasks, Model model) {
         Story story = storyRepository.getSpecificStory(storyid);
         model.addAttribute("story", story);
 
