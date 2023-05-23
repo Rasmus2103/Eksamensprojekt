@@ -10,18 +10,20 @@ public class Story {
     private String acceptcriteria;
     private Date storydeadline;
     private int boardid;
+    private int sprintboardid;
 
     public Story(){
 
     }
 
-    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid){
+    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid, int sprintboardid){
         this.storyid = storyid;
         this.storyname = storyname;
         this.storydescription = storydescription;
         this.acceptcriteria = acceptcriteria;
         this.storydeadline = storydeadline;
         this.boardid = boardid;
+        this.sprintboardid = sprintboardid;
     }
 
     public int getStoryid() {
@@ -71,4 +73,14 @@ public class Story {
     public void setBoardid(int boardid) {
         this.boardid = boardid;
     }
+
+    public int getSprintboardid() {
+        return sprintboardid;
+    }
+
+    public void setSprintboardid(int sprintboardid) {
+        this.sprintboardid = sprintboardid;
+    }
+
+
 }

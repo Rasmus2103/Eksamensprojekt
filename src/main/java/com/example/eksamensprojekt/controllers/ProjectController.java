@@ -18,10 +18,10 @@ import java.util.List;
 
 @Controller
 public class ProjectController extends PMController {
-    private IProjectRepository projectRepository;
+    //private IProjectRepository projectRepository;
 
     public ProjectController(ApplicationContext context, @Value("project_DB") String impl) {
-        this.projectRepository = (IProjectRepository) context.getBean(impl);
+        //this.projectRepository = (IProjectRepository) context.getBean(impl);
     }
 
     @GetMapping("userProjects/{id}")
@@ -66,7 +66,7 @@ public class ProjectController extends PMController {
         model.addAttribute("project", project);
 
         int boardid = 0;
-        List<Story> stories = storyRepository.getStories(boardid);
+        List<Story> stories = storyRepository.getStories(boardid, 0);
         model.addAttribute("stories", stories);
 
         User user = userRepository.getUser(userid);

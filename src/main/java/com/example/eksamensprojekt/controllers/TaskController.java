@@ -16,10 +16,10 @@ import java.util.Map;
 
 @Controller
 public class TaskController extends PMController {
-    private ITaskRepository taskRepository;
+    //private ITaskRepository taskRepository;
 
     public TaskController(ApplicationContext context, @Value("task_DB") String impl) {
-        this.taskRepository =(ITaskRepository) context.getBean(impl);
+        //this.taskRepository =(ITaskRepository) context.getBean(impl);
     }
 
     @GetMapping("task/{taskid}")

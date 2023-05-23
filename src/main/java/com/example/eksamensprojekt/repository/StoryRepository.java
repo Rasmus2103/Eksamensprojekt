@@ -12,32 +12,62 @@ public class StoryRepository implements IStoryRepository {
     @Override
     public List<Story> getStories(int boardid) {
         List<Story> stories = new ArrayList<>();
-        try{
+
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT * FROM story WHERE boardid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, boardid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int storyid = rs.getInt("storyid");
                 String storyname = rs.getString("storyname");
                 String storydescription = rs.getString("storydescription");
                 String acceptcriteria = rs.getString("acceptcriteria");
                 Date storydeadline = rs.getDate("storydeadline");
-                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid));
+                int sprintboardid = rs.getInt("sprintboardid");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid));
             }
-            return stories;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
+        return stories;
+    }
+
+
+
+    @Override
+    public List<Story> getStoriesSprintboard(int boardid, int sprintboardid) {
+        List<Story> stories = new ArrayList<>();
+
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "SELECT * FROM story WHERE boardid = ? AND sprintboardid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, boardid);
+            ps.setInt(2, sprintboardid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int storyid = rs.getInt("storyid");
+                String storyname = rs.getString("storyname");
+                String storydescription = rs.getString("storydescription");
+                String acceptcriteria = rs.getString("acceptcriteria");
+                Date storydeadline = rs.getDate("storydeadline");
+                stories.add(new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return stories;
     }
 
     @Override
     public Story getSpecificStory(int storyid) {
         try{
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid FROM story WHERE storyid = ?";
+            String SQL = "SELECT storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, todo, doing, done, archived FROM story WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
@@ -49,7 +79,8 @@ public class StoryRepository implements IStoryRepository {
                 String acceptcriteria = rs.getString("acceptcriteria");
                 Date storydeadline = rs.getDate("storydeadline");
                 int boardid = rs.getInt("boardid");
-                story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid);
+                int sprintboardid = rs.getInt("sprintboardid");
+                story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid);
             }
             return story;
         } catch (SQLException e){
@@ -167,6 +198,27 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
+    @Override
+    public void updateStoryProgress(int storyid, String status) {
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQLCleaner = "update story set todo = false, doing = false, done = false, archived = false where storyid = ?";
+            PreparedStatement psCleaner = connection.prepareStatement(SQLCleaner);
+            psCleaner.setInt(1, storyid);
+            psCleaner.executeUpdate();
+
+            String SQL = "update story set" + status + "= true where storyid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
     public List<String> getUserNamesByStoryId(int storyid) {
         List<String> userNames = new ArrayList<>();
         try {
@@ -190,6 +242,7 @@ public class StoryRepository implements IStoryRepository {
         return userNames;
     }
 
+    @Override
     public void addUserToStory(int storyid, int userid) {
         try {
             Connection connection = ConnectionDB.connection();
@@ -236,21 +289,41 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
-
+    @Override
     public void moveStoryToBoard(int storyid, int boardid) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "UPDATE story SET boardid = ? WHERE storyid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setInt(1, boardid);
-            ps.setInt(2, storyid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+        UserRepository ur = new UserRepository();
+        BoardRepository br = new BoardRepository();
+        if (br.getSpecificBoard(boardid).getBoardname().equals("sprintboard")) {
+            try {
+                Connection connection = ConnectionDB.connection();
+                String SQL = "UPDATE story SET boardid = ?, todo = ? WHERE storyid = ?";
+                PreparedStatement ps = connection.prepareStatement(SQL);
+                ps.setInt(1, boardid);
+                ps.setBoolean(2, true);
+                ps.setInt(3, storyid);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                Connection connection = ConnectionDB.connection();
+                String SQL = "UPDATE story SET boardid = ? WHERE storyid = ?";
+                PreparedStatement ps = connection.prepareStatement(SQL);
+                ps.setInt(1, boardid);
+                ps.setInt(2, storyid);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException(e);
+            }
         }
     }
+        /*
+    }*/
 
+    @Override
     public void markStoryAsFinished(int storyId) {
         try {
             Connection connection = ConnectionDB.connection();
@@ -274,7 +347,7 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
-
+    @Override
     public List<Integer> getAllStoryPoints(int storyid) {
         List<Integer> storyPoints = new ArrayList<>();
         try {
@@ -293,6 +366,7 @@ public class StoryRepository implements IStoryRepository {
         return storyPoints;
     }
 
+    @Override
     public int getSumOfStoryPoints(int storyid) {
         List<Integer> storyPoints = getAllStoryPoints(storyid);
         int sum = 0;
