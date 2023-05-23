@@ -87,19 +87,22 @@
                                            th:text="${story.storyname}"
                                            th:id="${story.storyid}">
                                         </a>
+                                        <a th:href="@{/sprintboardMoveRight/{storyid}/{sprintboardid}(storyid=${story.storyid}, sprintboardid=${story.getSprintboardid()}, boardid=${boardid})}"><i class="fa-solid fa-arrow-right"></i></a>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <div class="kanban-block" id="doing" >
-                            <strong>In Progress</strong>
+                            <strong>Doing</strong>
                             <table class="sprint-stories">
                                 <tr th:each="story : ${doingStories}">
                                     <td>
+                                        <a th:href="@{/sprintboardMoveLeft/{storyid}/{sprintboardid}(storyid=${story.storyid}, sprintboardid=${story.getSprintboardid()}, boardid=${boardid})}"><i class="fa-solid fa-arrow-right fa-rotate-180"></i></a>
                                         <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
                                            th:text="${story.storyname}"
                                            th:id="${story.storyid}">
                                         </a>
+                                        <a th:href="@{/sprintboardMoveRight/{storyid}/{sprintboardid}(storyid=${story.storyid}, sprintboardid=${story.getSprintboardid()}, boardid=${boardid})}"><i class="fa-solid fa-arrow-right"></i></a>
                                     </td>
                                 </tr>
                             </table>
@@ -109,6 +112,7 @@
                             <table class="sprint-stories">
                                 <tr th:each="story : ${doneStories}">
                                     <td>
+                                        <a th:href="@{/sprintboardMoveLeft/{storyid}/{sprintboardid}(storyid=${story.storyid}, sprintboardid=${story.getSprintboardid()}, boardid=${boardid})}"><i class="fa-solid fa-arrow-right fa-rotate-180"></i></a>
                                         <a th:href="@{/story/{storyid}(storyid=${story.storyid})}"
                                            th:text="${story.storyname}"
                                            th:id="${story.storyid}">

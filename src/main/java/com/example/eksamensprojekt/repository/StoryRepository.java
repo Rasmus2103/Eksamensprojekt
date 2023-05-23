@@ -315,8 +315,6 @@ public class StoryRepository implements IStoryRepository {
             }
         }
     }
-        /*
-    }*/
 
     @Override
     public void markStoryAsFinished(int storyId) {

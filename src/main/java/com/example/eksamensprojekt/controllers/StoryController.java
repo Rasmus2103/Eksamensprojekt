@@ -60,6 +60,20 @@ public class StoryController extends PMController {
 
     }
 
+    @GetMapping("sprintboardMoveRight/{storyid}/{sprintboardid}")
+    public String sprintboardMoveRight(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId){
+        storyRepository.updateStorySprintboardid(storyId, sprintboardid + 1);
+        Board currentBoard = boardRepository.getSpecificBoard(boardId);
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
+    @GetMapping("sprintboardMoveLeft/{storyid}/{sprintboardid}")
+    public String sprintboardMoveLeft(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId){
+        storyRepository.updateStorySprintboardid(storyId, sprintboardid - 1);
+        Board currentBoard = boardRepository.getSpecificBoard(boardId);
+        return "redirect:/storylist/" + currentBoard.getBoardid();
+    }
+
     @GetMapping("moveStory/{storyId}")
     public String moveStoryToSprintBoard(@PathVariable("storyId") int storyId, @RequestParam("projectId") int projectId, @RequestParam("boardId") int boardId) {
         Story story = storyRepository.getSpecificStory(storyId);
