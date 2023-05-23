@@ -30,6 +30,7 @@ public class StoryController extends PMController {
         model.addAttribute("todoStories", todoStories);
         model.addAttribute("doingStories", doingStories);
         model.addAttribute("doneStories", doneStories);
+        model.addAttribute("boardid", boardid);
 
         Board board = boardRepository.getSpecificBoard(boardid);
         int projectId = board.getProjectid();
@@ -94,7 +95,7 @@ public class StoryController extends PMController {
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
-    @GetMapping("storylist/moveStoryBackToSprintBoard/{storyId}")
+    @GetMapping("moveStoryBackToSprintBoard/{storyId}")
     public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
         // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
