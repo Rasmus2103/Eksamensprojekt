@@ -32,6 +32,7 @@ storydescription VARCHAR(500),
 acceptcriteria VARCHAR(500),
 storydeadline DATE,
 isfinished BOOLEAN,
+sprintboardid INT default 0,
 boardid INT,
 PRIMARY KEY (storyid),
 FOREIGN KEY (boardid) REFERENCES board (boardid)
