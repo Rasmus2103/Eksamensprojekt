@@ -138,59 +138,16 @@ public class StoryRepository implements IStoryRepository {
         }
     }
 
-    @Override
-    public void updateStoryName(int storyid, String storyname) {
+    public void updateStory(int storyid, Story story) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "update story set storyname = ? where storyid = ?";
+            String SQL = "UPDATE story SET storyname = ?, storydescription = ?, acceptcriteria = ?, storydeadline = ? WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, storyname);
-            ps.setInt(2, storyid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateStoryDescription(int storyid, String storydescription) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update story set storydescription = ? where storyid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, storydescription);
-            ps.setInt(2, storyid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update story set acceptcriteria = ? where storyid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, storyacceptcriteria);
-            ps.setInt(2, storyid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateStoryDeadline(int storyid, Date storydeadline) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update story set storydeadline = ? where storyid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setDate(1, storydeadline);
-            ps.setInt(2, storyid);
+            ps.setString(1, story.getStoryname());
+            ps.setString(2, story.getStorydescription());
+            ps.setString(3, story.getAcceptcriteria());
+            ps.setDate(4, story.getStorydeadline());
+            ps.setInt(5, storyid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

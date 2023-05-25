@@ -149,13 +149,13 @@
                         </dialog>
                     </div>
                 </td>
-                <td>
                 <div th:if="${board.getBoardname() == 'sprintboard'}">
+                <td>
                     <form method="post" th:action="@{/markStoryAsFinished/{boardid}/{storyId}(boardid=${story.boardid}, storyId=${story.storyid})}">
                         <button type="submit" onclick="return confirm('Do you want to move the story to history board?')">Mark Story as Finished</button>
                     </form>
-                </div>
                 </td>
+                </div>
                 <td>
                     <div>
                         <button data-modal-open-target="update-modal" data-is-modal id="modal-button4">Assigned users</button>
