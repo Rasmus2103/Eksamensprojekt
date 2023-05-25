@@ -100,9 +100,7 @@ public class ProjectController extends PMController {
     @PostMapping("project/update/{projectid}/{userid}")
     public String updateProject(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         if (project.getProjectname() != null) {
-            projectRepository.updateProjectName(projectid, project.getProjectname());
-            projectRepository.updateProjectDeadline(projectid, project.getProjectdeadline());
-
+            projectRepository.updateProject(projectid, project);
             return "redirect:/project/" + projectid + "/" + userid;
         }
         model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
