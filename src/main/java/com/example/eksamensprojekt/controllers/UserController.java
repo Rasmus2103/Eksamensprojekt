@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController extends PMController {
-    //private IUserRepository userRepository;
 
     public UserController(ApplicationContext context, @Value("user_DB") String impl) {
-       //this.userRepository =(IUserRepository) context.getBean(impl);
     }
 
 
@@ -36,7 +34,6 @@ public class UserController extends PMController {
 
     @GetMapping("logout")
     public String logout(HttpSession session) {
-        // invalidate session and return landing page
         session.invalidate();
         return "index";
     }

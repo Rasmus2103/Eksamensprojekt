@@ -14,10 +14,8 @@ import java.util.Map;
 
 @Controller
 public class StoryController extends PMController {
-    private IStoryRepository storyRepository;
 
     public StoryController(ApplicationContext context, @Value("story_DB") String impl) {
-        this.storyRepository =(IStoryRepository) context.getBean(impl);
     }
 
     @GetMapping("storylist/{boardid}")
@@ -57,7 +55,6 @@ public class StoryController extends PMController {
         model.addAttribute("story", story);
 
         return isLogged(session) ? "storylist" : "index";
-
     }
 
     @GetMapping("sprintboardMoveRight/{storyid}/{sprintboardid}")
@@ -261,25 +258,5 @@ public class StoryController extends PMController {
         // Redirect back to the story details page
         return "redirect:/storylist/" + boardid;
     }
-
-    @GetMapping("sprintboard/{boardid}")
-    public String getSprintStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
-
-
-        Board board = boardRepository.getSpecificBoard(boardid);
-        int projectId = board.getProjectid();
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("board", board);
-
-        List<Board> boards = boardRepository.getBoards(projectId);
-        model.addAttribute("boards", boards);
-
-
-        Object userid = session.getAttribute("userid");
-        model.addAttribute("userid", userid);
-
-        return isLogged(session) ? "sprintboard" : "index";
-    }
-
 
 }
