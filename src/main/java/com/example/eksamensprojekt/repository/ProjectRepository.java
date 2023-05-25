@@ -136,29 +136,14 @@ public class ProjectRepository implements IProjectRepository {
         }
     }
 
-    @Override
-    public void updateProjectName(int projectid, String projectname) {
+    public void updateProject(int projectid, Project project) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "update project set projectname = ? where projectid = ?";
+            String SQL = "update project set projectname = ?, projectdeadline = ? where projectid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, projectname);
-            ps.setInt(2, projectid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateProjectDeadline(int projectid, Date projectdeadline) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update project set projectdeadline = ? where projectid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setDate(1, projectdeadline);
-            ps.setInt(2, projectid);
+            ps.setString(1, project.getProjectname());
+            ps.setDate(2, project.getProjectdeadline());
+            ps.setInt(3, projectid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
