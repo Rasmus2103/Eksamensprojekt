@@ -61,7 +61,7 @@
         </thead>
         <tr th:each="projects: ${projects}">
             <td th:text="${projects.getProjectname()}"></td>
-            <td th:text="${projects.getProjectdeadline()}"></td>
+            <td th:text="${#dates.format(projects.getProjectdeadline(),'dd/MM/yyyy')}"></td>
             <td>
                 <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}">Go to Project</a>
             </td>

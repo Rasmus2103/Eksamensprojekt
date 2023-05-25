@@ -286,6 +286,20 @@ public class StoryRepository implements IStoryRepository {
     }
 
     @Override
+    public void removeUserFromStory(int storyid, int userid){
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "DELETE FROM storyuser WHERE storyid =? AND userid =?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, storyid);
+            ps.setInt(2, userid);
+            ps.executeUpdate();
+        } catch (SQLException e) { System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void moveStoryToBoard(int storyid, int boardid) {
         UserRepository ur = new UserRepository();
         BoardRepository br = new BoardRepository();

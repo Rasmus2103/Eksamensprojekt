@@ -15,10 +15,10 @@ public interface IStoryRepository {
     void updateStoryDescription(int storyid, String storydescription);
     void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
     void updateStoryDeadline(int storyid, Date storydeadline);
-
     void updateStorySprintboardid(int storyid, int sprintboardid);
     List<String> getUserNamesByStoryId(int storyid);
     void addUserToStory(int storyid, int userid);
+    void removeUserFromStory(int storyid, int userid);
     void moveStoryToBoard(int storyid, int boardid);
     void markStoryAsFinished(int storyId);
     List<Integer>getAllStoryPoints(int storyid);

@@ -223,6 +223,23 @@ public class StoryController extends PMController {
         return "redirect:/story/" + storyid;
     }
 
+    @PostMapping("story/{storyid}/removeuserfromstory")
+    public String RemoveUserFromStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds, Model model){
+        if (userIds != null) {
+            for (int userid : userIds) {
+                try {
+                    storyRepository.removeUserFromStory(storyid, userid);
+                } catch (RuntimeException e) {
+                    String errorMessage = "Failed to remove user to story: " + e.getMessage();
+                    model.addAttribute("errorMessage", errorMessage);
+                    List<User> users = userRepository.getAllUsers();
+                    model.addAttribute("users", users);
+                }
+            }
+        }
+        return "redirect:/story/" + storyid;
+    }
+
 
     @PostMapping("story/{storyid}")
     public String processForm(@PathVariable("storyid") int storyid, @RequestParam Map<String, Boolean> tasks, Model model) {

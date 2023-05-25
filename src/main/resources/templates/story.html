@@ -101,11 +101,28 @@
                                     </div>
                                 </div>
                                 <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog" type="submit">close</button>
-                                <button type="submit" class="btn btn-primary">Add User</button>
+                                <button type="submit" class="btn btn-primary">Add User(s)</button>
                             </form>
                             <div th:if="${errorMessage}">
                                 <p th:text="errorMessage"></p>
                             </div>
+                        </dialog>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button data-modal-open-target="update-modal5" data-is-modal id="modal-button5">Remove users from the story</button>
+                        <dialog id="update-modal5">
+                            <form th:action="@{/story/{storyid}/removeuserfromstory(storyid=${storyid})}" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Select users to remove from the story</label>
+                                    <div th:each="user : ${usersFromProject}">
+                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                                    </div>
+                                </div>
+                                <button data-modal-close-target="update-modal" id="modal-close5" formmethod="dialog" type="submit">close</button>
+                                <button type="submit" class="btn btn-primary">Remove User(s)</button>
+                            </form>
                         </dialog>
                     </div>
                 </td>
@@ -277,6 +294,16 @@
     document.getElementById("modal-close4").addEventListener("click", closemodal4);
     function closemodal4(){
         dialog4.close()
+    }
+
+    const dialog5 = document.getElementById("update-modal5")
+    document.getElementById("modal-button5").addEventListener("click", showmodal5);
+    function showmodal5(){
+        dialog5.showModal()
+    }
+    document.getElementById("modal-close5").addEventListener("click", closemodal5);
+    function closemodal5(){
+        dialog5.close()
     }
 </script>
 
