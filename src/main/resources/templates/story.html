@@ -43,7 +43,7 @@
             <h3 th:text="${projectname}"></h3>
         </div>
         <ul>
-            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Home</a></li>
+            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Project overview</a></li>
         </ul>
         <h4>--- Boards ---</h4>
         <br>
@@ -96,7 +96,7 @@
                             <form th:action="@{/story/{storyid}/addstoryuser(storyid=${storyid})}" method="post">
                                 <div class="mb-3">
                                     <label class="form-label">Select users to add to the story</label>
-                                    <div th:each="user : ${users}">
+                                    <div th:each="user : ${usersFromProject}">
                                         <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                 <h4 th:text="'Total Storypoints: ' + ${totalStoryPoints}"></h4>
                             </td>
                             <td>
-                                <h4 th:text="'Deadline: ' + ${story.getStorydeadline()}"></h4>
+                                <h4 th:text="'Deadline: ' + ${#dates.format(story.getStorydeadline(), 'dd/MM/yyyy')}"></h4>
                             </td>
                         </tr>
                     </table>

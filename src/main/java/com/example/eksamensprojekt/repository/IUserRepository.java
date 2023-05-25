@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IUserRepository {
     List<User> getAllUsers();
+    List<User> getAllUsersFromProject(int projectid);
     User getUser(int userid);
     int getUserid(String username);
     boolean usernameExists(String username);

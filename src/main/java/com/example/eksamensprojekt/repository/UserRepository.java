@@ -30,6 +30,28 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    public List<User> getAllUsersFromProject(int projectid) {
+        List<User> usersProject = new ArrayList<>();
+        try {
+            Connection connection = ConnectionDB.connection();
+            String SQL = "SELECT user.* FROM user INNER JOIN userproject ON user.userid = userproject.userid WHERE userproject.projectid = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setInt(1, projectid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("userid");
+                String name = rs.getString("name");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                usersProject.add(new User(id, name, username, password));
+            }
+            return usersProject;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public User getUser(int userid) {
         User user = null;
@@ -184,6 +206,7 @@ public class UserRepository implements IUserRepository {
                 ps = connection.prepareStatement(SQL2);
                 ps.setInt(1, userid);
                 ps.setInt(2, storyid);
+                ps.executeUpdate();
             }
 
             String SQL2 = "DELETE FROM userproject WHERE projectid=? AND userid=?";
