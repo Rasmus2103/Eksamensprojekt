@@ -206,6 +206,7 @@ public class UserRepository implements IUserRepository {
                 ps = connection.prepareStatement(SQL2);
                 ps.setInt(1, userid);
                 ps.setInt(2, storyid);
+                ps.executeUpdate();
             }
 
             String SQL2 = "DELETE FROM userproject WHERE projectid=? AND userid=?";

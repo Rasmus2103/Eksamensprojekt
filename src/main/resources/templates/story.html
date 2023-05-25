@@ -169,7 +169,7 @@
                                 <h4 th:text="'Total Storypoints: ' + ${totalStoryPoints}"></h4>
                             </td>
                             <td>
-                                <h4 th:text="'Deadline: ' + ${story.getStorydeadline()}"></h4>
+                                <h4 th:text="'Deadline: ' + ${#dates.format(story.getStorydeadline(), 'dd/MM/yyyy')}"></h4>
                             </td>
                         </tr>
                     </table>

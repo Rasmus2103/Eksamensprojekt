@@ -133,7 +133,7 @@
 
         <br>
         <h4>Project deadline:</h4>
-        <p th:text="${project.getProjectdeadline()}"></p>
+        <p th:text="${#dates.format(project.getProjectdeadline(), 'dd/MM/yyyy')}"></p>
 
     </div>
 

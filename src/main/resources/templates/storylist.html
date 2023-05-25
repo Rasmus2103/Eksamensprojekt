@@ -157,7 +157,7 @@
             </thead>
             <tr th:each="stories: ${stories}">
                 <td th:text="${stories.storyname}"></td>
-                <td th:text="${stories.storydeadline}"></td>
+                <td th:text="${#dates.format(stories.getStorydeadline(), 'dd/MM/yyyy')}">></td>
                 <td>
                     <a th:href="@{/story/{storyid}(storyid=${stories.storyid})}">Go to story</a>
                 </td>
