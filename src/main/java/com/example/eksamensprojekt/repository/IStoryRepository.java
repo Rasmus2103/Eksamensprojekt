@@ -11,11 +11,7 @@ public interface IStoryRepository {
     Story getSpecificStory(int storyid);
     void addStory(int boardid, Story story);
     void deleteStory(int storyid);
-    void updateStoryName(int storyid, String storyname);
-    void updateStoryDescription(int storyid, String storydescription);
-    void updateStoryAcceptcriteria(int storyid, String storyacceptcriteria);
-    void updateStoryDeadline(int storyid, Date storydeadline);
-
+    void updateStory(int storyid, Story story);
     void updateStorySprintboardid(int storyid, int sprintboardid);
     List<String> getUserNamesByStoryId(int storyid);
     void addUserToStory(int storyid, int userid);

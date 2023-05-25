@@ -99,14 +99,15 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
-    @Override
-    public void updateTaskName(int taskid, String taskname) {
+    public void updateTask(int taskid, Task task) {
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "update task set taskname = ? where taskid = ?";
+            String SQL = "UPDATE task SET taskname = ?, taskdescription = ?, storypoints = ? WHERE taskid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, taskname);
-            ps.setInt(2, taskid);
+            ps.setString(1, task.getTaskname());
+            ps.setString(2, task.getTaskdescription());
+            ps.setInt(3, task.getStorypoints());
+            ps.setInt(4, taskid);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -114,35 +115,6 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
-    @Override
-    public void updateTaskDescription(int taskid, String taskdescription) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update task set taskdescription = ? where taskid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, taskdescription);
-            ps.setInt(2, taskid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateTaskStorypoints(int taskid, int storypoints) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "update task set storypoints = ? where taskid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setInt(1, storypoints);
-            ps.setInt(2, taskid);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
 
     public void updateTaskFinished(int taskId, boolean finished) {
         try {

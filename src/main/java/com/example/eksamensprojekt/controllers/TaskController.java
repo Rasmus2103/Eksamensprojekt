@@ -42,10 +42,7 @@ public class TaskController extends PMController {
 
     @PostMapping("task/update/{taskid}/{storyid}")
     public String updateTask(@ModelAttribute("task") Task task, @PathVariable("taskid") int taskid, @PathVariable("storyid") int storyid) {
-        taskRepository.updateTaskName(taskid, task.getTaskname());
-        taskRepository.updateTaskDescription(taskid, task.getTaskdescription());
-        taskRepository.updateTaskStorypoints(taskid, task.getStorypoints());
-
+        taskRepository.updateTask(taskid, task);
         return "redirect:/story/" + storyid;
     }
 

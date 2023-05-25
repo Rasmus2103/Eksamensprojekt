@@ -198,10 +198,7 @@ public class StoryController extends PMController {
             model.addAttribute("boards", boards);
             return "redirect:/story/" + storyid;
         } else {
-                storyRepository.updateStoryName(storyid, story.getStoryname());
-                storyRepository.updateStoryDescription(storyid, story.getStorydescription());
-                storyRepository.updateStoryAcceptcriteria(storyid, story.getAcceptcriteria());
-                storyRepository.updateStoryDeadline(storyid, story.getStorydeadline());
+                storyRepository.updateStory(storyid, story);
                 return "redirect:/story/" + storyid;
             }
     }

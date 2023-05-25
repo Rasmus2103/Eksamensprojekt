@@ -9,10 +9,7 @@ public interface ITaskRepository {
     Task getSpecificTask(int taskid);
     void addTask(int storyid, Task task);
     void deleteTask(int taskid);
-    void updateTaskName(int taskid, String taskname);
-    void updateTaskDescription(int taskid, String taskdescription);
-    void updateTaskStorypoints(int taskid, int storypoints);
-    //void updateTaskStatus(int taskId, boolean status);
+    void updateTask(int taskid, Task task);
     void updateTaskFinished(int taskId, boolean finished);
     boolean areAllTasksFinished(int storyId);
 }
