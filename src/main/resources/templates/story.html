@@ -96,7 +96,7 @@
                             <form th:action="@{/story/{storyid}/addstoryuser(storyid=${storyid})}" method="post">
                                 <div class="mb-3">
                                     <label class="form-label">Select users to add to the story</label>
-                                    <div th:each="user : ${users}">
+                                    <div th:each="user : ${usersFromProject}">
                                         <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
                                     </div>
                                 </div>
