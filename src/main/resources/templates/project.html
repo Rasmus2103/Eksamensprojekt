@@ -94,46 +94,25 @@
                 </td>
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">update project
-                            name
-                        </button>
+                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Update project</button>
                         <dialog id="update-modal2">
                             <form th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}"
                                   method="post" th:object="${project}">
-                                <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the
-                                    project a
-                                    name</h4>
-                                <label>Add a new project Name:</label>
+                                <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
+
+                                <label>Project Name:</label>
                                 <input type="text" th:field="*{projectname}" required/>
-                                <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog"
-                                        type="submit">
-                                    close
-                                </button>
+
+                                <label>Project deadline:</label>
+                                <input type="date" th:field="*{projectdeadline}"/>
+
+                                <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
                                 <button type="submit">Update</button>
                             </form>
                         </dialog>
                     </div>
                 </td>
-                <td>
-                    <div>
-                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button">update project
-                            deadline
-                        </button>
-                        <dialog id="update-modal">
-                            <form action="#"
-                                  th:action="@{/project/updatedeadline/{projectid}(projectid=${project.projectid})}"
-                                  method="post" th:object="${project}">
-                                <label>Choose a new deadline:</label>
-                                <input type="date" th:field="*{projectdeadline}"/>
-                                <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog"
-                                        type="submit">
-                                    close
-                                </button>
-                                <button type="submit">update</button>
-                            </form>
-                        </dialog>
-                    </div>
-                </td>
+
                 <td>
                     <button>
                         <a th:href="@{/leaveproject/{projectid}/{userid}(projectid=${project.projectid}, userid=${user.getUserid()})}"
@@ -161,19 +140,6 @@
 </div>
 
 <script>
-    const dialog = document.getElementById("update-modal")
-    document.getElementById("modal-button").addEventListener("click", showmodal);
-
-    function showmodal() {
-        dialog.showModal()
-    }
-
-    document.getElementById("modal-close").addEventListener("click", closemodal);
-
-    function closemodal() {
-        dialog.close()
-    }
-
     const dialog2 = document.getElementById("update-modal2")
     document.getElementById("modal-button2").addEventListener("click", showmodal2);
 

@@ -100,19 +100,15 @@ public class ProjectController extends PMController {
     }
 
     @PostMapping("project/update/{projectid}/{userid}")
-    public String updateProjectName(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
+    public String updateProject(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         if (project.getProjectname() != null) {
             projectRepository.updateProjectName(projectid, project.getProjectname());
+            projectRepository.updateProjectDeadline(projectid, project.getProjectdeadline());
+
             return "redirect:/project/" + projectid + "/" + userid;
         }
         model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
         return "project/update/" + projectid + "/" + session.getAttribute("userid");
-    }
-
-    @PostMapping("project/updatedeadline/{projectid}")
-    public String updateProjectdeadline(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, HttpSession session) {
-            projectRepository.updateProjectDeadline(projectid, project.getProjectdeadline());
-           return "redirect:/project/" + projectid + "/" + session.getAttribute("userid");
     }
 
 }
