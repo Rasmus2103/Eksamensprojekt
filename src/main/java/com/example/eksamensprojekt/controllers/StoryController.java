@@ -178,8 +178,8 @@ public class StoryController extends PMController {
         Task task1 = taskRepository.getSpecificTask(storyid);
         model.addAttribute("task1", task1);
 
-        List<User> users = userRepository.getAllUsers();
-        model.addAttribute("users", users);
+        List<User> usersFromProject = userRepository.getAllUsersFromProject(projectID);
+        model.addAttribute("usersFromProject", usersFromProject);
 
         return isLogged(session) ? "story" : "index";
     }
