@@ -31,8 +31,8 @@ public class TaskController extends PMController {
     public String updateTask(@PathVariable("taskid") int taskid,@PathVariable("projectid") int projectid ,Model model, HttpSession session) {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
-        session.getAttribute("userid");
-        model.addAttribute("userid", session.getAttribute("userid"));
+        Object userid = session.getAttribute("userid");
+        model.addAttribute("userid", userid);
         Project project = projectRepository.getSpecificProject(projectid);
 
         model.addAttribute("project", project);
