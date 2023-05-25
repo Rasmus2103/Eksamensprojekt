@@ -40,7 +40,7 @@
                 <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
                     <div class="mb-3">
                         <label class="form-label">Project name:</label>
-                        <input type="text" class="form-control" th:field="*{projectname}"/>
+                        <input type="text" class="form-control" th:field="*{projectname}" maxlength="30"/>
                         <label class="form-label">Deadline:</label>
                         <input type="date" class="form-control" th:field="*{projectdeadline}"/>
                     </div>
