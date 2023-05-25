@@ -11,13 +11,6 @@ public class ProjectDTOForm {
     private Date projectdeadline;
     private List<String> userList;
 
-    public ProjectDTOForm(int projectid, String projectname, List<String> userList, Date projectdeadline) {
-        this.projectid = projectid;
-        this.projectname = projectname;
-        this.userList = userList;
-        this.projectdeadline = projectdeadline;
-    }
-
     public ProjectDTOForm() {
 
     }

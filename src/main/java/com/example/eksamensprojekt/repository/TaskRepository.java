@@ -144,20 +144,6 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
-    /*public void updateTaskStatus(int taskId, boolean status) {
-        try {
-            Connection connection = ConnectionDB.connection();
-            String SQL = "UPDATE task SET isfinished = ? WHERE taskid = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setString(1, status ? "true" : "false");
-            ps.setInt(2, taskId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }*/
-
     public void updateTaskFinished(int taskId, boolean finished) {
         try {
             Connection connection = ConnectionDB.connection();
