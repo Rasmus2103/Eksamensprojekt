@@ -32,9 +32,11 @@ public class TaskController extends PMController {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
         session.getAttribute("userid");
-        model.addAttribute("userid");
+        model.addAttribute("userid", session.getAttribute("userid"));
         Project project = projectRepository.getSpecificProject(projectid);
+
         model.addAttribute("project", project);
+
         List<Board> boards = boardRepository.getBoards(projectid);
         model.addAttribute("boards", boards);
         return isLogged(session) ? "updatetask" : "index";
