@@ -56,26 +56,26 @@
   <div>
     <form th:action="@{/account/update/{userid}(userid=${user.getUserid()})}" method="post" th:object="${user}">
 
-      <div th:if="${usernameExists}">
-        <h4 style="color: red;">Username already exists. Please choose a different username</h4>
+      <div th:if="${wrongcredentials == true}">
+        <h4 style="color: red;">Something went wrong</h4>
       </div>
 
     <h4>Name</h4>
-      <div class="mb-3">
-      <label for="updatename" class="form-label">Update name</label>
-      <input type="text" class="form-control" id="updatename" th:placeholder="${user.getname()}" th:field="*{name}">
+      <div >
+      <label >Update name</label>
+      <input type="text" th:field="*{name}" required>
       </div>
 
     <h4>Username</h4>
       <div class="mb-3">
       <label for="updateusername" class="form-label">Update username</label>
-      <input type="text" class="form-control" id="updateusername" th:placeholder="${user.getUserName()}" th:field="*{userName}">
+      <input type="text" class="form-control" id="updateusername" th:field="*{userName}" required>
       </div>
 
     <h4>Password</h4>
       <div class="mb-3">
       <label for="updatepassword" class="form-label">Update password</label>
-      <input type="text" class="form-control" id="updatepassword" th:placeholder="${user.getPassword()}" th:field="*{password}">
+      <input type="text" class="form-control" id="updatepassword" th:field="*{password}" required>
       </div>
 
       <br>
@@ -86,7 +86,7 @@
   <br>
   <div>
     <h4>Delete Account</h4>
-    <a th:href="@{/account/delete/{userid}(userid=${user.userid})}" onclick="return confirm('Are you sure?')">Delete</a>
+    <a th:href="@{/account/delete/{userid}(userid=${user.userid})}" onclick="return confirm('Are you sure?')"><i class="fa-sharp fa-solid fa-trash"></i></a>
   </div>
 </div>
 

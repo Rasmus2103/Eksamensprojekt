@@ -62,6 +62,8 @@ public class UserController extends PMController {
             User user = (User) session.getAttribute("user");
             if (user.getUserid() == userid) {
                 model.addAttribute("user", user);
+                boolean wrongcredentials = false;
+                model.addAttribute("wrongcredentials", wrongcredentials);
                 return "account";
             } else {
                 return "redirect:/userProjects";
@@ -79,13 +81,16 @@ public class UserController extends PMController {
     }
 
     @PostMapping("account/update/{userid}")
-    public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session) {
-        userRepository.updateUsername(userid, user.getUserName());
-        userRepository.updateName(userid, user.getname());
-        userRepository.updatePassword(userid, user.getPassword());
+    public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session, Model model) {
+       if(user.getUserName() != null) {
+           userRepository.updateUsername(userid, user.getUserName());
+           userRepository.updateName(userid, user.getname());
+           userRepository.updatePassword(userid, user.getPassword());
+           session.setAttribute("user", user);
 
-        session.setAttribute("user", user);
-
+           return "redirect:/account/" + userid;
+       }
+       model.addAttribute("wrongcredentials", true);
         return "redirect:/account/" + userid;
     }
 }
