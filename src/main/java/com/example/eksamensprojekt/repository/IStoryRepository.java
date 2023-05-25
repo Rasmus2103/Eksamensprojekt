@@ -15,6 +15,7 @@ public interface IStoryRepository {
     void updateStorySprintboardid(int storyid, int sprintboardid);
     List<String> getUserNamesByStoryId(int storyid);
     void addUserToStory(int storyid, int userid);
+    void removeUserFromStory(int storyid, int userid);
     void moveStoryToBoard(int storyid, int boardid);
     void markStoryAsFinished(int storyId);
     List<Integer>getAllStoryPoints(int storyid);
