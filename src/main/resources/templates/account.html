@@ -42,63 +42,69 @@
 
 <body>
 
-<!--<div class="left-div">
-  <div class="sidebar">
-    <div class="sidebar-overview">
-      <br>
-      <h3>Account Settings</h3>
-    </div>
-    <ul>
-      <br>
-      <li><a th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a></li>
-    </ul>
-  </div>
-</div>-->
-
 <div class="profile-container right-div-account">
+
+    <div th:if="${usernameExists}">
+        <h4 style="color: red;">Something went wrong</h4>
+    </div>
+
     <div id="profile">
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
              alt="Profile Picture">
         <h3 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'Account' "></h3>
     </div>
     <div>
-        <form th:action="@{/account/update/{userid}(userid=${user.getUserid()})}" method="post" th:object="${user}">
+        <h4>Name:</h4>
+        <h4 th:text="${user1.getname()}"></h4>
+        <br>
+        <h4>Username:</h4>
+        <h4 th:text="${user1.getUserName()}"></h4>
+        <br>
+        <h4>Password:</h4>
+        <h4 th:text="${user1.getPassword()}"></h4>
+        <br>
+    </div>
 
-            <div th:if="${wrongcredentials == true}">
-                <h4 style="color: red;">Something went wrong</h4>
-            </div>
-
-            <h4>Name</h4>
-            <div>
-                <label>Update name</label>
-                <input type="text" th:field="*{name}" required>
-            </div>
-
-            <h4>Username</h4>
-            <div class="mb-3">
-                <label for="updateusername" class="form-label">Update username</label>
-                <input type="text" class="form-control" id="updateusername" th:field="*{userName}" required>
-            </div>
-
-            <h4>Password</h4>
-            <div class="mb-3">
-                <label for="updatepassword" class="form-label">Update password</label>
-                <input type="text" class="form-control" id="updatepassword" th:field="*{password}" required>
-            </div>
-
-            <br>
-            <button type="submit"> Update</button>
-        </form>
+    <div>
+        <button data-modal-open-target="update-modal" data-is-modal id="modal-button">Update information<i class="fa-sharp fa-solid fa-pen"></i></button>
+        <dialog id="update-modal">
+            <form th:action="@{/account/update/{userid}(userid=${user.getUserid()})}" method="post" th:object="${user}">
+                <div th:if="${usernameExists == true}">
+                    <h4 style="color: red;">Something went wrong</h4>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}" maxlength="30" required/>
+                    <label class="form-label">Username:</label>
+                    <input type="text" class="form-control" th:field="*{userName}" required maxlength="50"/>
+                    <label class="form-label">Password:</label>
+                    <input type="text" class="form-control" th:field="*{password}" required maxlength="50"/>
+                </div>
+                <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close
+                </button>
+                <button type="submit"> Update</button>
+            </form>
+        </dialog>
     </div>
     <br>
-    <br>
     <div>
-        <h4>Delete Account</h4>
+        <h4>Delete Account:</h4>
         <a th:href="@{/account/delete/{userid}(userid=${user.userid})}" onclick="return confirm('Are you sure?')"><i
                 class="fa-sharp fa-solid fa-trash"></i></a>
     </div>
 </div>
 
+ <script>
+     const dialog = document.getElementById("update-modal")
+     document.getElementById("modal-button").addEventListener("click", showmodal);
+     function showmodal() {
+         dialog.showModal()
+     }
 
+     document.getElementById("modal-close").addEventListener("click", closemodal);
+     function closemodal() {
+         dialog.close()
+     }
+ </script>
 </body>
 </html>

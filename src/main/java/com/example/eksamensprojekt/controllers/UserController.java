@@ -63,8 +63,10 @@ public class UserController extends PMController {
             User user = (User) session.getAttribute("user");
             if (user.getUserid() == userid) {
                 model.addAttribute("user", user);
-                boolean wrongcredentials = false;
-                model.addAttribute("wrongcredentials", wrongcredentials);
+                User user1 = userRepository.getUser(userid);
+                model.addAttribute("user1", user1);
+                boolean error = false;
+                model.addAttribute("usernameExists", error);
                 return "account";
             } else {
                 return "redirect:/userProjects";
@@ -83,15 +85,21 @@ public class UserController extends PMController {
 
     @PostMapping("account/update/{userid}")
     public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session, Model model) {
-        if (user.getUserName() != null) {
-            userRepository.updateUsername(userid, user.getUserName());
-            userRepository.updateName(userid, user.getname());
-            userRepository.updatePassword(userid, user.getPassword());
-            session.setAttribute("user", user);
-
+        try {
+            if(userRepository.usernameExists(user.getUserName()) == false) {
+                userRepository.updateUsername(userid, user.getUserName());
+                userRepository.updateName(userid, user.getname());
+                userRepository.updatePassword(userid, user.getPassword());
+                session.setAttribute("user", user);
+                return "redirect:/account/" + userid;
+            }
+        } catch (IllegalArgumentException e) {
+            boolean error = true;
+            model.addAttribute("usernameExists", error);
             return "redirect:/account/" + userid;
         }
-        model.addAttribute("wrongcredentials", true);
+        boolean error = true;
+        model.addAttribute("usernameExists", error);
         return "redirect:/account/" + userid;
     }
 }

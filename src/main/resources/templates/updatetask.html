@@ -68,7 +68,6 @@
 
 <div id="container" class="right-div">
 
-    <h1>Update Task</h1>
     <form th:action="@{/task/update/{taskid}/{storyid}(taskid=${task.taskid}, storyid=${task.storyid})}" method="post"
           th:object="${task}">
         <label>Task Name:</label>
