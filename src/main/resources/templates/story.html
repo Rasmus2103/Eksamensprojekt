@@ -71,16 +71,16 @@
                                 <input type="hidden" th:field="*{storyid}"/>
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Task Name</label>
-                                    <input type="text" class="form-control" th:field="*{taskname}">
+                                    <input type="text" class="form-control" th:field="*{taskname}" required maxlength="50">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Task Description</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{taskdescription}">
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{taskdescription}" required maxlength="500">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Story points</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{storypoints}">
+                                    <input type="number" class="form-control" id="exampleFormControlInput2" th:field="*{storypoints}" required maxlength="5">
                                 </div>
                                 <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
                                 <button type="submit">Submit</button>
@@ -133,16 +133,16 @@
                         <dialog id="update-modal3">
                             <form action="#" th:action="@{/story/update/{storyid}/{boardid}(storyid=${story.storyid}, boardid=${story.boardid})}" method="post" th:object="${story}">
                                 <label>Story Name:</label>
-                                <input type="text" th:field="*{storyname}"/><br/>
+                                <input type="text" th:field="*{storyname}" required maxlength="50"/><br/>
 
                                 <label>Story Description:</label>
-                                <input type="text" th:field="*{storydescription}" /><br/>
+                                <input type="text" th:field="*{storydescription}" required maxlength="500" /><br/>
 
                                 <label>Accepcriteria:</label>
-                                <input type="text" th:field="*{acceptcriteria}" /><br/>
+                                <input type="text" th:field="*{acceptcriteria}" required maxlength="500" /><br/>
 
                                 <label>Deadline</label>
-                                <input type="date" th:field="*{storydeadline}"/>
+                                <input type="date" th:field="*{storydeadline}" required/>
                                 <button data-modal-close-target="update-modal" id="modal-close3" formmethod="dialog" type="submit">close</button>
                                 <button type="submit">Submit</button>
                             </form>

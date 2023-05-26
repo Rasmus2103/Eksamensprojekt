@@ -123,19 +123,19 @@
                     <div th:if="${errorMessage}" style="color: red;" class="error-message" th:text="${errorMessage}"></div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Story name</label>
-                        <input type="text" class="form-control" th:field="*{storyname}">
+                        <input type="text" class="form-control" th:field="*{storyname}" required maxlength="50">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Story Description</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}">
+                        <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{storydescription}" required maxlength="500">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Accepcriteria</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}">
+                        <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{acceptcriteria}" required maxlength="50">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Deadline</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{storydeadline}">
+                        <input type="date" class="form-control" id="exampleFormControlInput3" th:field="*{storydeadline}" required>
                     </div>
 
                     <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>

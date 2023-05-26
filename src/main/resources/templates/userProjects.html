@@ -40,9 +40,9 @@
                 <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
                     <div class="mb-3">
                         <label class="form-label">Project name:</label>
-                        <input type="text" class="form-control" th:field="*{projectname}" maxlength="30"/>
+                        <input type="text" class="form-control" th:field="*{projectname}" maxlength="30" required/>
                         <label class="form-label">Deadline:</label>
-                        <input type="date" class="form-control" th:field="*{projectdeadline}"/>
+                        <input type="date" class="form-control" th:field="*{projectdeadline}" required/>
                     </div>
                     <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
