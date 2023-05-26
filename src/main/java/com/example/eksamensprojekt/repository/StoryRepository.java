@@ -1,5 +1,6 @@
 package com.example.eksamensprojekt.repository;
 import com.example.eksamensprojekt.model.Story;
+import com.example.eksamensprojekt.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -172,11 +173,11 @@ public class StoryRepository implements IStoryRepository {
 
 
     @Override
-    public List<String> getUserNamesByStoryId(int storyid) {
-        List<String> userNames = new ArrayList<>();
+    public List<User> getUserByStoryId(int storyid) {
+        List<User> user = new ArrayList<>();
         try {
             Connection connection = ConnectionDB.connection();
-            String SQL = "SELECT story.storyname, user.username " +
+            String SQL = "SELECT story.storyname, user.username, user.userid, user.name, user.password " +
             "FROM story " +
             "JOIN storyuser ON story.storyid = storyuser.storyid " +
             "JOIN user ON user.userid = storyuser.userid " +
@@ -185,14 +186,18 @@ public class StoryRepository implements IStoryRepository {
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                String name = rs.getString("username");
-                userNames.add(name);
+                String username = rs.getString("username");
+                int userid = rs.getInt("userid");
+                String name = rs.getString("name");
+                String password = rs.getString("password");
+                User user1 = new User(userid, name, username, password);
+                user.add(user1);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
-        return userNames;
+        return user;
     }
 
     @Override

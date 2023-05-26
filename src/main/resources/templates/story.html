@@ -97,7 +97,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Select users to add to the story</label>
                                     <div th:each="user : ${usersFromProject}">
-                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getname()}"/>
                                     </div>
                                 </div>
                                 <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog" type="submit">close</button>
@@ -116,8 +116,8 @@
                             <form th:action="@{/story/{storyid}/removeuserfromstory(storyid=${storyid})}" method="post">
                                 <div class="mb-3">
                                     <label class="form-label">Select users to remove from the story</label>
-                                    <div th:each="user : ${usersFromProject}">
-                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                                    <div th:each="user : ${storyuser}">
+                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getname()}"/>
                                     </div>
                                 </div>
                                 <button data-modal-close-target="update-modal" id="modal-close5" formmethod="dialog" type="submit">close</button>
@@ -162,11 +162,11 @@
                         <dialog id="update-modal4">
                             <h4>Users assigned to the story: </h4>
                             <br>
-                            <div th:if="${userNames.isEmpty()}">
+                            <div th:if="${storyuser.isEmpty()}">
                                 <h6>No users has been assigned to the story yet</h6>
                             </div>
-                            <div th:each="userNames: ${userNames}">
-                                <p th:text="${userNames}"></p>
+                            <div th:each="user: ${storyuser}">
+                                <p th:text="${user.getname()}"></p>
                             </div>
                                 <button data-modal-close-target="update-modal" id="modal-close4" formmethod="dialog" type="submit">close</button>
                             </form>

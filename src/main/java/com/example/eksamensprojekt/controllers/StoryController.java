@@ -166,8 +166,8 @@ public class StoryController extends PMController {
         int totalStoryPoints = storyRepository.getSumOfStoryPoints(storyid);
         model.addAttribute("totalStoryPoints", totalStoryPoints);
 
-        List<String> userNames = storyRepository.getUserNamesByStoryId(storyid);
-        model.addAttribute("userNames", userNames);
+        List<User> storyuser = storyRepository.getUserByStoryId(storyid);
+        model.addAttribute("storyuser", storyuser);
 
         Object userid = session.getAttribute("userid");
         model.addAttribute("userid", userid);
