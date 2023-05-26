@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.repository;
+
 import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.User;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,6 @@ public class StoryRepository implements IStoryRepository {
     }
 
 
-
     @Override
     public List<Story> getStoriesSprintboard(int boardid, int sprintboardid) {
         List<Story> stories = new ArrayList<>();
@@ -66,14 +66,14 @@ public class StoryRepository implements IStoryRepository {
 
     @Override
     public Story getSpecificStory(int storyid) {
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT * FROM story WHERE storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
             Story story = null;
-            while(rs.next()){
+            while (rs.next()) {
                 storyid = rs.getInt("storyid");
                 String storyname = rs.getString("storyname");
                 String storydescription = rs.getString("storydescription");
@@ -84,7 +84,7 @@ public class StoryRepository implements IStoryRepository {
                 story = new Story(storyid, storyname, storydescription, acceptcriteria, storydeadline, boardid, sprintboardid);
             }
             return story;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -92,7 +92,7 @@ public class StoryRepository implements IStoryRepository {
 
     @Override
     public void addStory(int boardid, Story story) {
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "INSERT INTO story (storyname, storydescription, acceptcriteria, storydeadline, boardid) VALUES (?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -102,7 +102,7 @@ public class StoryRepository implements IStoryRepository {
             ps.setDate(4, story.getStorydeadline());
             ps.setInt(5, boardid);
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -178,14 +178,14 @@ public class StoryRepository implements IStoryRepository {
         try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT story.storyname, user.username, user.userid, user.name, user.password " +
-            "FROM story " +
-            "JOIN storyuser ON story.storyid = storyuser.storyid " +
-            "JOIN user ON user.userid = storyuser.userid " +
-            "WHERE story.storyid = ?";
+                    "FROM story " +
+                    "JOIN storyuser ON story.storyid = storyuser.storyid " +
+                    "JOIN user ON user.userid = storyuser.userid " +
+                    "WHERE story.storyid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, storyid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 String username = rs.getString("username");
                 int userid = rs.getInt("userid");
                 String name = rs.getString("name");
@@ -248,7 +248,7 @@ public class StoryRepository implements IStoryRepository {
     }
 
     @Override
-    public void removeUserFromStory(int storyid, int userid){
+    public void removeUserFromStory(int storyid, int userid) {
         try {
             Connection connection = ConnectionDB.connection();
             String SQL = "DELETE FROM storyuser WHERE storyid =? AND userid =?";
@@ -256,7 +256,8 @@ public class StoryRepository implements IStoryRepository {
             ps.setInt(1, storyid);
             ps.setInt(2, userid);
             ps.executeUpdate();
-        } catch (SQLException e) { System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
