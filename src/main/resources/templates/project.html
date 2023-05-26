@@ -94,11 +94,13 @@
                 </td>
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Update project</button>
+                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Update project
+                        </button>
                         <dialog id="update-modal2">
                             <form th:action="@{/project/update/{projectid}/{userid}(projectid=${project.projectid},userid=${user.getUserid()})}"
                                   method="post" th:object="${project}">
-                                <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the project a name</h4>
+                                <h4 th:if="${wrongCredentials}" class="error" style="color:red">you need to give the
+                                    project a name</h4>
 
                                 <label>Project Name:</label>
                                 <input type="text" th:field="*{projectname}" required maxlength="50"/>
@@ -106,7 +108,9 @@
                                 <label>Project deadline:</label>
                                 <input type="date" th:field="*{projectdeadline}" required/>
 
-                                <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
+                                <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog"
+                                        type="submit">close
+                                </button>
                                 <button type="submit">Update</button>
                             </form>
                         </dialog>

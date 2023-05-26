@@ -24,7 +24,6 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #dddddd;
-    font-family: 'Edo SZ', sans-serif;
 }
 
 h1, p {
@@ -167,6 +166,13 @@ p {
     padding: 2%
 }
 
+.right-div-account {
+    width: 100%;
+    float: right;
+    display: block;
+    padding: 2%;
+}
+
 .sidebar {
     width: 22%;
     margin: 0;
@@ -269,7 +275,7 @@ p {
     background-color: #eaeaea;
 }
 
-#doing{
+#doing {
     background-color: #eaeaea;
 }
 

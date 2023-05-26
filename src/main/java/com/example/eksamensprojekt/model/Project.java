@@ -8,13 +8,13 @@ public class Project {
     private String projectname;
     private Date projectdeadline;
 
-    public Project(int projectid, String projectname, Date projectdeadline){
+    public Project(int projectid, String projectname, Date projectdeadline) {
         this.projectid = projectid;
         this.projectname = projectname;
         this.projectdeadline = projectdeadline;
     }
 
-    public Project(){
+    public Project() {
 
     }
 

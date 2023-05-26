@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.controllers;
+
 import com.example.eksamensprojekt.model.User;
 import com.example.eksamensprojekt.repository.*;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ public class UserController extends PMController {
     @PostMapping("login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session, Model model) {
         User user = userRepository.getUser(userRepository.getUserid(username));
-        if(user != null && user.getPassword().equals(password)) {
+        if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
             session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
@@ -82,15 +83,15 @@ public class UserController extends PMController {
 
     @PostMapping("account/update/{userid}")
     public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session, Model model) {
-       if(user.getUserName() != null) {
-           userRepository.updateUsername(userid, user.getUserName());
-           userRepository.updateName(userid, user.getname());
-           userRepository.updatePassword(userid, user.getPassword());
-           session.setAttribute("user", user);
+        if (user.getUserName() != null) {
+            userRepository.updateUsername(userid, user.getUserName());
+            userRepository.updateName(userid, user.getname());
+            userRepository.updatePassword(userid, user.getPassword());
+            session.setAttribute("user", user);
 
-           return "redirect:/account/" + userid;
-       }
-       model.addAttribute("wrongcredentials", true);
+            return "redirect:/account/" + userid;
+        }
+        model.addAttribute("wrongcredentials", true);
         return "redirect:/account/" + userid;
     }
 }

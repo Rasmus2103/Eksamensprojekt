@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.repository;
+
 import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.Project;
 import org.springframework.stereotype.Repository;
@@ -96,7 +97,7 @@ public class ProjectRepository implements IProjectRepository {
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, projectid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 String name = rs.getString("name");
                 userNames.add(name);
             }
@@ -161,7 +162,7 @@ public class ProjectRepository implements IProjectRepository {
             checkPs.setInt(1, userid);
             checkPs.setInt(2, projectid);
             ResultSet rs = checkPs.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 System.out.println("User has already been assigned");
                 return;
             }
@@ -179,14 +180,14 @@ public class ProjectRepository implements IProjectRepository {
 
     @Override
     public void addBoard(int projectid, String boardname) {
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "INSERT INTO board (boardname, projectid) VALUES (?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, boardname);
             ps.setInt(2, projectid);
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }

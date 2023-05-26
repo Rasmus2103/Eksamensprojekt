@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.controllers;
+
 import com.example.eksamensprojekt.model.Board;
 import com.example.eksamensprojekt.model.Project;
 import com.example.eksamensprojekt.model.Story;
@@ -28,7 +29,7 @@ public class TaskController extends PMController {
     }
 
     @GetMapping("task/update/{taskid}/{projectid}")
-    public String updateTask(@PathVariable("taskid") int taskid,@PathVariable("projectid") int projectid ,Model model, HttpSession session) {
+    public String updateTask(@PathVariable("taskid") int taskid, @PathVariable("projectid") int projectid, Model model, HttpSession session) {
         Task task = taskRepository.getSpecificTask(taskid);
         model.addAttribute("task", task);
         Object userid = session.getAttribute("userid");
@@ -65,9 +66,6 @@ public class TaskController extends PMController {
         taskRepository.updateTaskFinished(taskId, finished);
         return "redirect:/story/" + storyid;
     }
-
-
-
 
 
 }
