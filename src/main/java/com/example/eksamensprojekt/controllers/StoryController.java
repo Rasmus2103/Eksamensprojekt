@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.controllers;
+
 import com.example.eksamensprojekt.model.*;
 import com.example.eksamensprojekt.repository.IStoryRepository;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +22,7 @@ public class StoryController extends PMController {
     @GetMapping("storylist/{boardid}")
     public String getStories(@PathVariable("boardid") int boardid, Model model, HttpSession session) {
         List<Story> stories = storyRepository.getStories(boardid);
-        List<Story> todoStories = storyRepository.getStoriesSprintboard(boardid,0);
+        List<Story> todoStories = storyRepository.getStoriesSprintboard(boardid, 0);
         List<Story> doingStories = storyRepository.getStoriesSprintboard(boardid, 1);
         List<Story> doneStories = storyRepository.getStoriesSprintboard(boardid, 2);
         model.addAttribute("stories", stories);
@@ -58,14 +59,14 @@ public class StoryController extends PMController {
     }
 
     @GetMapping("sprintboardMoveRight/{storyid}/{sprintboardid}")
-    public String sprintboardMoveRight(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId){
+    public String sprintboardMoveRight(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId) {
         storyRepository.updateStorySprintboardid(storyId, sprintboardid + 1);
         Board currentBoard = boardRepository.getSpecificBoard(boardId);
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
     @GetMapping("sprintboardMoveLeft/{storyid}/{sprintboardid}")
-    public String sprintboardMoveLeft(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId){
+    public String sprintboardMoveLeft(@PathVariable("storyid") int storyId, @PathVariable("sprintboardid") int sprintboardid, @RequestParam("boardid") int boardId) {
         storyRepository.updateStorySprintboardid(storyId, sprintboardid - 1);
         Board currentBoard = boardRepository.getSpecificBoard(boardId);
         return "redirect:/storylist/" + currentBoard.getBoardid();
@@ -136,7 +137,7 @@ public class StoryController extends PMController {
     }
 
     @GetMapping("story/slet/{boardid}/{storyid}")
-    public String deleteStory(@PathVariable ("boardid") int boardid, @PathVariable("storyid") int storyid, Model model) {
+    public String deleteStory(@PathVariable("boardid") int boardid, @PathVariable("storyid") int storyid, Model model) {
         storyRepository.deleteStory(storyid);
 
         List<Story> stories = storyRepository.getStories(boardid);
@@ -198,9 +199,9 @@ public class StoryController extends PMController {
             model.addAttribute("boards", boards);
             return "redirect:/story/" + storyid;
         } else {
-                storyRepository.updateStory(storyid, story);
-                return "redirect:/story/" + storyid;
-            }
+            storyRepository.updateStory(storyid, story);
+            return "redirect:/story/" + storyid;
+        }
     }
 
     @PostMapping("story/{storyid}/addstoryuser")
@@ -221,7 +222,7 @@ public class StoryController extends PMController {
     }
 
     @PostMapping("story/{storyid}/removeuserfromstory")
-    public String RemoveUserFromStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds, Model model){
+    public String RemoveUserFromStory(@PathVariable("storyid") int storyid, @RequestParam("userIds") List<Integer> userIds, Model model) {
         if (userIds != null) {
             for (int userid : userIds) {
                 try {

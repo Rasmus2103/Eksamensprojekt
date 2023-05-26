@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository("eksamensprojekt_Stub")
 public class RepositoryStub implements IRepositoryStub {
 
- // Stub data for testing
+    // Stub data for testing
     private User testUser1 = new User(0, "Test", "Test", "Test");
     private User testUser2 = new User(1, "Test1", "Test1", "Test1");
     private User testUser3 = new User(2, "Test2", "Test2", "Test2");
@@ -37,36 +37,36 @@ public class RepositoryStub implements IRepositoryStub {
             new Board(3, "Sprint", 1),
             new Board(4, "Backlog", 2),
             new Board(5, "Sprint", 2)
-             ));
+    ));
 
     private List<Story> storiesStub = new ArrayList<>(List.of(new Story(0, "TestStory", "TestStory", "TestStory", Date.valueOf("2021-05-05"), 0, 0),
             new Story(1, "TestStory1", "TestStory1", "TestStory1", Date.valueOf("2021-05-05"), 0, 0),
             new Story(2, "TestStory2", "TestStory2", "TestStory2", Date.valueOf("2021-05-05"), 1, 0)
-            ));
+    ));
 
     private List<Task> tasksStub = new ArrayList<>(List.of(new Task(0, "TestTask", "TestTask", 10, 0),
             new Task(1, "TestTask1", "TestTask1", 7, 0),
             new Task(2, "TestTask2", "TestTask2", 3, 1),
             new Task(3, "TestTask3", "TestTask3", 1, 1)
-            ));
+    ));
 
     public RepositoryStub() {
     }
 
-   @Override
-   public List<User> getAllUsers() {
-      return null;
-   }
+    @Override
+    public List<User> getAllUsers() {
+        return null;
+    }
 
-   @Override
+    @Override
     public User getUser(int userid) {
-       User userToReturn = new User();
-      for (User user : usersStub) {
-         if (user.getUserid() == userid) {
-            userToReturn = user;
-         }
-      }
-      return userToReturn;
+        User userToReturn = new User();
+        for (User user : usersStub) {
+            if (user.getUserid() == userid) {
+                userToReturn = user;
+            }
+        }
+        return userToReturn;
     }
 
     @Override
@@ -86,18 +86,18 @@ public class RepositoryStub implements IRepositoryStub {
 
     @Override
     public void registerUser(User user) {
-          if (!usernameExists(user.getUserName())) {
-             usersStub.add(user);
-          }
+        if (!usernameExists(user.getUserName())) {
+            usersStub.add(user);
+        }
     }
 
     @Override
     public void deleteUser(int userid) {
-       usersStub.removeIf(user -> user.getUserid() == userid);
+        usersStub.removeIf(user -> user.getUserid() == userid);
     }
 
     @Override
-    public void deleteUserFromProject(int projectid, int userid){
+    public void deleteUserFromProject(int projectid, int userid) {
 
     }
 

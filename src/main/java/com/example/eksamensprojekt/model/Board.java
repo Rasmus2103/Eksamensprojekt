@@ -6,13 +6,13 @@ public class Board {
     private String boardname;
     private int projectid;
 
-    public Board(int boardid, String boardname, int projectid){
+    public Board(int boardid, String boardname, int projectid) {
         this.boardid = boardid;
         this.boardname = boardname;
         this.projectid = projectid;
     }
 
-    public Board(){
+    public Board() {
 
     }
 
