@@ -26,13 +26,13 @@
 
             <h4 th:if="${usernameExists}" class="error" style="color:red">Username already exists</h4>
             <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{name}" required><br>
+            <input type="text" id="name" th:field="*{name}" required maxlength="30"><br>
 
             <label for="username">Username:</label>
-            <input type="text" id="username" th:field="*{userName}" required><br>
+            <input type="text" id="username" th:field="*{userName}" required maxlength="50"><br>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" th:field="*{password}" required><br>
+            <input type="password" id="password" th:field="*{password}" required maxlength="50"><br>
 
             <input type="submit" value="Submit">
         </form>
