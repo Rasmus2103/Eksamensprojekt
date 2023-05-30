@@ -1,6 +1,5 @@
 package com.example.eksamensprojekt.controllers;
 import com.example.eksamensprojekt.model.User;
-import com.example.eksamensprojekt.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -63,7 +62,7 @@ public class UserController extends PMController {
             if (user.getUserid() == userid) {
                 model.addAttribute("user", user);
                 boolean wrongcredentials = false;
-                model.addAttribute("wrongcredentials", wrongcredentials);
+                model.addAttribute("usernameExists", wrongcredentials);
                 return "account";
             } else {
                 return "redirect:/userProjects";
@@ -87,10 +86,9 @@ public class UserController extends PMController {
            userRepository.updateName(userid, user.getname());
            userRepository.updatePassword(userid, user.getPassword());
            session.setAttribute("user", user);
-
            return "redirect:/account/" + userid;
        }
        model.addAttribute("wrongcredentials", true);
-        return "redirect:/account/" + userid;
+       return "redirect:/account/" + userid;
     }
 }

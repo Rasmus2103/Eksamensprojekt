@@ -1,13 +1,12 @@
 package com.example.eksamensprojekt.controllers;
 import com.example.eksamensprojekt.model.*;
-import com.example.eksamensprojekt.repository.IStoryRepository;
 import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -76,50 +75,36 @@ public class StoryController extends PMController {
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(boardId);
 
-        /*System.out.println("storyId: " + storyId);
-        System.out.println("currentBoard: " + currentBoard);
-        System.out.println("projectId: " + projectId);*/
-
         int sprintBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
-        //System.out.println("sprintBoardId: " + sprintBoardId);
         storyRepository.moveStoryToBoard(storyId, sprintBoardId);
 
-        // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
     @GetMapping("moveStoryBack/{storyId}")
     public String moveStoryToBacklog(@PathVariable("storyId") int storyId) {
-        // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
         int projectId = currentBoard.getProjectid();
 
-        // Now, find the backlog board id for the corresponding project.
         int backlogBoardId = boardRepository.getBacklogBoardIdByProjectId(projectId);
 
-        // Move the story to the backlog board.
         storyRepository.moveStoryToBoard(storyId, backlogBoardId);
 
-        // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
     @GetMapping("moveStoryBackToSprintBoard/{storyId}")
     public String moveHistoryStoryToSprintBoard(@PathVariable("storyId") int storyId) {
-        // First, find the current board and project associated with the story.
         Story story = storyRepository.getSpecificStory(storyId);
         Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
         int projectId = currentBoard.getProjectid();
 
-        // Now, find the backlog board id for the corresponding project.
         int sprintboardBoardId = boardRepository.getBoardIdByProjectId(projectId);
 
-        // Move the story to the backlog board.
         storyRepository.moveStoryToBoard(storyId, sprintboardBoardId);
 
-        // Redirect back to the story list for the original board.
         return "redirect:/storylist/" + currentBoard.getBoardid();
     }
 
@@ -252,24 +237,19 @@ public class StoryController extends PMController {
 
     @PostMapping("markStoryAsFinished/{boardid}/{storyId}")
     public String markStoryAsFinished(@PathVariable("boardid") int boardid, @PathVariable("storyId") int storyId) {
-        // First, update the story's isFinished status to true
         storyRepository.markStoryAsFinished(storyId);
 
-        // Check if all tasks associated with the story are finished
         boolean allTasksFinished = taskRepository.areAllTasksFinished(storyId);
 
         if (allTasksFinished) {
-            // Find the history board ID for the project
             Story story = storyRepository.getSpecificStory(storyId);
             Board currentBoard = boardRepository.getSpecificBoard(story.getBoardid());
             int projectId = currentBoard.getProjectid();
             int historyBoardId = boardRepository.getHistoryBoardIdByProjectId(projectId);
 
-            // Move the story to the history board
             storyRepository.moveStoryToBoard(storyId, historyBoardId);
         }
 
-        // Redirect back to the story details page
         return "redirect:/storylist/" + boardid;
     }
 

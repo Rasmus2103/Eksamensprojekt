@@ -56,7 +56,7 @@
   <div>
     <form th:action="@{/account/update/{userid}(userid=${user.getUserid()})}" method="post" th:object="${user}">
 
-      <div th:if="${wrongcredentials == true}">
+      <div th:if="${usernameExists == true}">
         <h4 style="color: red;">Something went wrong</h4>
       </div>
 
