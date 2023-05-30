@@ -144,11 +144,12 @@
                                         <input type="checkbox" name="userIds" th:value="${user.getUserid()}"
                                                th:text="${user.getname()}"/>
                                     </div>
+                                    <h3 th:if="${storyuser.isEmpty()}">No one is working on the story</h3>
                                 </div>
                                 <button data-modal-close-target="update-modal" id="modal-close5" formmethod="dialog"
                                         type="submit">close
                                 </button>
-                                <button type="submit" class="btn btn-primary">Remove User(s)</button>
+                                <button th:if="${storyuser.size() > 0}" type="submit" class="btn btn-primary">Remove User(s)</button>
                             </form>
                         </dialog>
                     </div>
