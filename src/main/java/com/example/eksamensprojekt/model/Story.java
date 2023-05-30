@@ -12,11 +12,11 @@ public class Story {
     private int boardid;
     private int sprintboardid;
 
-    public Story(){
+    public Story() {
 
     }
 
-    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid, int sprintboardid){
+    public Story(int storyid, String storyname, String storydescription, String acceptcriteria, Date storydeadline, int boardid, int sprintboardid) {
         this.storyid = storyid;
         this.storyname = storyname;
         this.storydescription = storydescription;

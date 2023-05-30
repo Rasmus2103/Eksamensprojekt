@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.repository;
+
 import com.example.eksamensprojekt.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public class UserRepository implements IUserRepository {
             String SQL = "SELECT * FROM user";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("userid");
                 String name = rs.getString("name");
                 String username = rs.getString("username");
@@ -38,7 +39,7 @@ public class UserRepository implements IUserRepository {
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, projectid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("userid");
                 String name = rs.getString("name");
                 String username = rs.getString("username");
@@ -144,7 +145,7 @@ public class UserRepository implements IUserRepository {
             }
             String SQL2 = "DELETE FROM userproject WHERE userid=?";
             PreparedStatement ps2 = connection.prepareStatement(SQL2);
-            ps2.setInt(1,userid);
+            ps2.setInt(1, userid);
             ps2.executeUpdate();
 
             String SQL3 = "DELETE FROM storyuser WHERE userid =?";
@@ -171,7 +172,7 @@ public class UserRepository implements IUserRepository {
             checkPs.setInt(1, userid);
             checkPs.setInt(2, projectid);
             ResultSet rs = checkPs.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 System.out.println("User has already been assigned");
                 return;
             }
@@ -188,7 +189,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public void deleteUserFromProject(int projectid, int userid){
+    public void deleteUserFromProject(int projectid, int userid) {
         try {
             Connection connection = ConnectionDB.connection();
 

@@ -1,4 +1,5 @@
 package com.example.eksamensprojekt.repository;
+
 import com.example.eksamensprojekt.model.Task;
 import org.springframework.stereotype.Repository;
 
@@ -38,14 +39,14 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public Task getSpecificTask(int taskid) {
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "SELECT taskid, taskname, taskdescription, storypoints, storyid FROM task WHERE taskid = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setInt(1, taskid);
             ResultSet rs = ps.executeQuery();
             Task task = null;
-            while(rs.next()){
+            while (rs.next()) {
                 taskid = rs.getInt("taskid");
                 String taskname = rs.getString("taskname");
                 String taskdescription = rs.getString("taskdescription");
@@ -54,7 +55,7 @@ public class TaskRepository implements ITaskRepository {
                 task = new Task(taskid, taskname, taskdescription, storypoints, storydid);
             }
             return task;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -62,7 +63,7 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public void addTask(int storyid, Task task) {
-        try{
+        try {
             Connection connection = ConnectionDB.connection();
             String SQL = "INSERT INTO task (taskname, taskdescription, storypoints, storyid) VALUES (?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -71,7 +72,7 @@ public class TaskRepository implements ITaskRepository {
             ps.setInt(3, task.getStorypoints());
             ps.setInt(4, storyid);
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }

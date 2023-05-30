@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link th:href="@{/styles.css}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f16ddf284a.js" crossorigin="anonymous"></script>
     <title>User Projects</title>
@@ -11,19 +12,22 @@
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
     <div class="container-fluid">
         <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
+                    <a style="color: #ffffff;" class="nav-link active" aria-current="page"
+                       th:href="@{/userProjects/{userid}(userid=${user.userid})}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a style="color: #ffffff;" class="nav-link" th:href="@{/account/{userid}(userid=${user.userid})}">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
+                    <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')"
+                       class="nav-link">Logout</a>
                 </li>
             </ul>
         </div>
@@ -32,58 +36,65 @@
 
 <body>
 
-        <h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
+<h1 th:if="${user != null}" th:text="${user.getname()} + '\'s ' + 'projects' "></h1>
 
-        <div>
-            <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Create new project</button>
-            <dialog id="update-modal2">
-                <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
-                    <div class="mb-3">
-                        <label class="form-label">Project name:</label>
-                        <input type="text" class="form-control" th:field="*{projectname}" maxlength="30"/>
-                        <label class="form-label">Deadline:</label>
-                        <input type="date" class="form-control" th:field="*{projectdeadline}"/>
-                    </div>
-                    <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </dialog>
-        </div>
+<div>
+    <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Create new project</button>
+    <dialog id="update-modal2">
+        <form th:action="@{/createproject/{id}(id=${user.userid})}" method="post" th:object="${projectDTO}">
+            <div class="mb-3">
+                <label class="form-label">Project name:</label>
+                <input type="text" class="form-control" th:field="*{projectname}" maxlength="30" required/>
+                <label class="form-label">Deadline:</label>
+                <input type="date" class="form-control" th:field="*{projectdeadline}" required/>
+            </div>
+            <button data-modal-close-target="update-modal2" id="modal-close2" formmethod="dialog" type="submit">close
+            </button>
+            <button type="submit" >Create</button>
+        </form>
+    </dialog>
+</div>
 
-    <table class="stories" th:if="${projects.size() > 0}">
-        <thead>
-        <tr>
-            <th>Project Name</th>
-            <th>Deadline</th>
-            <th>Navigate</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tr th:each="projects: ${projects}">
-            <td th:text="${projects.getProjectname()}"></td>
-            <td th:text="${#dates.format(projects.getProjectdeadline(),'dd/MM/yyyy')}"></td>
-            <td>
-                <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}">Go to Project</a>
-            </td>
-            <td>
-                <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}" onclick="return confirm('Are you sure you want to delete the project?')"><i class="fa-sharp fa-solid fa-trash"></i></a>
-            </td>
-        </tr>
-    </table>
+<table class="stories" th:if="${projects.size() > 0}">
+    <thead>
+    <tr>
+        <th>Project Name</th>
+        <th>Deadline</th>
+        <th>Navigate</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tr th:each="projects: ${projects}">
+        <td th:text="${projects.getProjectname()}"></td>
+        <td th:text="${#dates.format(projects.getProjectdeadline(),'dd/MM/yyyy')}"></td>
+        <td>
+            <a th:href="@{/project/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.getUserid()})}">Go
+                to Project</a>
+        </td>
+        <td>
+            <a th:href="@{/userProjects/slet/{projectid}/{userid}(projectid=${projects.projectid}, userid=${user.userid})}"
+               onclick="return confirm('Are you sure you want to delete the project?')"><i
+                    class="fa-sharp fa-solid fa-trash"></i></a>
+        </td>
+    </tr>
+</table>
 
-        <br>
-        <div th:if="${projects.isEmpty()}">
-            <h6>No projects yet... feel free to add one</h6>
-        </div>
+<br>
+<div th:if="${projects.isEmpty()}">
+    <h6>No projects yet... feel free to add one</h6>
+</div>
 
 <script>
     const dialog2 = document.getElementById("update-modal2")
     document.getElementById("modal-button2").addEventListener("click", showmodal2);
-    function showmodal2(){
+
+    function showmodal2() {
         dialog2.showModal()
     }
+
     document.getElementById("modal-close2").addEventListener("click", closemodal2);
-    function closemodal2(){
+
+    function closemodal2() {
         dialog2.close()
     }
 </script>

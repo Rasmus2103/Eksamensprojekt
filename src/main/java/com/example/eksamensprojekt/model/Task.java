@@ -9,7 +9,7 @@ public class Task {
     private int storyid;
     private boolean finished;
 
-    public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid){
+    public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid) {
         this.taskid = taskid;
         this.taskname = taskname;
         this.taskdescription = taskdescription;
@@ -17,7 +17,7 @@ public class Task {
         this.storyid = storyid;
     }
 
-    public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid, boolean finished){
+    public Task(int taskid, String taskname, String taskdescription, int storypoints, int storyid, boolean finished) {
         this.taskid = taskid;
         this.taskname = taskname;
         this.taskdescription = taskdescription;
@@ -26,7 +26,7 @@ public class Task {
         this.finished = finished;
     }
 
-    public Task(){
+    public Task() {
 
     }
 

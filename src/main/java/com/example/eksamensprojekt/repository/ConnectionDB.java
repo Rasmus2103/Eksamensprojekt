@@ -1,6 +1,8 @@
 package com.example.eksamensprojekt.repository;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,17 +16,17 @@ public class ConnectionDB {
     private static String Pwd;
 
     @Value("${spring.datasource.url}")
-    public void url(String url){
+    public void url(String url) {
         Url = url;
     }
 
     @Value("${spring.datasource.username}")
-    public void setUid(String uid){
+    public void setUid(String uid) {
         Uid = uid;
     }
 
     @Value("${spring.datasource.password}")
-    public void setPwd(String pwd){
+    public void setPwd(String pwd) {
         Pwd = pwd;
     }
 

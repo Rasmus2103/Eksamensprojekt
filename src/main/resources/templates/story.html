@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link th:href="@{/styles.css}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f16ddf284a.js" crossorigin="anonymous"></script>
     <title>Story</title>
@@ -11,19 +12,23 @@
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #75ad50;">
     <div class="container-fluid">
         <a style="color: #ffffff;" class="navbar-brand"> SmoothManager </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a style="color: #ffffff;" class="nav-link active" aria-current="page" th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a>
+                    <a style="color: #ffffff;" class="nav-link active" aria-current="page"
+                       th:href="@{/userProjects/{userid}(userid=${userid})}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${userid})}" class="nav-link" href="#">Settings</a>
+                    <a style="color: #ffffff;" th:href="@{/account/{userid}(userid=${userid})}" class="nav-link"
+                       href="#">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')" class="nav-link">Logout</a>
+                    <a style="color: #ffffff;" th:href="@{/}" onclick="return confirm('Are you sure?')"
+                       class="nav-link">Logout</a>
                 </li>
 
 
@@ -31,7 +36,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
 </nav>
 
 <body>
@@ -39,11 +46,13 @@
 <div class="left-div">
     <div class="sidebar">
         <div class="sidebar-overview">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Project Logo">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                 alt="Project Logo">
             <h3 th:text="${projectname}"></h3>
         </div>
         <ul>
-            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Project overview</a></li>
+            <li><a th:href="@{/project/{projectid}/{userid}(userid=${userid}, projectid=${projectId})}">Project
+                overview</a></li>
         </ul>
         <h4>--- Boards ---</h4>
         <br>
@@ -65,25 +74,33 @@
             <tr>
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new Task</button>
+                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button">Create a new
+                            Task
+                        </button>
                         <dialog id="update-modal">
-                            <form action="#" th:action="@{/story/createtask/{storyid}(storyid=${storyid})}" method="post" th:object="${task}">
+                            <form action="#" th:action="@{/story/createtask/{storyid}(storyid=${storyid})}"
+                                  method="post" th:object="${task}">
                                 <input type="hidden" th:field="*{storyid}"/>
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Task Name</label>
-                                    <input type="text" class="form-control" th:field="*{taskname}">
+                                    <input type="text" class="form-control" th:field="*{taskname}" required
+                                           maxlength="50">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Task Description</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{taskdescription}">
+                                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                                           th:field="*{taskdescription}" required maxlength="500">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Story points</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput2" th:field="*{storypoints}">
+                                    <input type="number" class="form-control" id="exampleFormControlInput2"
+                                           th:field="*{storypoints}" required maxlength="5">
                                 </div>
-                                <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog" type="submit">close</button>
-                                <button type="submit">Submit</button>
+                                <button data-modal-close-target="update-modal" id="modal-close" formmethod="dialog"
+                                        type="submit">close
+                                </button>
+                                <button type="submit">Create</button>
                             </form>
                         </dialog>
                     </div>
@@ -91,16 +108,21 @@
 
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Add users to the story</button>
+                        <button data-modal-open-target="update-modal2" data-is-modal id="modal-button2">Add users to the
+                            story
+                        </button>
                         <dialog id="update-modal2">
                             <form th:action="@{/story/{storyid}/addstoryuser(storyid=${storyid})}" method="post">
                                 <div class="mb-3">
                                     <label class="form-label">Select users to add to the story</label>
                                     <div th:each="user : ${usersFromProject}">
-                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}"
+                                               th:text="${user.getname()}"/>
                                     </div>
                                 </div>
-                                <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog" type="submit">close</button>
+                                <button data-modal-close-target="update-modal" id="modal-close2" formmethod="dialog"
+                                        type="submit">close
+                                </button>
                                 <button type="submit" class="btn btn-primary">Add User(s)</button>
                             </form>
                             <div th:if="${errorMessage}">
@@ -111,16 +133,21 @@
                 </td>
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal5" data-is-modal id="modal-button5">Remove users from the story</button>
+                        <button data-modal-open-target="update-modal5" data-is-modal id="modal-button5">Remove users
+                            from the story
+                        </button>
                         <dialog id="update-modal5">
                             <form th:action="@{/story/{storyid}/removeuserfromstory(storyid=${storyid})}" method="post">
                                 <div class="mb-3">
                                     <label class="form-label">Select users to remove from the story</label>
-                                    <div th:each="user : ${usersFromProject}">
-                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}" th:text="${user.getUserName()}"/>
+                                    <div th:each="user : ${storyuser}">
+                                        <input type="checkbox" name="userIds" th:value="${user.getUserid()}"
+                                               th:text="${user.getname()}"/>
                                     </div>
                                 </div>
-                                <button data-modal-close-target="update-modal" id="modal-close5" formmethod="dialog" type="submit">close</button>
+                                <button data-modal-close-target="update-modal" id="modal-close5" formmethod="dialog"
+                                        type="submit">close
+                                </button>
                                 <button type="submit" class="btn btn-primary">Remove User(s)</button>
                             </form>
                         </dialog>
@@ -129,46 +156,58 @@
 
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button3">Update Story <i class="fa-sharp fa-solid fa-pen"></i></button>
+                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button3">Update Story <i
+                                class="fa-sharp fa-solid fa-pen"></i></button>
                         <dialog id="update-modal3">
-                            <form action="#" th:action="@{/story/update/{storyid}/{boardid}(storyid=${story.storyid}, boardid=${story.boardid})}" method="post" th:object="${story}">
+                            <form action="#"
+                                  th:action="@{/story/update/{storyid}/{boardid}(storyid=${story.storyid}, boardid=${story.boardid})}"
+                                  method="post" th:object="${story}">
                                 <label>Story Name:</label>
-                                <input type="text" th:field="*{storyname}"/><br/>
+                                <input type="text" th:field="*{storyname}" required maxlength="50"/><br/>
 
                                 <label>Story Description:</label>
-                                <input type="text" th:field="*{storydescription}" /><br/>
+                                <input type="text" th:field="*{storydescription}" required maxlength="500"/><br/>
 
                                 <label>Accepcriteria:</label>
-                                <input type="text" th:field="*{acceptcriteria}" /><br/>
+                                <input type="text" th:field="*{acceptcriteria}" required maxlength="500"/><br/>
 
                                 <label>Deadline</label>
-                                <input type="date" th:field="*{storydeadline}"/>
-                                <button data-modal-close-target="update-modal" id="modal-close3" formmethod="dialog" type="submit">close</button>
-                                <button type="submit">Submit</button>
+                                <input type="date" th:field="*{storydeadline}" required/>
+                                <button data-modal-close-target="update-modal" id="modal-close3" formmethod="dialog"
+                                        type="submit">close
+                                </button>
+                                <button type="submit">Update</button>
                             </form>
                         </dialog>
                     </div>
                 </td>
                 <div th:if="${board.getBoardname() == 'sprintboard'}">
-                <td>
-                    <form method="post" th:action="@{/markStoryAsFinished/{boardid}/{storyId}(boardid=${story.boardid}, storyId=${story.storyid})}">
-                        <button type="submit" onclick="return confirm('Do you want to move the story to history board?')">Mark Story as Finished</button>
-                    </form>
-                </td>
+                    <td>
+                        <form method="post"
+                              th:action="@{/markStoryAsFinished/{boardid}/{storyId}(boardid=${story.boardid}, storyId=${story.storyid})}">
+                            <button type="submit"
+                                    onclick="return confirm('Do you want to move the story to history board?')">Mark
+                                Story as Finished
+                            </button>
+                        </form>
+                    </td>
                 </div>
                 <td>
                     <div>
-                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button4">Assigned users</button>
+                        <button data-modal-open-target="update-modal" data-is-modal id="modal-button4">Assigned users
+                        </button>
                         <dialog id="update-modal4">
                             <h4>Users assigned to the story: </h4>
                             <br>
-                            <div th:if="${userNames.isEmpty()}">
+                            <div th:if="${storyuser.isEmpty()}">
                                 <h6>No users has been assigned to the story yet</h6>
                             </div>
-                            <div th:each="userNames: ${userNames}">
-                                <p th:text="${userNames}"></p>
+                            <div th:each="user: ${storyuser}">
+                                <p th:text="${user.getname()}"></p>
                             </div>
-                                <button data-modal-close-target="update-modal" id="modal-close4" formmethod="dialog" type="submit">close</button>
+                            <button data-modal-close-target="update-modal" id="modal-close4" formmethod="dialog"
+                                    type="submit">close
+                            </button>
                             </form>
                         </dialog>
                     </div>
@@ -233,17 +272,22 @@
                     <table>
                         <tr>
                             <div th:if="${board.getBoardname() == 'sprintboard'}">
-                            <form method="post" th:action="@{/toggleTask/{storyid}/{taskId}(storyid=${story.storyid}, taskId=${tasks.taskid})}">
-                                <td>
-                                    <p>Completed: <input type="checkbox" th:checked="${tasks.isFinished}" th:name="finished" onchange="this.form.submit()"/> </p>
-                                </td>
-                            </form>
+                                <form method="post"
+                                      th:action="@{/toggleTask/{storyid}/{taskId}(storyid=${story.storyid}, taskId=${tasks.taskid})}">
+                                    <td>
+                                        <p>Completed: <input type="checkbox" th:checked="${tasks.isFinished}"
+                                                             th:name="finished" onchange="this.form.submit()"/></p>
+                                    </td>
+                                </form>
                             </div>
                             <td>
-                                <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}" onclick="return confirm('Are you sure?')">Delete<i class="fa-sharp fa-solid fa-trash"></i></a>
+                                <a th:href="@{/storyid/slet/{storyid}/{taskid}(storyid=${story.storyid}, taskid=${tasks.taskid})}"
+                                   onclick="return confirm('Are you sure?')">Delete<i
+                                        class="fa-sharp fa-solid fa-trash"></i></a>
                             </td>
                             <td>
-                                <a th:href="@{/task/update/{taskid}/{projectid}(taskid=${tasks.taskid}, projectid=${projectId})}">Update task<i class="fa-sharp fa-solid fa-pen"></i></a>
+                                <a th:href="@{/task/update/{taskid}/{projectid}(taskid=${tasks.taskid}, projectid=${projectId})}">Update
+                                    task<i class="fa-sharp fa-solid fa-pen"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -258,51 +302,66 @@
 <script>
     const dialog = document.getElementById("update-modal")
     document.getElementById("modal-button").addEventListener("click", showmodal);
-    function showmodal(){
+
+    function showmodal() {
         dialog.showModal()
     }
+
     document.getElementById("modal-close").addEventListener("click", closemodal);
-    function closemodal(){
+
+    function closemodal() {
         dialog.close()
     }
 
     const dialog2 = document.getElementById("update-modal2")
     document.getElementById("modal-button2").addEventListener("click", showmodal2);
-    function showmodal2(){
+
+    function showmodal2() {
         dialog2.showModal()
     }
+
     document.getElementById("modal-close2").addEventListener("click", closemodal2);
-    function closemodal2(){
+
+    function closemodal2() {
         dialog2.close()
     }
 
     const dialog3 = document.getElementById("update-modal3")
     document.getElementById("modal-button3").addEventListener("click", showmodal3);
-    function showmodal3(){
+
+    function showmodal3() {
         dialog3.showModal()
     }
+
     document.getElementById("modal-close3").addEventListener("click", closemodal3);
-    function closemodal3(){
+
+    function closemodal3() {
         dialog3.close()
     }
 
     const dialog4 = document.getElementById("update-modal4")
     document.getElementById("modal-button4").addEventListener("click", showmodal4);
-    function showmodal4(){
+
+    function showmodal4() {
         dialog4.showModal()
     }
+
     document.getElementById("modal-close4").addEventListener("click", closemodal4);
-    function closemodal4(){
+
+    function closemodal4() {
         dialog4.close()
     }
 
     const dialog5 = document.getElementById("update-modal5")
     document.getElementById("modal-button5").addEventListener("click", showmodal5);
-    function showmodal5(){
+
+    function showmodal5() {
         dialog5.showModal()
     }
+
     document.getElementById("modal-close5").addEventListener("click", closemodal5);
-    function closemodal5(){
+
+    function closemodal5() {
         dialog5.close()
     }
 </script>
