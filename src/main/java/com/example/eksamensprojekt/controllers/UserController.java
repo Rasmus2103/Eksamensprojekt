@@ -28,6 +28,8 @@ public class UserController extends PMController {
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUserName());
+            session.setAttribute("name", user.getname());
+            session.setAttribute("password", user.getPassword());
             session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
         }
@@ -93,6 +95,9 @@ public class UserController extends PMController {
             if(!userRepository.usernameExists(user.getUserName())) {
                 userRepository.updateUsername(userid, user.getUserName());
                 session.setAttribute("user", user);
+                session.setAttribute("username", user.getUserName());
+                session.setAttribute("name", user.getname());
+                session.setAttribute("password", user.getPassword());
                 return "redirect:/account/" + userid;
             }
         } catch (IllegalArgumentException e) {
