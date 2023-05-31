@@ -1,21 +1,13 @@
 package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.User;
-import com.example.eksamensprojekt.repository.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Controller
 public class UserController extends PMController {
-
-    public UserController(ApplicationContext context, @Value("user_DB") String impl) {
-    }
-
 
     @GetMapping("login")
     public String login() {
@@ -65,20 +57,15 @@ public class UserController extends PMController {
     public String getAccount(@PathVariable("userid") int userid, Model model, HttpSession session) {
         if (isLogged(session)) {
             User user = (User) session.getAttribute("user");
-            if (user.getUserid() == userid) {
                 model.addAttribute("user", user);
                 User user1 = userRepository.getUser(userid);
                 model.addAttribute("user1", user1);
-                boolean error = false;
-                model.addAttribute("usernameExists", error);
                 return "account";
             } else {
-                return "redirect:/userProjects";
+                return "index";
             }
-        } else {
-            return "index";
         }
-    }
+
 
     @GetMapping("account/delete/{userid}")
     public String deleteAccount(@PathVariable("userid") int userid, HttpSession session) {
@@ -89,24 +76,17 @@ public class UserController extends PMController {
 
     @PostMapping("account/update/{userid}")
     public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session, Model model) {
-        try {
             userRepository.updateName(userid, user.getname());
             userRepository.updatePassword(userid, user.getPassword());
             if(!userRepository.usernameExists(user.getUserName())) {
                 userRepository.updateUsername(userid, user.getUserName());
-                session.setAttribute("user", user);
                 session.setAttribute("username", user.getUserName());
-                session.setAttribute("name", user.getname());
-                session.setAttribute("password", user.getPassword());
-                return "redirect:/account/" + userid;
             }
-        } catch (IllegalArgumentException e) {
-            boolean error = true;
-            model.addAttribute("usernameExists", error);
-            return "redirect:/account/" + userid;
-        }
-        boolean error = true;
-        model.addAttribute("usernameExists", error);
+        session.setAttribute("user", user);
+        session.setAttribute("name", user.getname());
+        session.setAttribute("password", user.getPassword());
         return "redirect:/account/" + userid;
     }
+
+
 }

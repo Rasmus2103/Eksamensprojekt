@@ -1,7 +1,5 @@
 package com.example.eksamensprojekt.dto;
 
-import com.example.eksamensprojekt.model.User;
-
 import java.sql.Date;
 import java.util.List;
 

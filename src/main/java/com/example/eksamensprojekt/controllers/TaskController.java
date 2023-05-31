@@ -2,25 +2,15 @@ package com.example.eksamensprojekt.controllers;
 
 import com.example.eksamensprojekt.model.Board;
 import com.example.eksamensprojekt.model.Project;
-import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.Task;
-import com.example.eksamensprojekt.repository.ITaskRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TaskController extends PMController {
-
-    public TaskController(ApplicationContext context, @Value("task_DB") String impl) {
-    }
 
     @PostMapping("story/createtask/{storyid}")
     public String addTask(@ModelAttribute("task") Task task, @PathVariable("storyid") int storyid) {
@@ -35,9 +25,7 @@ public class TaskController extends PMController {
         Object userid = session.getAttribute("userid");
         model.addAttribute("userid", userid);
         Project project = projectRepository.getSpecificProject(projectid);
-
         model.addAttribute("project", project);
-
         List<Board> boards = boardRepository.getBoards(projectid);
         model.addAttribute("boards", boards);
         return isLogged(session) ? "updatetask" : "index";
@@ -52,9 +40,6 @@ public class TaskController extends PMController {
     @GetMapping("storyid/slet/{storyid}/{taskid}")
     public String deleteTask(@PathVariable("storyid") int storyid, @PathVariable("taskid") int taskid, Model model) {
         taskRepository.deleteTask(taskid);
-
-        Story story = storyRepository.getSpecificStory(storyid);
-        model.addAttribute("story", story);
         return "redirect:/story/" + storyid;
     }
 

@@ -3,28 +3,20 @@ package com.example.eksamensprojekt.controllers;
 import com.example.eksamensprojekt.dto.ProjectDTOForm;
 import com.example.eksamensprojekt.model.Board;
 import com.example.eksamensprojekt.model.Project;
-import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.User;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
 public class ProjectController extends PMController {
 
-    public ProjectController(ApplicationContext context, @Value("project_DB") String impl) {
-    }
-
     @GetMapping("userProjects/{id}")
     public String getUserProjects(@PathVariable("id") int id, Model model, HttpSession session) {
         if (isLogged(session)) {
             User user = (User) session.getAttribute("user");
-            if (user.getUserid() == id) {
                 model.addAttribute("user", user);
                 model.addAttribute("userid", user.getUserid());
                 List<Project> projects = projectRepository.getProjects(id);
@@ -32,12 +24,9 @@ public class ProjectController extends PMController {
                 ProjectDTOForm projectDTOForm = new ProjectDTOForm();
                 model.addAttribute("projectDTO", projectDTOForm);
                 return "userProjects";
-            } else {
-                return "redirect:/index";
-            }
         } else {
-            return "index";
-        }
+                return "index";
+            }
     }
 
     @PostMapping("createproject/{id}")
@@ -49,10 +38,6 @@ public class ProjectController extends PMController {
     @GetMapping("userProjects/slet/{projectid}/{userid}")
     public String deleteProject(@PathVariable("projectid") int id, @PathVariable("userid") int userid, Model model) {
         projectRepository.deleteProject(id);
-
-        List<Project> projects = projectRepository.getProjects(id);
-        model.addAttribute("projects", projects);
-
         return "redirect:/userProjects/" + userid;
     }
 
@@ -60,10 +45,6 @@ public class ProjectController extends PMController {
     public String getProject(@PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
         Project project = projectRepository.getSpecificProject(projectid);
         model.addAttribute("project", project);
-
-        int boardid = 0;
-        List<Story> stories = storyRepository.getStories(boardid);
-        model.addAttribute("stories", stories);
 
         User user = userRepository.getUser(userid);
         model.addAttribute("user", user);
@@ -97,12 +78,8 @@ public class ProjectController extends PMController {
 
     @PostMapping("project/update/{projectid}/{userid}")
     public String updateProject(@ModelAttribute("project") Project project, @PathVariable("projectid") int projectid, @PathVariable("userid") int userid, Model model, HttpSession session) {
-        if (project.getProjectname() != null) {
             projectRepository.updateProject(projectid, project);
             return "redirect:/project/" + projectid + "/" + userid;
-        }
-        model.addAttribute("wrongCredentials", true); /* TODO wrong credentials virker ikke */
-        return "project/update/" + projectid + "/" + session.getAttribute("userid");
     }
 
 }
