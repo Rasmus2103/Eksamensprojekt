@@ -3,7 +3,6 @@ package com.example.eksamensprojekt.repository;
 import com.example.eksamensprojekt.model.Story;
 import com.example.eksamensprojekt.model.User;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface IStoryRepository {
