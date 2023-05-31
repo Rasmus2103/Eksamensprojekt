@@ -27,6 +27,7 @@ public class UserController extends PMController {
         User user = userRepository.getUser(userRepository.getUserid(username));
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            session.setAttribute("username", user.getUserName());
             session.setAttribute("userid", user.getUserid());
             return "redirect:/userProjects/" + user.getUserid();
         }
@@ -87,10 +88,10 @@ public class UserController extends PMController {
     @PostMapping("account/update/{userid}")
     public String updateAccount(@PathVariable("userid") int userid, @ModelAttribute("user") User user, HttpSession session, Model model) {
         try {
-            if(userRepository.usernameExists(user.getUserName()) == false) {
+            userRepository.updateName(userid, user.getname());
+            userRepository.updatePassword(userid, user.getPassword());
+            if(!userRepository.usernameExists(user.getUserName())) {
                 userRepository.updateUsername(userid, user.getUserName());
-                userRepository.updateName(userid, user.getname());
-                userRepository.updatePassword(userid, user.getPassword());
                 session.setAttribute("user", user);
                 return "redirect:/account/" + userid;
             }
