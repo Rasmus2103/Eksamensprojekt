@@ -1,9 +1,6 @@
-drop
-database if exists eksamensprojekt;
-CREATE
-DATABASE eksamensprojekt DEFAULT CHARACTER SET utf8;
-USE
-eksamensprojekt;
+drop database if exists eksamensprojekt;
+CREATE DATABASE eksamensprojekt DEFAULT CHARACTER SET utf8;
+USE eksamensprojekt;
 
 CREATE TABLE user
 (
